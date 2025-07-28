@@ -8,7 +8,7 @@ interface EnvConfig {
   MONGODB_URL: string;
 }
 
-export const ENV: EnvConfig = {
+const ENV: EnvConfig = {
   PORT: process.env.PORT,
   NODE_ENV: process.env.NODE_ENV,
   MONGODB_URL: process.env.MONGODB_URL,
@@ -18,3 +18,5 @@ export const ENV: EnvConfig = {
 envValidator(ENV as unknown as Record<string, string | EnvRecord>);
 
 export const isDev = ENV.NODE_ENV === "development";
+
+export default ENV;
