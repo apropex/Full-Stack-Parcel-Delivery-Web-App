@@ -1,0 +1,26 @@
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express, { Request, Response } from "express";
+import globalErrorHandler from "./app/middleware/globalErrorHandler";
+import { notFound } from "./app/middleware/notFound";
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ROOT ROUTES
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Welcome to PH Tour Management Server" });
+});
+
+// Global Error Handler
+app.use(globalErrorHandler);
+
+// Not Found handler
+app.use(notFound);
+
+export default app;
