@@ -1,3 +1,5 @@
+import { Document } from "mongoose";
+
 export enum eUserRoles {
   SUPER_ADMIN = "SUPER_ADMIN",
   ADMIN = "ADMIN",
