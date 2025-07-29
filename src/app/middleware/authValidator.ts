@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../../errors/AppError";
 import sCode from "../../statusCode";
+import { eJwtMessages } from "../constants/messages";
 
 export const authValidator = (
   req: Request,
@@ -13,7 +14,7 @@ export const authValidator = (
     // req.decoded = verifyToken(token) as JwtPayload;
     next();
   } catch {
-    next(new AppError(sCode.FORBIDDEN, "Invalid token"));
+    next(new AppError(sCode.FORBIDDEN, eJwtMessages.INVALID_TOKEN));
   }
 };
 
@@ -22,12 +23,12 @@ export const extractTokenFromHeader = (
   next: NextFunction
 ) => {
   if (!authHeader?.startsWith("Bearer ")) {
-    return next(new AppError(sCode.UNAUTHORIZED, "Unauthorized"));
+    return next(new AppError(sCode.UNAUTHORIZED, eJwtMessages.UNAUTHORIZED));
   }
 
   const token = authHeader.split(" ")[1];
   if (!token) {
-    return next(new AppError(sCode.FORBIDDEN, "Token did not arrive"));
+    return next(new AppError(sCode.FORBIDDEN, eJwtMessages.TOKEN_NOT_FOUND));
   }
 
   return token;

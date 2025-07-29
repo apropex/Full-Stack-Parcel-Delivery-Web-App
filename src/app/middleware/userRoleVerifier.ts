@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { AppError } from "../../errors/AppError";
 import sCode from "../../statusCode";
+import { eJwtMessages } from "../constants/messages";
 import { extractTokenFromHeader } from "./authValidator";
 
 export const roleVerifier =
@@ -14,7 +15,7 @@ export const roleVerifier =
       const decoded = verifyToken(extractTokenFromHeader(header, next));
 
       if (!roles.includes(decoded.role))
-        return next(new AppError(sCode.FORBIDDEN, "Forbidden User Role"));
+        return next(new AppError(sCode.FORBIDDEN, eJwtMessages.FORBIDDEN));
 
       req.decoded = decoded as JwtPayload;
       next();
