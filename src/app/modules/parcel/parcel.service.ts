@@ -1,5 +1,6 @@
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
+import { deleteImageFromCloud } from "../../../config/cloudinary/deleteImageFromCloud";
 import { AppError } from "../../../errors/AppError";
 import sCode from "../../../statusCode";
 import { iReqQueryParams } from "../../global-interfaces";
@@ -46,9 +47,9 @@ export const updateParcelService = async (req: Request) => {
 
     if (!updatedParcel) throw new AppError(404, "Parcel not found");
 
-    // if (delImg.length > 0) {
-    //   await Promise.all(delImg.map((url) => deleteImageFromCloud(url)));
-    // }
+    if (delImg.length > 0) {
+      await Promise.all(delImg.map((url) => deleteImageFromCloud(url)));
+    }
 
     return { data: updatedParcel };
   });

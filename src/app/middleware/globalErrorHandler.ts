@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from "express";
+import { deleteImageFromCloud } from "../../config/cloudinary/deleteImageFromCloud";
 import { isDev } from "../../config/env.config";
 import {
   appError,
@@ -58,6 +59,15 @@ export default async function globalErrorHandler(
       response.message = "Zod Validation Error";
       response.error = zodValidationError(err);
       break;
+  }
+  //
+
+  if (req.file && req.file.path) await deleteImageFromCloud(req.file.path);
+
+  if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+    const imageUrls = req.files?.map((file) => file.path);
+
+    await Promise.all(imageUrls.map((url) => deleteImageFromCloud(url)));
   }
 
   //
