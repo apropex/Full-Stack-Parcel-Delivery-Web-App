@@ -5,14 +5,18 @@ import { JwtPayload } from "jsonwebtoken";
 import { AppError } from "../../errors/AppError";
 import sCode from "../../statusCode";
 import { eJwtMessages } from "../constants/messages";
-import { extractTokenFromHeader } from "./authValidator";
+import { verifyAccessToken } from "../lib/jwt";
+import { extractTokenFromHeader } from "../utils/extractTokenFromHeader";
+import { checkUserExist } from "../utils/userChecker";
 
 export const roleVerifier =
   (...roles: string[]) =>
-  (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const header = req.headers?.authorization || "";
-      const decoded = verifyToken(extractTokenFromHeader(header, next));
+      const decoded = verifyAccessToken(extractTokenFromHeader(header));
+
+      await checkUserExist({ id: decoded._id });
 
       if (!roles.includes(decoded.role))
         return next(new AppError(sCode.FORBIDDEN, eJwtMessages.FORBIDDEN));

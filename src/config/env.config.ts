@@ -6,6 +6,7 @@ interface EnvConfig {
   PORT: string;
   NODE_ENV: string;
   MONGODB_URL: string;
+  BCRYPT_SALT_ROUND: number;
   JWT: {
     JWT_SECRET: string;
     JWT_REFRESH_SECRET: string;
@@ -18,6 +19,7 @@ const ENV: EnvConfig = {
   PORT: process.env.PORT,
   NODE_ENV: process.env.NODE_ENV,
   MONGODB_URL: process.env.MONGODB_URL,
+  BCRYPT_SALT_ROUND: Number(process.env.BCRYPT_SALT_ROUND),
   JWT: {
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
