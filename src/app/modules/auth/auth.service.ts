@@ -5,8 +5,10 @@ import ENV from "../../../config/env.config";
 import { AppError } from "../../../errors/AppError";
 import sCode from "../../../statusCode";
 import { eAuthMessages } from "../../constants/messages";
+import { generateAccessToken } from "../../lib/jwt";
+import { sendEmail } from "../../lib/sendEmail";
 import { getExistingUser } from "../../utils/userChecker";
-import { eAuthProvider, iUser } from "../user/user.interface";
+import { eAuthProvider, eIsActive, iUser } from "../user/user.interface";
 
 //
 export const credentialLoginService = async (payload: Partial<iUser>) => {
@@ -65,9 +67,9 @@ export const changePasswordService = async (req: Request) => {
   };
 };
 
-/*/
+//
 export const forgotPasswordService = async (email: string) => {
-    const user = await getExistingUser({ email });
+  const user = await getExistingUser({ email });
 
   if (user.isDeleted) throw new AppError(400, "User is deleted");
   if (user.isActive === eIsActive.BLOCKED)
@@ -87,7 +89,7 @@ export const forgotPasswordService = async (email: string) => {
   });
 };
 
-/*/
+//
 export const resetPasswordService = async (req: Request) => {
   const { _id, email } = req.decoded as JwtPayload;
   const { newPassword, id } = req.body;
