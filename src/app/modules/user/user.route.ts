@@ -14,11 +14,7 @@ const userRoutes = Router();
 
 // TODO: ADD ZOD VALIDATOR
 
-userRoutes.post(
-  "/register",
-
-  createUserController
-);
+userRoutes.post("/register", createUserController);
 
 userRoutes.get(
   "/all-users",
