@@ -21,6 +21,11 @@ interface EnvConfig {
     SMTP_FROM: string;
     SMTP_PASS: string;
   };
+  CLOUDINARY: {
+    CLOUD_NAME: string;
+    CLOUD_API_KEY: string;
+    CLOUD_API_SECRET: string;
+  };
 }
 
 const ENV: EnvConfig = {
@@ -41,6 +46,11 @@ const ENV: EnvConfig = {
     SMTP_USER: process.env.SMTP_USER,
     SMTP_FROM: process.env.SMTP_FROM,
     SMTP_PASS: process.env.SMTP_PASS,
+  },
+  CLOUDINARY: {
+    CLOUD_NAME: process.env.CLOUD_NAME,
+    CLOUD_API_KEY: process.env.CLOUD_API_KEY,
+    CLOUD_API_SECRET: process.env.CLOUD_API_SECRET,
   },
 } as EnvConfig;
 

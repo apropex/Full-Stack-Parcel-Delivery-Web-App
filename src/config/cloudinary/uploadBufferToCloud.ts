@@ -1,0 +1,47 @@
+import { UploadApiResponse } from "cloudinary";
+import logger from "../../app/lib/logger";
+import { sanitizeFilename } from "../../app/utils/sanitizeFilename";
+import { AppError } from "../../errors/AppError";
+import sCode from "../../statusCode";
+import { cloudinary } from "./cloudinary.config";
+import { streamFromBuffer } from "./streamFromBuffer";
+
+export const uploadBufferToCloud = async (
+  buffer: Buffer,
+  filename: string
+): Promise<UploadApiResponse> => {
+  const public_id = sanitizeFilename(filename);
+
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        resource_type: "auto",
+        public_id,
+        folder: "pdf",
+      },
+      (error, result) => {
+        if (error) {
+          logger.error("Cloudinary upload error", {
+            error: error.message,
+            filename,
+          });
+          return reject(error);
+        }
+
+        if (!result) {
+          const fallbackError = new AppError(
+            sCode.EXPECTATION_FAILED,
+            "Cloudinary returned no result"
+          );
+          logger.error("Upload failed", { filename });
+          return reject(fallbackError);
+        }
+
+        resolve(result);
+      }
+    );
+
+    const stream = streamFromBuffer(buffer);
+    stream.pipe(uploadStream);
+  });
+};
