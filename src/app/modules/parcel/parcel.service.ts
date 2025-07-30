@@ -3,9 +3,10 @@ import { JwtPayload } from "jsonwebtoken";
 import { deleteImageFromCloud } from "../../../config/cloudinary/deleteImageFromCloud";
 import { AppError } from "../../../errors/AppError";
 import sCode from "../../../statusCode";
-import { iReqQueryParams } from "../../global-interfaces";
+import { ePaymentStatus, iReqQueryParams } from "../../global-interfaces";
 import { QueryBuilder } from "../../lib/queryBuilder";
 import { transactionRollback } from "../../lib/transactionRollback";
+import { generateTrackingID } from "../../utils/iDgenerator";
 import { mongoIdValidator } from "../../utils/mongoIdValidator";
 import { eUserRoles } from "../user/user.interface";
 import { parcelSearchFields } from "./parcel.constant";
@@ -13,6 +14,8 @@ import { eParcelStatus, iParcel } from "./parcel.interface";
 import { Parcel } from "./parcel.model";
 
 export const createdParcelService = async (payload: iParcel) => {
+  payload.trackingId = generateTrackingID();
+
   const data = await Parcel.create(payload);
   return { data };
 };
@@ -62,6 +65,10 @@ export const updateParcelStatusService = async (req: Request) => {
 
   const parcel = await Parcel.findById(parcelId);
   if (!parcel) throw new AppError(404, "Parcel not found");
+
+  if (parcel.paymentStatus !== ePaymentStatus.PAID) {
+    throw new AppError(400, `Unpaid parcel, pay first`);
+  }
 
   parcel.statusLogs.push({
     status: newStatus,
