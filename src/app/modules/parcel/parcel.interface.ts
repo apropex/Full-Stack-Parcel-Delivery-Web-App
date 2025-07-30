@@ -33,6 +33,7 @@ export interface iParcel extends Document {
   weight: number; // in kg
   fee: number;
 
+  images?: string[];
   pickupAddress: iAddress;
   deliveryAddress: iAddress;
 

@@ -4,6 +4,7 @@ import { iAddress } from "../../global-interfaces";
 export enum eUserRoles {
   SUPER_ADMIN = "SUPER_ADMIN",
   ADMIN = "ADMIN",
+  MODERATOR = "MODERATOR",
   SENDER = "SENDER",
   RECEIVER = "RECEIVER",
 }

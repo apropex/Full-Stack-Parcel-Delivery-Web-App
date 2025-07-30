@@ -15,3 +15,12 @@ export interface iAddress {
   landmark?: string;
   addressType?: eAddressType;
 }
+
+export interface iReqQueryParams {
+  search?: string;
+  sort?: string;
+  fields?: string;
+  page?: string;
+  limit?: string;
+  [key: string]: string | undefined;
+}

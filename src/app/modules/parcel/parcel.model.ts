@@ -48,6 +48,7 @@ const parcelSchema = new Schema<iParcel>(
     },
     weight: { type: Number, required: [true, "Parcel weight is required"] },
     fee: { type: Number, required: [true, "Parcel fee is required"] },
+    images: { type: [String] },
     pickupAddress: {
       type: addressSchema,
       required: [true, "Pickup address is required"],
