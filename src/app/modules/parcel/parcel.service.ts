@@ -6,7 +6,7 @@ import sCode from "../../../statusCode";
 import { ePaymentStatus, iReqQueryParams } from "../../global-interfaces";
 import { QueryBuilder } from "../../lib/queryBuilder";
 import { transactionRollback } from "../../lib/transactionRollback";
-import { generateTrackingID } from "../../utils/iDgenerator";
+import { generateTrackingID } from "../../utils/idGenerator";
 import { mongoIdValidator } from "../../utils/mongoIdValidator";
 import { eUserRoles } from "../user/user.interface";
 import { parcelSearchFields } from "./parcel.constant";
@@ -115,12 +115,12 @@ export const updateParcelStatusLogsService = async (req: Request) => {
   }
 
   return {
-    message: "Status log updated successfully",
+    data: result,
   };
 };
 
 //
-export const getAllParcel = async (query: iReqQueryParams) => {
+export const getAllParcelService = async (query: iReqQueryParams) => {
   const queryBuilder = new QueryBuilder(Parcel, query);
 
   const [tours, meta] = await Promise.all([
@@ -191,8 +191,10 @@ export const deleteStatusLogService = async (req: Request) => {
   await parcel.save();
 
   return {
-    message: "Status log deleted and new status added",
-    currentStatus: parcel.status,
-    totalLogs: parcel.statusLogs.length,
+    data: {
+      message: "Status log deleted and new status added",
+      currentStatus: parcel.status,
+      totalLogs: parcel.statusLogs.length,
+    },
   };
 };
