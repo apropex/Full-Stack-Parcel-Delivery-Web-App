@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import { iAddress } from "../../global-interfaces";
 
 export enum eUserRoles {
   SUPER_ADMIN = "SUPER_ADMIN",
@@ -29,29 +30,13 @@ export interface iUserName {
   lastName: string;
 }
 
-export enum eAddressType {
-  home = "home",
-  office = "office",
-  other = "other",
-}
-
-export interface iUserAddress {
-  street: string;
-  city: string;
-  stateOrProvince: string;
-  postalCode: string;
-  country: string;
-  landmark?: string;
-  addressType?: eAddressType;
-}
-
 export interface iUser extends Document {
   name: iUserName;
   email: string;
   password?: string;
   phone?: string;
   picture?: string;
-  address?: iUserAddress;
+  address?: iAddress;
   isDeleted?: boolean;
   isActive?: eIsActive;
   isVerified?: boolean;

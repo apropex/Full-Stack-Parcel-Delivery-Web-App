@@ -1,13 +1,15 @@
 import { model, Schema } from "mongoose";
+import { addressSchema } from "../../global-models";
 import {
-  eAddressType,
   eIsActive,
   eUserRoles,
   iAuthProvider,
   iUser,
-  iUserAddress,
   iUserName,
 } from "./user.interface";
+
+const roles: string[] = Object.values(eUserRoles);
+const activeRole: string[] = Object.values(eIsActive);
 
 const options = { versionKey: false, _id: false };
 
@@ -22,45 +24,6 @@ const userNameSchema = new Schema<iUserName>(
       type: String,
       required: [true, "Last name is required"],
       trim: true,
-    },
-  },
-  options
-);
-
-const userAddressSchema = new Schema<iUserAddress>(
-  {
-    street: {
-      type: String,
-      required: [true, "Street is required"],
-      trim: true,
-    },
-    city: { type: String, required: [true, "Street is required"], trim: true },
-    stateOrProvince: {
-      type: String,
-      required: [true, "Street is required"],
-      trim: true,
-    },
-    postalCode: {
-      type: String,
-      required: [true, "Street is required"],
-      trim: true,
-    },
-    country: {
-      type: String,
-      required: [true, "Street is required"],
-      trim: true,
-    },
-    landmark: {
-      type: String,
-      required: [true, "Street is required"],
-      trim: true,
-    },
-    addressType: {
-      type: String,
-      enum: {
-        values: Object.values(eAddressType),
-        message: `Address type must be in between ${Object.values(eAddressType).join(", ")}`,
-      },
     },
   },
   options
@@ -83,21 +46,30 @@ const userSchema = new Schema<iUser>(
       required: [true, "Email is required"],
       trim: true,
     },
-    password: { type: String, default: "", select: false },
+    password: { type: String, select: false },
     phone: { type: String },
     picture: { type: String },
-    address: userAddressSchema,
+    address: {
+      type: addressSchema,
+      required: [true, "User address is required"],
+    },
     isDeleted: { type: Boolean, default: false },
     isActive: {
       type: String,
-      enum: Object.values(eIsActive),
+      enum: {
+        values: activeRole,
+        message: `User active role must be in between ${activeRole.join(", ")}`,
+      },
       default: eIsActive.ACTIVE,
     },
     isVerified: { type: Boolean, default: false },
     auth: [authProviderSchema],
     role: {
       type: String,
-      enum: Object.values(eUserRoles),
+      enum: {
+        values: roles,
+        message: `User role must be in between ${roles.join(", ")}`,
+      },
       default: eUserRoles.SENDER,
     },
 
