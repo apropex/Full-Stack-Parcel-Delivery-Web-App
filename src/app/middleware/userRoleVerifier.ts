@@ -14,7 +14,9 @@ export const roleVerifier =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const header = req.headers?.authorization || "";
-      const decoded = verifyAccessToken(extractTokenFromHeader(header));
+      const decoded = verifyAccessToken(
+        extractTokenFromHeader(header)
+      ) as JwtPayload;
 
       await checkUserExist({ id: decoded._id });
 
