@@ -13,12 +13,21 @@ import { iSSLCommerz } from "../sslCommerz/sslCommerz.interface";
 import { sslPaymentInit } from "../sslCommerz/sslCommerz.service";
 import { eUserRoles } from "../user/user.interface";
 import { parcelSearchFields } from "./parcel.constant";
-import { eParcelStatus, iParcel } from "./parcel.interface";
+import { eParcelStatus, eParcelTypes, iParcel } from "./parcel.interface";
 import { Parcel } from "./parcel.model";
 
 export const createdParcelService = async (req: Request) => {
+  const rates = { Document: 40, Box: 60, Fragile: 50, Other: 80 };
   const decoded = req.decoded as JwtPayload;
   const payload = req.body;
+
+  if (!payload.type || !payload.weight) {
+    throw new AppError(sCode.BAD_REQUEST, "Parcel type and weight is required");
+  }
+
+  const type = Object.keys(rates).find(
+    (rate) => rate === payload.type
+  ) as eParcelTypes;
 
   if (!decoded.phone || !decoded.address) {
     throw new AppError(
@@ -27,7 +36,9 @@ export const createdParcelService = async (req: Request) => {
     );
   }
 
+  payload.rent = rates[type] * payload.weight;
   payload.trackingId = generateTrackingID();
+  payload.sender = decoded._id;
 
   return await transactionRollback(async (session) => {
     const parcel = new Parcel(payload);
@@ -71,10 +82,17 @@ export const createdParcelService = async (req: Request) => {
 export const updateParcelService = async (req: Request) => {
   const id = mongoIdValidator(req.params?.parcelId || "");
   const payload = req.body as Partial<iParcel>;
+  const { role } = req.decoded as JwtPayload;
 
   if ("trackingId" in payload) delete payload.trackingId;
   if ("status" in payload) delete payload.status;
   if ("statusLogs" in payload) delete payload.statusLogs;
+
+  if (role === eUserRoles.SENDER || role === eUserRoles.RECEIVER) {
+    if ("rent" in payload) {
+      throw new AppError(sCode.BAD_REQUEST, "You can not change the rent");
+    }
+  }
 
   return await transactionRollback(async (session) => {
     const oldParcel = await Parcel.findById(id)

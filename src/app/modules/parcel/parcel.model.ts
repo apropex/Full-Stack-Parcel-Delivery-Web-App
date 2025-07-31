@@ -83,11 +83,11 @@ const parcelSchema = new Schema<iParcel>(
         values: status,
         message: `Parcel status must be in between ${status.join(", ")}`,
       },
-      required: [true, "Parcel status is required"],
+      default: eParcelStatus.Requested,
     },
     statusLogs: {
       type: [statusLogSchema],
-      required: [true, "Status log is required"],
+      default: [],
     },
     isBlocked: { type: Boolean, default: false },
     isCancelled: { type: Boolean, default: false },
@@ -109,7 +109,6 @@ parcelSchema.pre("save", function (next) {
       note: "Parcel created",
     });
   }
-
   next();
 });
 

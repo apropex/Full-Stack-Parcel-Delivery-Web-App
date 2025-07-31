@@ -1,5 +1,6 @@
 import { Document, Types } from "mongoose";
 import { ePaymentStatus, iAddress } from "../../global-interfaces";
+import { iPayment } from "../payment/payment.interface";
 import { iUser } from "../user/user.interface";
 
 export enum eParcelStatus {
@@ -30,9 +31,9 @@ export interface iStatusLog {
 export interface iParcel extends Document {
   trackingId: string;
   type: eParcelTypes;
-  weight: number; // in kg
+  weight: number;
   rent: number;
-  payment?: Types.ObjectId; //! TODO: | iPayment
+  payment?: Types.ObjectId | iPayment;
   paymentStatus: ePaymentStatus;
 
   title?: string;
