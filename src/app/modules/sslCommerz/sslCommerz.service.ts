@@ -10,7 +10,7 @@ const SSL = ENV.SSL;
 
 export const sslPaymentInit = async (payload: iSSLCommerz) => {
   const urlWithTrxID = (link: string, status = "success") =>
-    `${link}?TrxID=${payload.TrxID}&amount=${payload.rent}&status=${status}`;
+    `${link}?TrxID=${payload.TrxID}&rent=${payload.rent}&status=${status}`;
 
   const data = {
     store_id: SSL.STORE_ID,
