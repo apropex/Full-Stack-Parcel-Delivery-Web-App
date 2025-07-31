@@ -2,12 +2,14 @@
 import type { Server } from "http";
 import app from "./app";
 import ENV from "./config/env.config";
+import { connectRedis } from "./config/redis.config";
 import { connect_db } from "./database/connect_db";
 
 let server: Server;
 
 (async () => {
   try {
+    await connectRedis();
     await connect_db();
     server = app.listen(ENV.PORT, () => {
       console.log(`Server running on port ${ENV.PORT}`);

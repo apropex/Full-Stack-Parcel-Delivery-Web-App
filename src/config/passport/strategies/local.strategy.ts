@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { Strategy as LocalStrategy } from "passport-local";
-import { eAuthMessages } from "../../../app/constants/messages/auth.messages";
+import { eAuthMessages } from "../../../app/constants/messages";
 import { eIsActive } from "../../../app/modules/user/user.interface";
 import { User } from "../../../app/modules/user/user.model";
 
@@ -15,16 +15,6 @@ export const localStrategy = new LocalStrategy(
       if (!user) {
         return done(null, false, { message: eAuthMessages.USER_NOT_FOUND });
       }
-
-      /*  const isGoogleAuth = isUserExist.auth.some(
-          ({ provider }) => provider === "google"
-        );
-
-        if (isGoogleAuth) {
-          message =
-            "Incorrect credentials, you logged in by google before. Try to log in by google or make password following instruction";
-          return done(null, false, { message });
-        }        */
 
       const isMatch =
         user.password && (await bcrypt.compare(password, user.password));
