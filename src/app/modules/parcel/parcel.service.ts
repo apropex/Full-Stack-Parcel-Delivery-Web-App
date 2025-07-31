@@ -19,6 +19,14 @@ import { Parcel } from "./parcel.model";
 export const createdParcelService = async (req: Request) => {
   const decoded = req.decoded as JwtPayload;
   const payload = req.body;
+
+  if (!decoded.phone || !decoded.address) {
+    throw new AppError(
+      sCode.BAD_REQUEST,
+      "Updated your profile with phone number and address"
+    );
+  }
+
   payload.trackingId = generateTrackingID();
 
   return await transactionRollback(async (session) => {
@@ -33,13 +41,21 @@ export const createdParcelService = async (req: Request) => {
     });
     await payment.save({ session });
 
+    const {
+      street,
+      city,
+      stateOrProvince: state,
+      postalCode: post,
+      country,
+    } = decoded.address;
+
     const sslPayload = {
       rent: payment.rent,
       TrxID: payment.TrxID,
       name: decoded.name,
       email: decoded.email,
       phone: decoded.phone,
-      address: decoded.address,
+      address: `${street}, ${city}, ${state}, ${post}, ${country}`,
     } as iSSLCommerz;
 
     const sslPayment = await sslPaymentInit(sslPayload);

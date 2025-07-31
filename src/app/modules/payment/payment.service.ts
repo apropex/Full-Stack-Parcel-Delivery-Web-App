@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { JwtPayload } from "jsonwebtoken";
 import { uploadBufferToCloud } from "../../../config/cloudinary/uploadBufferToCloud";
 import { AppError } from "../../../errors/AppError";
 import sCode from "../../../statusCode";
@@ -173,9 +174,16 @@ export const cancelPaymentService = async (TrxID: string) => {
 
 export const repaymentService = async (req: Request) => {
   const id = mongoIdValidator(req.params?.parcelId || "");
-  const decoded = req.decoded;
+  const decoded = req.decoded as JwtPayload;
 
   if (!decoded) throw new AppError(sCode.UNAUTHORIZED, "Unauthorized");
+
+  if (!decoded.phone || !decoded.address) {
+    throw new AppError(
+      sCode.BAD_REQUEST,
+      "Updated your profile with phone number and address"
+    );
+  }
 
   const payment = await Payment.findOne({ parcel: id });
 
@@ -186,13 +194,21 @@ export const repaymentService = async (req: Request) => {
     );
   }
 
+  const {
+    street,
+    city,
+    stateOrProvince: state,
+    postalCode: post,
+    country,
+  } = decoded.address;
+
   const sslPayload = {
     rent: payment.rent,
     TrxID: payment.TrxID,
     name: decoded.name,
     email: decoded.email,
     phone: decoded.phone,
-    address: decoded.address,
+    address: `${street}, ${city}, ${state}, ${post}, ${country}`,
   } as iSSLCommerz;
 
   const sslPayment = await sslPaymentInit(sslPayload);

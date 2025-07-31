@@ -14,7 +14,7 @@ export const createUserController = catchAsync(async (req, res) => {
   const { data } = await createUserService(req.body);
   sendResponse(res, {
     statusCode: sCode.OK,
-    message: "",
+    message: "User created successfully",
     data,
   });
 });
@@ -28,7 +28,7 @@ export const updateUserController = catchAsync(async (req, res) => {
   );
   sendResponse(res, {
     statusCode: sCode.OK,
-    message: "",
+    message: "User updated successfully",
     data,
   });
 });
@@ -38,7 +38,7 @@ export const getAllUsersController = catchAsync(async (req, res) => {
   const { data, meta } = await getAllUsersService();
   sendResponse(res, {
     statusCode: sCode.OK,
-    message: "",
+    message: "All users retrieved successfully",
     data,
     meta,
   });
@@ -49,7 +49,7 @@ export const getMeController = catchAsync(async (req, res) => {
   const { data } = await getMeService(req.params.userId);
   sendResponse(res, {
     statusCode: sCode.OK,
-    message: "",
+    message: "User retrieved successfully",
     data,
   });
 });
@@ -59,7 +59,7 @@ export const getSingleUserController = catchAsync(async (req, res) => {
   const { data } = await getMeService(req.params.userId);
   sendResponse(res, {
     statusCode: sCode.OK,
-    message: "",
+    message: "User retrieved successfully",
     data,
   });
 });

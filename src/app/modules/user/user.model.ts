@@ -39,7 +39,7 @@ const authProviderSchema = new Schema<iAuthProvider>(
 
 const userSchema = new Schema<iUser>(
   {
-    name: userNameSchema,
+    name: { type: userNameSchema, required: [true, "Name is required"] },
     email: {
       type: String,
       unique: [true, "Email already exist"],
@@ -49,10 +49,7 @@ const userSchema = new Schema<iUser>(
     password: { type: String, select: false },
     phone: { type: String },
     picture: { type: String },
-    address: {
-      type: addressSchema,
-      required: [true, "User address is required"],
-    },
+    address: addressSchema,
     isDeleted: { type: Boolean, default: false },
     isActive: {
       type: String,

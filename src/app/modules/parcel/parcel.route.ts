@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { uploadImage } from "../../../config/cloudinary/multer.config";
 import {
   createdParcelController,
   deleteStatusLogController,
@@ -11,10 +12,17 @@ import {
 
 const parcelRoutes = Router();
 
-//!   uploadImage.array("files"),
-parcelRoutes.post("/create", createdParcelController);
+parcelRoutes.post(
+  "/create",
+  uploadImage.array("files"),
+  createdParcelController
+);
 
-parcelRoutes.patch("/update-parcel/parcelId", updateParcelController);
+parcelRoutes.patch(
+  "/update-parcel/parcelId",
+  uploadImage.array("files"),
+  updateParcelController
+);
 
 parcelRoutes.patch(
   "/update-parcel-status/parcelId",
