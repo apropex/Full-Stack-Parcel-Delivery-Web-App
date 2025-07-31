@@ -151,10 +151,5 @@ export const updateParcelStatusZodSchema = z.object({
   status: z.enum(Object.values(eParcelStatus) as [string, ...string[]], {
     error: `Parcel status must be in between ${Object.values(eParcelStatus).join(", ")}`,
   }),
-
-  statusLogs: z
-    .object({
-      note: z.string({ error: "Note must be a string" }).optional(),
-    })
-    .optional(),
+  note: z.string({ error: "Note must be a string" }).optional(),
 });

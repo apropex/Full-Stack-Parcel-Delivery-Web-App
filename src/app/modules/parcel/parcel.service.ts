@@ -83,15 +83,34 @@ export const updateParcelService = async (req: Request) => {
   const id = mongoIdValidator(req.params?.parcelId || "");
   const payload = req.body as Partial<iParcel>;
   const { role } = req.decoded as JwtPayload;
+  const { SENDER, RECEIVER, MODERATOR } = eUserRoles;
 
   if ("trackingId" in payload) delete payload.trackingId;
   if ("status" in payload) delete payload.status;
   if ("statusLogs" in payload) delete payload.statusLogs;
 
-  if (role === eUserRoles.SENDER || role === eUserRoles.RECEIVER) {
-    if ("rent" in payload) {
-      throw new AppError(sCode.BAD_REQUEST, "You can not change the rent");
+  const forbiddenFields = [
+    "rent",
+    "isBlocked",
+    "isCancelled",
+    "estimatedDeliveryDate",
+    "deliveredAt",
+  ];
+  if (role === SENDER || role === RECEIVER) {
+    const hasForbiddenField = forbiddenFields.some((field) => field in payload);
+    if (hasForbiddenField) {
+      throw new AppError(
+        sCode.FORBIDDEN,
+        "You're not allowed to update these fields:  rent, isBlocked, isCancelled, estimatedDeliveryDate, deliveredAt"
+      );
     }
+  }
+
+  if ("rent" in payload && role === MODERATOR) {
+    throw new AppError(
+      sCode.FORBIDDEN,
+      "You're not allowed to update the rent"
+    );
   }
 
   return await transactionRollback(async (session) => {
@@ -126,7 +145,7 @@ export const updateParcelService = async (req: Request) => {
 //
 export const updateParcelStatusService = async (req: Request) => {
   const parcelId: string = req.params.parcelId;
-  const { newStatus, note } = req.body;
+  const { status, note } = req.body;
 
   const parcel = await Parcel.findById(parcelId);
   if (!parcel) throw new AppError(404, "Parcel not found");
@@ -136,13 +155,13 @@ export const updateParcelStatusService = async (req: Request) => {
   }
 
   parcel.statusLogs.push({
-    status: newStatus,
+    status: status,
     updatedAt: new Date(),
     updatedBy: mongoIdValidator(req.decoded?._id),
-    note: note || `Status updated to ${newStatus}`,
+    note: note || `Status updated from ${parcel.status}`,
   });
 
-  parcel.status = newStatus;
+  parcel.status = status;
 
   await parcel.save();
   return { data: parcel };
@@ -154,7 +173,7 @@ export const updateParcelStatusLogsService = async (req: Request) => {
   const { note, status, updatedAt } = req.body;
 
   if (!parcelId || !status || !updatedAt) {
-    throw new AppError(400, "parcelId, status, and updatedAt are required");
+    throw new AppError(400, "Parcel ID, status, and updatedAt are required");
   }
 
   const result = await Parcel.updateOne(
