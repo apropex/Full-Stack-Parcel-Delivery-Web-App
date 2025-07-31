@@ -31,7 +31,8 @@ export interface iParcel extends Document {
   trackingId: string;
   type: eParcelTypes;
   weight: number; // in kg
-  payment: Types.ObjectId; //! TODO: | iPayment
+  rent: number;
+  payment?: Types.ObjectId; //! TODO: | iPayment
   paymentStatus: ePaymentStatus;
 
   images?: string[];

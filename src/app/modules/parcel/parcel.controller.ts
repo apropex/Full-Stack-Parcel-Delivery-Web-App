@@ -2,6 +2,7 @@ import sCode from "../../../statusCode";
 import { iReqQueryParams } from "../../global-interfaces";
 import { catchAsync } from "../../lib/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
+import { getPathsFromMulterFiles } from "../user/getPathsFromMulterFiles";
 import {
   createdParcelService,
   deleteStatusLogService,
@@ -13,6 +14,9 @@ import {
 } from "./parcel.service";
 
 export const createdParcelController = catchAsync(async (req, res) => {
+  if (req.body?.files) {
+    req.body.images = getPathsFromMulterFiles(req.body.files);
+  }
   const { data } = await createdParcelService(req.body);
 
   sendResponse(res, {

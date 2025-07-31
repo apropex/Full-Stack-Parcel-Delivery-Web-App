@@ -8,16 +8,37 @@ import { QueryBuilder } from "../../lib/queryBuilder";
 import { transactionRollback } from "../../lib/transactionRollback";
 import { generateTrackingID } from "../../utils/idGenerator";
 import { mongoIdValidator } from "../../utils/mongoIdValidator";
+import { getPathsFromMulterFiles } from "../user/getPathsFromMulterFiles";
 import { eUserRoles } from "../user/user.interface";
 import { parcelSearchFields } from "./parcel.constant";
 import { eParcelStatus, iParcel } from "./parcel.interface";
 import { Parcel } from "./parcel.model";
 
-export const createdParcelService = async (payload: iParcel) => {
-  payload.trackingId = generateTrackingID();
+export const createdParcelService = async (req: Request) => {
+  const decoded = req.decoded as JwtPayload;
+  if (req.body?.files) {
+    const files = getPathsFromMulterFiles(req.body.files);
+    if (files.length > 0) req.body.images = files;
+  }
+  req.body.trackingId = generateTrackingID();
 
-  const data = await Parcel.create(payload);
-  return { data };
+  const parcel = await Parcel.create(req.body);
+  /*
+  if (!parcel)
+    throw new AppError(sCode.EXPECTATION_FAILED, "Failed to create parcel");
+
+  const sslPayload = {
+    amount: parcel.rent,
+    TrxID: payment.TrxID,
+    name: decoded.name,
+    email: decoded.email,
+    phone: decoded.phone,
+    address: decoded.address,
+  } as iSSLCommerz;
+
+  const sslPayment = await sslPaymentInit(sslPayload);*/
+
+  return { data: parcel };
 };
 
 //

@@ -1,7 +1,7 @@
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import { sanitizeFilename } from "../../app/utils/sanitizeFilename";
 import { cloudinary } from "./cloudinary.config";
+import { sanitizeFilename } from "../../app/utils/sanitizeFilename";
 
 const storage = new CloudinaryStorage({
   cloudinary,
