@@ -35,6 +35,7 @@ export interface iParcel extends Document {
   payment?: Types.ObjectId; //! TODO: | iPayment
   paymentStatus: ePaymentStatus;
 
+  title?: string;
   images?: string[];
   deletedImages: string[];
   pickupAddress: iAddress;
@@ -54,4 +55,19 @@ export interface iParcel extends Document {
 
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface ParcelWithRelations {
+  _id: string;
+  title: string;
+  trackingId: string;
+  estimatedDeliveryDate: Date;
+  pickupAddress: iAddress;
+  deliveryAddress: iAddress;
+  type: string;
+  weight: number;
+  rent: number;
+  sender: iUser;
+  receiver: iUser;
+  createdAt: Date;
 }

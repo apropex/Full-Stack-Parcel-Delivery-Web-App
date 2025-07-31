@@ -1,21 +1,21 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { env_config } from "../../../config";
+import ENV from "../../../config/env.config";
 import { AppError } from "../../../errors/AppError";
-import sCode from "../../statusCode";
+import sCode from "../../../statusCode";
 import { iSSLCommerz } from "./sslCommerz.interface";
 
-const SSL = env_config.SSL;
+const SSL = ENV.SSL;
 
 export const sslPaymentInit = async (payload: iSSLCommerz) => {
   const urlWithTrxID = (link: string, status = "success") =>
-    `${link}?TrxID=${payload.TrxID}&amount=${payload.amount}&status=${status}`;
+    `${link}?TrxID=${payload.TrxID}&amount=${payload.rent}&status=${status}`;
 
   const data = {
     store_id: SSL.STORE_ID,
     store_passwd: SSL.STORE_PASS,
-    total_amount: payload.amount,
+    total_amount: payload.rent,
     currency: "BDT",
     tran_id: payload.TrxID,
     success_url: urlWithTrxID(SSL.SUCCESS_SERVER_URL),

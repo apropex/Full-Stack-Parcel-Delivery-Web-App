@@ -6,9 +6,11 @@ import sCode from "../../../statusCode";
 import { ePaymentStatus, iReqQueryParams } from "../../global-interfaces";
 import { QueryBuilder } from "../../lib/queryBuilder";
 import { transactionRollback } from "../../lib/transactionRollback";
-import { generateTrackingID } from "../../utils/idGenerator";
+import { generateTrackingID, generateTrxID } from "../../utils/idGenerator";
 import { mongoIdValidator } from "../../utils/mongoIdValidator";
-import { getPathsFromMulterFiles } from "../user/getPathsFromMulterFiles";
+import { Payment } from "../payment/payment.model";
+import { iSSLCommerz } from "../sslCommerz/sslCommerz.interface";
+import { sslPaymentInit } from "../sslCommerz/sslCommerz.service";
 import { eUserRoles } from "../user/user.interface";
 import { parcelSearchFields } from "./parcel.constant";
 import { eParcelStatus, iParcel } from "./parcel.interface";
@@ -16,29 +18,37 @@ import { Parcel } from "./parcel.model";
 
 export const createdParcelService = async (req: Request) => {
   const decoded = req.decoded as JwtPayload;
-  if (req.body?.files) {
-    const files = getPathsFromMulterFiles(req.body.files);
-    if (files.length > 0) req.body.images = files;
-  }
-  req.body.trackingId = generateTrackingID();
+  const payload = req.body;
+  payload.trackingId = generateTrackingID();
 
-  const parcel = await Parcel.create(req.body);
-  /*
-  if (!parcel)
-    throw new AppError(sCode.EXPECTATION_FAILED, "Failed to create parcel");
+  return await transactionRollback(async (session) => {
+    const parcel = new Parcel(payload);
+    await parcel.save({ session });
 
-  const sslPayload = {
-    amount: parcel.rent,
-    TrxID: payment.TrxID,
-    name: decoded.name,
-    email: decoded.email,
-    phone: decoded.phone,
-    address: decoded.address,
-  } as iSSLCommerz;
+    const payment = new Payment({
+      parcel: parcel._id,
+      TrxID: generateTrxID(),
+      rent: parcel.rent,
+      status: ePaymentStatus.UNPAID,
+    });
+    await payment.save({ session });
 
-  const sslPayment = await sslPaymentInit(sslPayload);*/
+    const sslPayload = {
+      rent: payment.rent,
+      TrxID: payment.TrxID,
+      name: decoded.name,
+      email: decoded.email,
+      phone: decoded.phone,
+      address: decoded.address,
+    } as iSSLCommerz;
 
-  return { data: parcel };
+    const sslPayment = await sslPaymentInit(sslPayload);
+
+    return {
+      data: { parcel, payment },
+      meta: { options: { paymentURL: sslPayment?.GatewayPageURL } },
+    };
+  });
 };
 
 //

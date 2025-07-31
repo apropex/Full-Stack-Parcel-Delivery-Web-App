@@ -26,6 +26,18 @@ interface EnvConfig {
     CLOUD_API_KEY: string;
     CLOUD_API_SECRET: string;
   };
+  SSL: {
+    STORE_ID: string;
+    STORE_PASS: string;
+    PAYMENT_API: string;
+    VALIDATION_API: string;
+    SUCCESS_SERVER_URL: string;
+    FAIL_SERVER_URL: string;
+    CANCEL_SERVER_URL: string;
+    SUCCESS_CLIENT_URL: string;
+    FAIL_CLIENT_URL: string;
+    CANCEL_CLIENT_URL: string;
+  };
 }
 
 const ENV: EnvConfig = {
@@ -51,6 +63,18 @@ const ENV: EnvConfig = {
     CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_API_KEY: process.env.CLOUD_API_KEY,
     CLOUD_API_SECRET: process.env.CLOUD_API_SECRET,
+  },
+  SSL: {
+    STORE_ID: process.env.STORE_ID,
+    STORE_PASS: process.env.STORE_PASS,
+    PAYMENT_API: process.env.PAYMENT_API,
+    VALIDATION_API: process.env.VALIDATION_API,
+    SUCCESS_SERVER_URL: process.env.SUCCESS_SERVER_URL,
+    FAIL_SERVER_URL: process.env.FAIL_SERVER_URL,
+    CANCEL_SERVER_URL: process.env.CANCEL_SERVER_URL,
+    SUCCESS_CLIENT_URL: process.env.SUCCESS_CLIENT_URL,
+    FAIL_CLIENT_URL: process.env.FAIL_CLIENT_URL,
+    CANCEL_CLIENT_URL: process.env.CANCEL_CLIENT_URL,
   },
 } as EnvConfig;
 

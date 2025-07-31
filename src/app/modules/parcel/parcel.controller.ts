@@ -15,19 +15,27 @@ import {
 
 export const createdParcelController = catchAsync(async (req, res) => {
   if (req.body?.files) {
-    req.body.images = getPathsFromMulterFiles(req.body.files);
+    const files = getPathsFromMulterFiles(req.body.files);
+    if (files.length > 0) req.body.images = files;
   }
-  const { data } = await createdParcelService(req.body);
+
+  const { data, meta } = await createdParcelService(req);
 
   sendResponse(res, {
     statusCode: sCode.OK,
     message: "Parcel created successfully",
     data,
+    meta,
   });
 });
 
 //
 export const updateParcelController = catchAsync(async (req, res) => {
+  if (req.body?.files) {
+    const files = getPathsFromMulterFiles(req.body.files);
+    if (files.length > 0) req.body.images = files;
+  }
+
   const { data } = await updateParcelService(req);
 
   sendResponse(res, {

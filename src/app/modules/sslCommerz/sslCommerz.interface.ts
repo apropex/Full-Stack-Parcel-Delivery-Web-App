@@ -1,5 +1,5 @@
 export interface iSSLCommerz {
-  amount: number;
+  rent: number;
   TrxID: string;
   name: string;
   email: string;
