@@ -3,20 +3,22 @@ import {
   Profile,
   VerifyCallback,
 } from "passport-google-oauth20";
-import { env_config } from "../..";
-import { eAuthMessages } from "../../../app/constants/messages/auth.messages";
+import { eAuthMessages } from "../../../app/constants/messages";
 import {
   eAuthProvider,
   eIsActive,
   eUserRoles,
 } from "../../../app/modules/user/user.interface";
 import { User } from "../../../app/modules/user/user.model";
+import ENV from "../../env.config";
+
+const GOOGLE = ENV.GOOGLE;
 
 export const googleStrategy = new GoogleStrategy(
   {
-    clientID: env_config.GOOGLE_CLIENT_ID,
-    clientSecret: env_config.GOOGLE_CLIENT_SECRET,
-    callbackURL: env_config.GOOGLE_CALLBACK_URL,
+    clientID: GOOGLE.GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE.GOOGLE_CLIENT_SECRET,
+    callbackURL: GOOGLE.GOOGLE_CALLBACK_URL,
   },
   async (
     _accessToken: string,
@@ -49,7 +51,7 @@ export const googleStrategy = new GoogleStrategy(
           email,
           name: { firstName, lastName },
           picture: profile.photos?.[0].value || "",
-          role: eUserRoles.USER,
+          role: eUserRoles.SENDER,
           isVerified: true,
           auth: [
             {

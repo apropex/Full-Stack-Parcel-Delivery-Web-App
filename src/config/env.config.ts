@@ -39,6 +39,17 @@ interface EnvConfig {
     FAIL_CLIENT_URL: string;
     CANCEL_CLIENT_URL: string;
   };
+  REDIS: {
+    REDIS_USERNAME: string;
+    REDIS_PASS: string;
+    REDIS_HOST: string;
+    REDIS_PORT: number;
+  };
+  GOOGLE: {
+    GOOGLE_CLIENT_SECRET: string;
+    GOOGLE_CLIENT_ID: string;
+    GOOGLE_CALLBACK_URL: string;
+  };
 }
 
 const ENV: EnvConfig = {
@@ -77,6 +88,17 @@ const ENV: EnvConfig = {
     SUCCESS_CLIENT_URL: process.env.SUCCESS_CLIENT_URL,
     FAIL_CLIENT_URL: process.env.FAIL_CLIENT_URL,
     CANCEL_CLIENT_URL: process.env.CANCEL_CLIENT_URL,
+  },
+  REDIS: {
+    REDIS_USERNAME: process.env.REDIS_USERNAME,
+    REDIS_PASS: process.env.REDIS_PASS,
+    REDIS_HOST: process.env.REDIS_HOST,
+    REDIS_PORT: Number(process.env.REDIS_PORT),
+  },
+  GOOGLE: {
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL,
   },
 } as EnvConfig;
 
