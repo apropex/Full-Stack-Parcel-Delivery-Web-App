@@ -7,6 +7,7 @@ interface EnvConfig {
   NODE_ENV: string;
   MONGODB_URL: string;
   FRONTEND_URL: string;
+  EXPRESS_SESSION_SECRET: string;
   BCRYPT_SALT_ROUND: number;
   JWT: {
     JWT_SECRET: string;
@@ -45,6 +46,7 @@ const ENV: EnvConfig = {
   NODE_ENV: process.env.NODE_ENV,
   MONGODB_URL: process.env.MONGODB_URL,
   FRONTEND_URL: process.env.FRONTEND_URL,
+  EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET,
   BCRYPT_SALT_ROUND: Number(process.env.BCRYPT_SALT_ROUND),
   JWT: {
     JWT_SECRET: process.env.JWT_SECRET,
