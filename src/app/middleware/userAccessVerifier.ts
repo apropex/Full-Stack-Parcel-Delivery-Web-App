@@ -18,18 +18,10 @@ export const userAccessVerifier = async (
 
     const { isDeleted, isVerified, isActive } = decoded;
 
-    if (isDeleted || !isVerified || isActive === eIsActive.BLOCKED) {
-      const deleted = isDeleted ? "deleted" : "";
-      const verified = isVerified ? "" : "not verified";
-      const blocked = isActive === eIsActive.BLOCKED ? "blocked" : "";
-
-      return next(
-        new AppError(
-          400,
-          `User is ${deleted}${verified && ", "}${verified}${blocked && ", "}${blocked}`
-        )
-      );
-    }
+    if (isDeleted) return next(new AppError(400, "User is deleted"));
+    if (!isVerified) return next(new AppError(400, "User is not verified"));
+    if (isActive === eIsActive.BLOCKED)
+      return next(new AppError(400, "User is blocked"));
 
     req.decoded = decoded;
 

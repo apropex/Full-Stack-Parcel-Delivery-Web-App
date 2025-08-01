@@ -148,8 +148,11 @@ export const updateParcelZodSchema = createParcelZodSchema
   .merge(updateOnlyParcelFields);
 
 export const updateParcelStatusZodSchema = z.object({
-  status: z.enum(Object.values(eParcelStatus) as [string, ...string[]], {
-    error: `Parcel status must be in between ${Object.values(eParcelStatus).join(", ")}`,
-  }),
+  status: z
+    .enum(Object.values(eParcelStatus) as [string, ...string[]], {
+      error: `Parcel status must be in between ${Object.values(eParcelStatus).join(", ")}`,
+    })
+    .optional(),
   note: z.string({ error: "Note must be a string" }).optional(),
+  updatedAt: z.string().optional(),
 });

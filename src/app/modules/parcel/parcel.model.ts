@@ -49,6 +49,7 @@ const parcelSchema = new Schema<iParcel>(
       required: [true, "Parcel type is required"],
     },
     weight: { type: Number, required: [true, "Parcel weight is required"] },
+    rent: { type: Number, required: [true, "Parcel rent is required"] },
     payment: { type: Schema.Types.ObjectId, ref: "Payment" },
     paymentStatus: {
       type: String,

@@ -4,10 +4,14 @@ import { catchAsync } from "../../lib/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { getPathsFromMulterFiles } from "../user/getPathsFromMulterFiles";
 import {
+  cancelParcelService,
+  confirmParcelService,
   createdParcelService,
   deleteStatusLogService,
   getAllParcelService,
+  getMyParcelService,
   getSingleParcelService,
+  incomingParcelService,
   updateParcelService,
   updateParcelStatusLogsService,
   updateParcelStatusService,
@@ -57,6 +61,28 @@ export const updateParcelStatusController = catchAsync(async (req, res) => {
 });
 
 //
+export const cancelParcelController = catchAsync(async (req, res) => {
+  const { data } = await cancelParcelService(req);
+
+  sendResponse(res, {
+    statusCode: sCode.OK,
+    message: "Parcel cancelled successfully",
+    data,
+  });
+});
+
+//
+export const confirmParcelController = catchAsync(async (req, res) => {
+  const { data } = await confirmParcelService(req);
+
+  sendResponse(res, {
+    statusCode: sCode.OK,
+    message: "Parcel confirmed successfully",
+    data,
+  });
+});
+
+//
 export const updateParcelStatusLogsController = catchAsync(async (req, res) => {
   const { data } = await updateParcelStatusLogsService(req);
 
@@ -83,6 +109,30 @@ export const getAllParcelController = catchAsync(async (req, res) => {
 export const getSingleParcelController = catchAsync(async (req, res) => {
   const id = req.params.trackingId;
   const { data } = await getSingleParcelService(id);
+
+  sendResponse(res, {
+    statusCode: sCode.OK,
+    message: "Parcel retrieved successfully",
+    data,
+  });
+});
+
+//
+export const getMyParcelController = catchAsync(async (req, res) => {
+  const id = req.decoded?._id || "";
+  const { data } = await getMyParcelService(id);
+
+  sendResponse(res, {
+    statusCode: sCode.OK,
+    message: "Parcel retrieved successfully",
+    data,
+  });
+});
+
+//
+export const incomingParcelController = catchAsync(async (req, res) => {
+  const id = req.decoded?._id || "";
+  const { data } = await incomingParcelService(id);
 
   sendResponse(res, {
     statusCode: sCode.OK,

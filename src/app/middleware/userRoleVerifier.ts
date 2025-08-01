@@ -9,7 +9,7 @@ import { verifyAccessToken } from "../lib/jwt";
 import { extractTokenFromHeader } from "../utils/extractTokenFromHeader";
 import { checkUserExist } from "../utils/userChecker";
 
-export const roleVerifier =
+export const userRoleVerifier =
   (...roles: string[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authValidator } from "../../middleware/authValidator";
-import { roleVerifier } from "../../middleware/userRoleVerifier";
+import { userRoleVerifier } from "../../middleware/userRoleVerifier";
 import {
   createUserController,
   getAllUsersController,
@@ -10,6 +10,8 @@ import {
 } from "./user.controller";
 import { eUserRoles } from "./user.interface";
 
+const { ADMIN, SUPER_ADMIN } = eUserRoles;
+
 const userRoutes = Router();
 
 // TODO: ADD ZOD VALIDATOR
@@ -18,7 +20,7 @@ userRoutes.post("/register", createUserController);
 
 userRoutes.get(
   "/all-users",
-  roleVerifier(eUserRoles.ADMIN, eUserRoles.SUPER_ADMIN),
+  userRoleVerifier(ADMIN, SUPER_ADMIN),
   getAllUsersController
 );
 
@@ -26,7 +28,7 @@ userRoutes.get("/me", authValidator, getMeController);
 
 userRoutes.get(
   "/:userId",
-  roleVerifier(eUserRoles.ADMIN, eUserRoles.SUPER_ADMIN),
+  userRoleVerifier(ADMIN, SUPER_ADMIN),
   getSingleUserController
 );
 

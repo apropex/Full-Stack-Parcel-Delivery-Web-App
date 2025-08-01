@@ -39,6 +39,9 @@ export const createdParcelService = async (req: Request) => {
   payload.rent = rates[type] * payload.weight;
   payload.trackingId = generateTrackingID();
   payload.sender = decoded._id;
+  payload.estimatedDeliveryDate = new Date(
+    Date.now() + 3 * 24 * 60 * 60 * 1000
+  );
 
   return await transactionRollback(async (session) => {
     const parcel = new Parcel(payload);
@@ -150,10 +153,6 @@ export const updateParcelStatusService = async (req: Request) => {
   const parcel = await Parcel.findById(parcelId);
   if (!parcel) throw new AppError(404, "Parcel not found");
 
-  if (parcel.paymentStatus !== ePaymentStatus.PAID) {
-    throw new AppError(400, `Unpaid parcel, pay first`);
-  }
-
   parcel.statusLogs.push({
     status: status,
     updatedAt: new Date(),
@@ -162,6 +161,54 @@ export const updateParcelStatusService = async (req: Request) => {
   });
 
   parcel.status = status;
+
+  await parcel.save();
+  return { data: parcel };
+};
+
+//
+export const cancelParcelService = async (req: Request) => {
+  const parcelId: string = req.params.parcelId;
+  const { note } = req.body;
+
+  const parcel = await Parcel.findById(parcelId);
+  if (!parcel) throw new AppError(404, "Parcel not found");
+
+  if (parcel.status === eParcelStatus.Dispatched)
+    throw new AppError(sCode.BAD_REQUEST, "Parcel already dispatched");
+
+  parcel.statusLogs.push({
+    status: eParcelStatus.Cancelled,
+    updatedAt: new Date(),
+    updatedBy: mongoIdValidator(req.decoded?._id),
+    note: note || `Status updated from ${parcel.status}`,
+  });
+
+  parcel.status = eParcelStatus.Cancelled;
+
+  await parcel.save();
+  return { data: parcel };
+};
+
+//
+export const confirmParcelService = async (req: Request) => {
+  const parcelId: string = req.params.parcelId;
+  const { note } = req.body;
+
+  const parcel = await Parcel.findById(parcelId);
+  if (!parcel) throw new AppError(404, "Parcel not found");
+
+  if (parcel.status === eParcelStatus.Dispatched)
+    throw new AppError(sCode.BAD_REQUEST, "Parcel already dispatched");
+
+  parcel.statusLogs.push({
+    status: eParcelStatus.Dispatched,
+    updatedAt: new Date(),
+    updatedBy: mongoIdValidator(req.decoded?._id),
+    note: note || `Status updated from ${parcel.status}`,
+  });
+
+  parcel.status = eParcelStatus.Dispatched;
 
   await parcel.save();
   return { data: parcel };
@@ -230,6 +277,22 @@ export const getSingleParcelService = async (trackingId: string) => {
   if (!parcel)
     throw new AppError(sCode.NOT_FOUND, "Parcel not found with this ID");
   return { data: parcel };
+};
+
+//
+export const getMyParcelService = async (id: string) => {
+  const parcels = await Parcel.find({ sender: mongoIdValidator(id) });
+  if (!parcels)
+    throw new AppError(sCode.NOT_FOUND, "Parcel not found with this ID");
+  return { data: parcels };
+};
+
+//
+export const incomingParcelService = async (id: string) => {
+  const parcels = await Parcel.find({ receiver: mongoIdValidator(id) });
+  if (!parcels)
+    throw new AppError(sCode.NOT_FOUND, "Parcel not found with this ID");
+  return { data: parcels };
 };
 
 //
