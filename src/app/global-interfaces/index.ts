@@ -24,11 +24,3 @@ export interface iReqQueryParams {
   limit?: string;
   [key: string]: string | undefined;
 }
-
-export enum ePaymentStatus {
-  PAID = "PAID",
-  UNPAID = "UNPAID",
-  CANCELED = "CANCELED",
-  FAILED = "FAILED",
-  REFUNDED = "REFUNDED",
-}

@@ -30,32 +30,3 @@ export const sanitizeFilename = (
   if (random) return `${cleaned}-${randomStr}-${timestamp}${dotExt}`;
   else return `${cleaned}${dotExt}`;
 };
-
-/*
-
-
-
-
-
-
-
-export const sanitizeFilename = (
-  filename: string,
-  { random = true, extension = false }
-): string => {
-  const [name, ext] = filename.split(/\.(?=[^.]+$)/);
-
-  const cleaned = name
-    .replace(/[^a-zA-Z0-9]+/g, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-|-$/g, "")
-    .toLowerCase();
-
-  const randomStr = Math.random().toString(36).slice(2, 10);
-  const timestamp = Date.now();
-  const dotExt = `.${ext.toLowerCase()}`;
-
-  if (random) return `${cleaned}-${randomStr}-${timestamp}${extension && dotExt}`;
-  else return `${cleaned}${extension && dotExt}`;
-};
-*/

@@ -6,7 +6,6 @@ import passport from "passport";
 import globalErrorHandler from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import ENV from "./config/env.config";
-import "./config/passport/passport.config";
 import { router } from "./routes";
 
 const app = express();

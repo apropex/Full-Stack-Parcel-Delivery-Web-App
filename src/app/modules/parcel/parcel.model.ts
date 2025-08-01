@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import { ePaymentStatus } from "../../global-interfaces";
 import { addressSchema } from "../../global-models";
 import {
   eParcelStatus,
@@ -10,7 +9,6 @@ import {
 
 const types: string[] = Object.values(eParcelTypes);
 const status: string[] = Object.values(eParcelStatus);
-const paymentStatus: string[] = Object.values(ePaymentStatus);
 
 const statusLogSchema = new Schema<iStatusLog>(
   {
@@ -50,15 +48,6 @@ const parcelSchema = new Schema<iParcel>(
     },
     weight: { type: Number, required: [true, "Parcel weight is required"] },
     rent: { type: Number, required: [true, "Parcel rent is required"] },
-    payment: { type: Schema.Types.ObjectId, ref: "Payment" },
-    paymentStatus: {
-      type: String,
-      enum: {
-        values: paymentStatus,
-        message: `Payment status must be in between ${paymentStatus.join(", ")}`,
-      },
-      default: ePaymentStatus.UNPAID,
-    },
     images: { type: [String] },
     pickupAddress: {
       type: addressSchema,

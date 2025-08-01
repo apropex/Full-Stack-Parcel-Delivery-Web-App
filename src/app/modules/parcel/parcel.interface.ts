@@ -1,6 +1,5 @@
 import { Document, Types } from "mongoose";
-import { ePaymentStatus, iAddress } from "../../global-interfaces";
-import { iPayment } from "../payment/payment.interface";
+import { iAddress } from "../../global-interfaces";
 import { iUser } from "../user/user.interface";
 
 /*
@@ -45,8 +44,6 @@ export interface iParcel extends Document {
   type: eParcelTypes;
   weight: number;
   rent: number;
-  payment?: Types.ObjectId | iPayment;
-  paymentStatus: ePaymentStatus;
 
   title?: string;
   images?: string[];

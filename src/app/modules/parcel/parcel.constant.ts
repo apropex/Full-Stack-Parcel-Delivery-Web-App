@@ -1,1 +1,1 @@
-export const parcelSearchFields: string[] = ["status", "type",];
+export const parcelSearchFields: string[] = ["status", "type"];
