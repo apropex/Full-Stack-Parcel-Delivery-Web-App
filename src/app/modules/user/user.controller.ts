@@ -46,7 +46,7 @@ export const getAllUsersController = catchAsync(async (req, res) => {
 
 //
 export const getMeController = catchAsync(async (req, res) => {
-  const { data } = await getMeService(req.params.userId);
+  const { data } = await getMeService(req.decoded?._id || "");
   sendResponse(res, {
     statusCode: sCode.OK,
     message: "User retrieved successfully",
@@ -56,7 +56,7 @@ export const getMeController = catchAsync(async (req, res) => {
 
 //
 export const getSingleUserController = catchAsync(async (req, res) => {
-  const { data } = await getMeService(req.params.userId);
+  const { data } = await getMeService(req.params?.userId || "");
   sendResponse(res, {
     statusCode: sCode.OK,
     message: "User retrieved successfully",

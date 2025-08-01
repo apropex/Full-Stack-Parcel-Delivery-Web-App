@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { eAuthProvider, eIsActive, eUserRoles } from "./user.interface";
 
+const userRoles = Object.values(eUserRoles) as [string, ...string[]];
+const isActive = Object.values(eIsActive) as [string, ...string[]];
+const authProvider = Object.values(eAuthProvider) as [string, ...string[]];
+
 export const createUserZodSchema = z.object({
   name: z.object({
     firstName: z
@@ -74,13 +78,13 @@ export const createUserZodSchema = z.object({
 
 const updateOnlyUserFields = z.object({
   role: z
-    .enum(Object.values(eUserRoles) as [string, ...string[]], {
+    .enum(userRoles, {
       error: "Enter a valid user role",
     })
     .optional(),
 
   isActive: z
-    .enum(Object.values(eIsActive) as [string, ...string[]], {
+    .enum(isActive, {
       error: "Enter a valid isActive status",
     })
     .optional(),
@@ -100,20 +104,43 @@ const updateOnlyUserFields = z.object({
   auth: z
     .array(
       z.object({
-        provider: z.enum(
-          Object.values(eAuthProvider) as [string, ...string[]],
-          {
-            error: "Invalid auth provider",
-          }
-        ),
+        provider: z.enum(authProvider, {
+          error: "Invalid auth provider",
+        }),
         providerId: z.string({ error: "providerId must be a string" }),
       })
     )
     .optional(),
-
-  // TODO: Add rest of fields
 });
 
 export const updateUserZodSchema = createUserZodSchema
   .partial()
-  .merge(updateOnlyUserFields);
+  .extend(updateOnlyUserFields.shape);
+
+export const loginUserZodSchema = createUserZodSchema.pick({
+  email: true,
+  password: true,
+});
+
+export const changePasswordZodSchema = z.object({
+  oldPassword: z.string({
+    error: ({ input }) =>
+      input ? "Old password must be string" : "Old password is required",
+  }),
+  newPassword: z.string({
+    error: ({ input }) =>
+      input ? "New password must be string" : "New password is required",
+  }),
+});
+
+export const resetPasswordZodSchema = z.object({
+  newPassword: z.string({
+    error: ({ input }) =>
+      input ? "New password must be string" : "New password is required",
+  }),
+  id: z
+    .string({
+      error: ({ input }) => (input ? "ID must be string" : "ID is required"),
+    })
+    .regex(/^[0-9a-fA-F]{24}$/, "Invalid MongoDB ID format, enter a valid ID"),
+});

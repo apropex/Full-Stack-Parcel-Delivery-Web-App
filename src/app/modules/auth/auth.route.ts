@@ -3,6 +3,12 @@ import passport from "passport";
 import ENV from "../../../config/env.config";
 import { authValidator } from "../../middleware/authValidator";
 import { userAccessVerifier } from "../../middleware/userAccessVerifier";
+import { zodBodyValidator } from "../../middleware/zodValidator";
+import {
+  changePasswordZodSchema,
+  loginUserZodSchema,
+  resetPasswordZodSchema,
+} from "../user/user.validation";
 import {
   changePasswordController,
   credentialLoginController,
@@ -19,23 +25,32 @@ const failureRedirect = `${ENV.FRONTEND_URL}/login?error=We are unable to log yo
 
 const authRoutes = Router();
 
-// TODO: ADD ZOD VALIDATOR
-
-authRoutes.post("/login", credentialLoginController);
-authRoutes.post("/refresh-token", getNewAccessTokenController);
+authRoutes.post(
+  "/login",
+  zodBodyValidator(loginUserZodSchema),
+  credentialLoginController
+);
 authRoutes.post("/logout", userLogoutController);
+
+authRoutes.post("/refresh-token", getNewAccessTokenController);
 
 // -------------
 
 authRoutes.post(
   "/change-password",
   userAccessVerifier,
+  zodBodyValidator(changePasswordZodSchema),
   changePasswordController
 );
 
 authRoutes.post("/forgot-password", forgotPasswordController);
 
-authRoutes.post("/reset-password", authValidator, resetPasswordController);
+authRoutes.post(
+  "/reset-password",
+  authValidator,
+  zodBodyValidator(resetPasswordZodSchema),
+  resetPasswordController
+);
 
 authRoutes.post("/set-password", userAccessVerifier, setPasswordController);
 

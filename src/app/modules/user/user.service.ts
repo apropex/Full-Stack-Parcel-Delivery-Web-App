@@ -7,7 +7,6 @@ import { eAuthMessages } from "../../constants/messages";
 import { getExistingUser } from "../../utils/userChecker";
 import {
   eAuthProvider,
-  eIsActive,
   eUserRoles,
   iAuthProvider,
   iUser,
@@ -25,7 +24,7 @@ export const createUserService = async (payload: Partial<iUser>) => {
   if (!hashedPassword)
     throw new AppError(
       sCode.UNPROCESSABLE_ENTITY,
-      "Password could not be processed by bcrypt"
+      "Password could not be processed, try again"
     );
 
   const authProvider: iAuthProvider = {
@@ -57,6 +56,8 @@ export const updateUserService = async (
 
   const isSelf = requesterId === String(userId);
   const isAdmin = role === ADMIN;
+  const isSender = role === SENDER;
+  const isReceiver = role === RECEIVER;
 
   const user = await getExistingUser({ id: userId });
 
@@ -64,29 +65,26 @@ export const updateUserService = async (
   if (!isSelf && !isAdmin) {
     throw new AppError(
       sCode.UNAUTHORIZED,
-      "You're not authorized to update this user"
+      "Only the user (owner) or the admin can update"
     );
   }
 
-  // 2. Role can't be changed unless Super Admin
-  if ("role" in payload) {
-    throw new AppError(sCode.FORBIDDEN, "Only Super Admin can change roles");
+  // 2. Role can't be changed unless Admin
+  if ("role" in payload && !isAdmin) {
+    throw new AppError(sCode.FORBIDDEN, "Only Admin can change roles");
   }
 
   // 3. Blocked/Deleted users can't be updated by SENDER/RECEIVER
-  if (
-    (role === SENDER || role === RECEIVER) &&
-    (user.isDeleted || user.isActive === eIsActive.BLOCKED)
-  ) {
+  if ((isSender || isReceiver) && user.isDeleted) {
     throw new AppError(
       sCode.FORBIDDEN,
-      "You cannot update this user. Contact admin."
+      "You cannot update this user. Contact to admin"
     );
   }
 
-  // 4. Enforce field-level restriction for USER & MODERATOR
+  // 4. Enforce field-level restriction for USER
   const forbiddenFields = ["isActive", "isDeleted", "isVerified"];
-  if (role === SENDER || role === RECEIVER) {
+  if (isSender || isReceiver) {
     const hasForbiddenField = forbiddenFields.some((field) => field in payload);
     if (hasForbiddenField) {
       throw new AppError(
@@ -97,9 +95,7 @@ export const updateUserService = async (
   }
 
   // 5. Prevent password update here
-  if ("password" in payload) {
-    delete payload.password;
-  }
+  if ("password" in payload) delete payload.password;
 
   // 6. Proceed to update
   const updatedUser = await User.findByIdAndUpdate(userId, payload, {
