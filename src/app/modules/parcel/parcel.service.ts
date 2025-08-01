@@ -1,18 +1,11 @@
 import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
-import { deleteImageFromCloud } from "../../../config/cloudinary/deleteImageFromCloud";
 import { AppError } from "../../../errors/AppError";
 import sCode from "../../../statusCode";
-import { ePaymentStatus, iReqQueryParams } from "../../global-interfaces";
-import { QueryBuilder } from "../../lib/queryBuilder";
 import { transactionRollback } from "../../lib/transactionRollback";
-import { generateTrackingID, generateTrxID } from "../../utils/idGenerator";
+import { generateTrackingID } from "../../utils/idGenerator";
 import { mongoIdValidator } from "../../utils/mongoIdValidator";
-import { Payment } from "../payment/payment.model";
-import { iSSLCommerz } from "../sslCommerz/sslCommerz.interface";
-import { sslPaymentInit } from "../sslCommerz/sslCommerz.service";
 import { eUserRoles } from "../user/user.interface";
-import { parcelSearchFields } from "./parcel.constant";
 import { eParcelStatus, eParcelTypes, iParcel } from "./parcel.interface";
 import { Parcel } from "./parcel.model";
 
@@ -29,68 +22,21 @@ export const createdParcelService = async (req: Request) => {
     (rate) => rate === payload.type
   ) as eParcelTypes;
 
-  if (!decoded.phone || !decoded.address) {
-    throw new AppError(
-      sCode.BAD_REQUEST,
-      "Updated your profile with phone number and address"
-    );
-  }
-
   payload.rent = rates[type] * payload.weight;
   payload.trackingId = generateTrackingID();
   payload.sender = decoded._id;
-  payload.estimatedDeliveryDate = new Date(
-    Date.now() + 3 * 24 * 60 * 60 * 1000
-  );
 
-  return await transactionRollback(async (session) => {
-    const parcel = new Parcel(payload);
-    await parcel.save({ session });
+  const parcel = await Parcel.create(payload);
 
-    const payment = new Payment({
-      parcel: parcel._id,
-      TrxID: generateTrxID(),
-      rent: parcel.rent,
-      status: ePaymentStatus.UNPAID,
-    });
-    await payment.save({ session });
-
-    const {
-      street,
-      city,
-      stateOrProvince: state,
-      postalCode: post,
-      country,
-    } = decoded.address;
-
-    const sslPayload = {
-      rent: payment.rent,
-      TrxID: payment.TrxID,
-      name: decoded.name,
-      email: decoded.email,
-      phone: decoded.phone,
-      address: `${street}, ${city}, ${state}, ${post}, ${country}`,
-    } as iSSLCommerz;
-
-    const sslPayment = await sslPaymentInit(sslPayload);
-
-    return {
-      data: { parcel, payment },
-      meta: { options: { paymentURL: sslPayment?.GatewayPageURL } },
-    };
-  });
+  return { data: parcel };
 };
 
 //
 export const updateParcelService = async (req: Request) => {
   const id = mongoIdValidator(req.params?.parcelId || "");
   const payload = req.body as Partial<iParcel>;
-  const { role } = req.decoded as JwtPayload;
-  const { SENDER, RECEIVER, MODERATOR } = eUserRoles;
-
-  if ("trackingId" in payload) delete payload.trackingId;
-  if ("status" in payload) delete payload.status;
-  if ("statusLogs" in payload) delete payload.statusLogs;
+  const { role, _id } = req.decoded as JwtPayload;
+  const { SENDER, RECEIVER, ADMIN } = eUserRoles;
 
   const forbiddenFields = [
     "rent",
@@ -99,46 +45,37 @@ export const updateParcelService = async (req: Request) => {
     "estimatedDeliveryDate",
     "deliveredAt",
   ];
+
   if (role === SENDER || role === RECEIVER) {
     const hasForbiddenField = forbiddenFields.some((field) => field in payload);
     if (hasForbiddenField) {
       throw new AppError(
         sCode.FORBIDDEN,
-        "You're not allowed to update these fields:  rent, isBlocked, isCancelled, estimatedDeliveryDate, deliveredAt"
+        `You're not allowed to update these fields: ${forbiddenFields.join(", ")}`
       );
     }
   }
 
-  if ("rent" in payload && role === MODERATOR) {
-    throw new AppError(
-      sCode.FORBIDDEN,
-      "You're not allowed to update the rent"
-    );
-  }
+  delete payload.trackingId;
+  delete payload.status;
+  delete payload.statusLogs;
 
   return await transactionRollback(async (session) => {
-    const oldParcel = await Parcel.findById(id)
-      .select("images")
-      .session(session);
-    if (!oldParcel) throw new AppError(404, "Parcel not found");
-
-    const oldImages = oldParcel.images || [];
-    const delImg = payload.deletedImages || [];
-    const images = payload.images || [];
-
-    const remainingImages = oldImages.filter((img) => !delImg.includes(img));
-    payload.images = [...images, ...remainingImages];
-
     const updatedParcel = await Parcel.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
       session,
     });
 
-    if (!updatedParcel) throw new AppError(404, "Parcel not found");
+    if (!updatedParcel) {
+      throw new AppError(sCode.NOT_FOUND, "Parcel not found");
+    }
 
-    if (delImg.length > 0) {
-      await Promise.all(delImg.map((url) => deleteImageFromCloud(url)));
+    if (role !== ADMIN && updatedParcel.sender.toString() !== _id) {
+      throw new AppError(
+        sCode.FORBIDDEN,
+        "Only sender or admin can update the parcel"
+      );
     }
 
     return { data: updatedParcel };
@@ -168,50 +105,83 @@ export const updateParcelStatusService = async (req: Request) => {
 
 //
 export const cancelParcelService = async (req: Request) => {
-  const parcelId: string = req.params.parcelId;
+  const parcelId = req.params.parcelId;
+  const { _id, role } = req.decoded as JwtPayload;
+  const { ADMIN } = eUserRoles;
   const { note } = req.body;
 
   const parcel = await Parcel.findById(parcelId);
   if (!parcel) throw new AppError(404, "Parcel not found");
 
-  if (parcel.status === eParcelStatus.Dispatched)
-    throw new AppError(sCode.BAD_REQUEST, "Parcel already dispatched");
+  // Access control
+  if (role !== ADMIN && String(parcel.sender) !== _id) {
+    throw new AppError(
+      sCode.FORBIDDEN,
+      `Only the sender or an admin can cancel the parcel`
+    );
+  }
 
+  const { Requested, Approved, Cancelled } = eParcelStatus;
+  const cancellableStatuses = [Requested, Approved];
+
+  if (!cancellableStatuses.includes(parcel.status) && role !== ADMIN) {
+    throw new AppError(sCode.BAD_REQUEST, `Parcel already ${parcel.status}`);
+  }
+
+  const previousStatus = parcel.status;
+
+  parcel.status = Cancelled;
   parcel.statusLogs.push({
-    status: eParcelStatus.Cancelled,
+    status: Cancelled,
     updatedAt: new Date(),
-    updatedBy: mongoIdValidator(req.decoded?._id),
-    note: note || `Status updated from ${parcel.status}`,
+    updatedBy: mongoIdValidator(_id),
+    note: note || `Status changed from ${previousStatus} to Cancelled`,
   });
 
-  parcel.status = eParcelStatus.Cancelled;
-
   await parcel.save();
-  return { data: parcel };
+
+  return {
+    data: parcel,
+  };
 };
 
 //
 export const confirmParcelService = async (req: Request) => {
-  const parcelId: string = req.params.parcelId;
+  const parcelId = req.params?.parcelId || "";
   const { note } = req.body;
+  const { _id } = req.decoded as JwtPayload;
 
-  const parcel = await Parcel.findById(parcelId);
+  const { Received } = eParcelStatus;
+
+  const parcel = await Parcel.findById(mongoIdValidator(parcelId));
   if (!parcel) throw new AppError(404, "Parcel not found");
 
-  if (parcel.status === eParcelStatus.Dispatched)
-    throw new AppError(sCode.BAD_REQUEST, "Parcel already dispatched");
+  if (_id !== String(parcel.receiver)) {
+    throw new AppError(
+      sCode.FORBIDDEN,
+      "Only the receiver can confirm the parcel"
+    );
+  }
 
+  if (parcel.status === Received) {
+    throw new AppError(sCode.BAD_REQUEST, "Parcel already received");
+  }
+
+  const previousStatus = parcel.status;
+
+  parcel.status = Received;
   parcel.statusLogs.push({
-    status: eParcelStatus.Dispatched,
+    status: Received,
     updatedAt: new Date(),
-    updatedBy: mongoIdValidator(req.decoded?._id),
-    note: note || `Status updated from ${parcel.status}`,
+    updatedBy: mongoIdValidator(_id),
+    note: note || `Status changed from ${previousStatus} to Received`,
   });
 
-  parcel.status = eParcelStatus.Dispatched;
-
   await parcel.save();
-  return { data: parcel };
+
+  return {
+    data: parcel,
+  };
 };
 
 //
@@ -251,29 +221,19 @@ export const updateParcelStatusLogsService = async (req: Request) => {
 };
 
 //
-export const getAllParcelService = async (query: iReqQueryParams) => {
-  const queryBuilder = new QueryBuilder(Parcel, query);
-
-  const [tours, meta] = await Promise.all([
-    queryBuilder
-      .search(parcelSearchFields)
-      .filter()
-      .sort()
-      .select()
-      .paginate()
-      .build(),
-    queryBuilder.meta(parcelSearchFields),
-  ]);
+export const getAllParcelService = async () => {
+  const parcels = await Parcel.find();
+  const total = await Parcel.estimatedDocumentCount();
 
   return {
-    data: tours,
-    meta,
+    data: parcels,
+    meta: { total_data: total },
   };
 };
 
 //
-export const getSingleParcelService = async (trackingId: string) => {
-  const parcel = await Parcel.findOne({ trackingId });
+export const getSingleParcelService = async (id: string) => {
+  const parcel = await Parcel.findById(mongoIdValidator(id));
   if (!parcel)
     throw new AppError(sCode.NOT_FOUND, "Parcel not found with this ID");
   return { data: parcel };
@@ -297,17 +257,9 @@ export const incomingParcelService = async (id: string) => {
 
 //
 export const deleteStatusLogService = async (req: Request) => {
-  const { _id, role } = req.decoded as JwtPayload;
+  const { _id } = req.decoded as JwtPayload;
   const parcelId = req.params?.parcelId || "";
   const { deletedStatus, presentStatus, note, updatedAt } = req.body;
-  const { SENDER, RECEIVER, MODERATOR } = eUserRoles;
-  const restrictedStatuses = [eParcelStatus.Delivered, eParcelStatus.Received];
-
-  if (role === RECEIVER || role === SENDER || role === MODERATOR) {
-    if (restrictedStatuses.includes(deletedStatus)) {
-      throw new AppError(400, "Your are not permitted to delete this status");
-    }
-  }
 
   const parcel = await Parcel.findById(mongoIdValidator(parcelId));
   if (!parcel) throw new AppError(404, "Parcel not found");
@@ -326,14 +278,13 @@ export const deleteStatusLogService = async (req: Request) => {
 
   parcel.statusLogs = newStatusLogs;
 
+  parcel.status = presentStatus;
   parcel.statusLogs.push({
     status: presentStatus,
     updatedAt: new Date(),
     updatedBy: mongoIdValidator(_id),
     note: note || `Status updated to ${presentStatus}`,
   });
-
-  parcel.status = presentStatus;
 
   await parcel.save();
 

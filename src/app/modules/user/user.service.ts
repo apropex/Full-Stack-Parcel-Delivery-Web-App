@@ -53,16 +53,15 @@ export const updateUserService = async (
   decoded: JwtPayload
 ) => {
   const { _id: requesterId, role } = decoded;
-  const { SUPER_ADMIN, ADMIN, SENDER, RECEIVER } = eUserRoles;
+  const { ADMIN, SENDER, RECEIVER } = eUserRoles;
 
   const isSelf = requesterId === String(userId);
   const isAdmin = role === ADMIN;
-  const isSuperAdmin = role === SUPER_ADMIN;
 
   const user = await getExistingUser({ id: userId });
 
   // 1. Only Self, Admin, SuperAdmin can update
-  if (!isSelf && !isAdmin && !isSuperAdmin) {
+  if (!isSelf && !isAdmin) {
     throw new AppError(
       sCode.UNAUTHORIZED,
       "You're not authorized to update this user"
@@ -70,7 +69,7 @@ export const updateUserService = async (
   }
 
   // 2. Role can't be changed unless Super Admin
-  if ("role" in payload && !isSuperAdmin) {
+  if ("role" in payload) {
     throw new AppError(sCode.FORBIDDEN, "Only Super Admin can change roles");
   }
 

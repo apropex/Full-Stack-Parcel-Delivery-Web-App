@@ -1,8 +1,6 @@
 import sCode from "../../../statusCode";
-import { iReqQueryParams } from "../../global-interfaces";
 import { catchAsync } from "../../lib/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
-import { getPathsFromMulterFiles } from "../user/getPathsFromMulterFiles";
 import {
   cancelParcelService,
   confirmParcelService,
@@ -18,28 +16,17 @@ import {
 } from "./parcel.service";
 
 export const createdParcelController = catchAsync(async (req, res) => {
-  if (req.body?.files) {
-    const files = getPathsFromMulterFiles(req.body.files);
-    if (files.length > 0) req.body.images = files;
-  }
-
-  const { data, meta } = await createdParcelService(req);
+  const { data } = await createdParcelService(req);
 
   sendResponse(res, {
-    statusCode: sCode.OK,
+    statusCode: sCode.CREATED,
     message: "Parcel created successfully",
     data,
-    meta,
   });
 });
 
 //
 export const updateParcelController = catchAsync(async (req, res) => {
-  if (req.body?.files) {
-    const files = getPathsFromMulterFiles(req.body.files);
-    if (files.length > 0) req.body.images = files;
-  }
-
   const { data } = await updateParcelService(req);
 
   sendResponse(res, {
@@ -95,19 +82,19 @@ export const updateParcelStatusLogsController = catchAsync(async (req, res) => {
 
 //
 export const getAllParcelController = catchAsync(async (req, res) => {
-  const query = req.query as iReqQueryParams;
-  const { data } = await getAllParcelService(query);
+  const { data, meta } = await getAllParcelService();
 
   sendResponse(res, {
     statusCode: sCode.OK,
     message: "Parcels retrieved successfully",
     data,
+    meta,
   });
 });
 
 //
 export const getSingleParcelController = catchAsync(async (req, res) => {
-  const id = req.params.trackingId;
+  const id = req.params.parcelId || "";
   const { data } = await getSingleParcelService(id);
 
   sendResponse(res, {
@@ -151,5 +138,3 @@ export const deleteStatusLogController = catchAsync(async (req, res) => {
     data,
   });
 });
-
-//

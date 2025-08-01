@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { uploadImage } from "../../../config/cloudinary/multer.config";
-import { userAccessVerifier } from "../../middleware/userAccessVerifier";
+import { authValidator } from "../../middleware/authValidator";
 import { userRoleVerifier } from "../../middleware/userRoleVerifier";
 import { zodBodyValidator } from "../../middleware/zodValidator";
 import { eUserRoles } from "../user/user.interface";
@@ -23,73 +22,67 @@ import {
   updateParcelZodSchema,
 } from "./parcel.validation";
 
-const { MODERATOR, ADMIN, SUPER_ADMIN } = eUserRoles;
+const { ADMIN } = eUserRoles;
 
 const parcelRoutes = Router();
 
 parcelRoutes.post(
   "/create",
-  userAccessVerifier,
-  uploadImage.array("files"),
+  authValidator,
   zodBodyValidator(createParcelZodSchema),
   createdParcelController
 );
 
 parcelRoutes.patch(
   "/update-parcel/:parcelId",
-  userAccessVerifier,
-  uploadImage.array("files"),
+  authValidator,
   zodBodyValidator(updateParcelZodSchema),
   updateParcelController
 );
 
 parcelRoutes.patch(
   "/update-parcel-status/:parcelId",
-  userRoleVerifier(ADMIN, SUPER_ADMIN, MODERATOR),
+  userRoleVerifier(ADMIN),
   zodBodyValidator(updateParcelStatusZodSchema),
   updateParcelStatusController
 );
 
 parcelRoutes.patch(
+  "/update-parcel-status-log/:parcelId",
+  userRoleVerifier(ADMIN),
+  zodBodyValidator(updateParcelStatusZodSchema),
+  updateParcelStatusLogsController
+);
+
+parcelRoutes.patch(
   "/cancel/:parcelId",
-  userAccessVerifier,
+  authValidator,
   zodBodyValidator(updateParcelStatusZodSchema),
   cancelParcelController
 );
 
 parcelRoutes.patch(
   "/confirm/:parcelId",
-  userAccessVerifier,
+  authValidator,
   zodBodyValidator(updateParcelStatusZodSchema),
   confirmParcelController
 );
 
-parcelRoutes.patch(
-  "/update-parcel-status-log/:parcelId",
-  userAccessVerifier,
-  zodBodyValidator(updateParcelStatusZodSchema),
-  updateParcelStatusLogsController
-);
-
 parcelRoutes.get(
   "/all-parcels",
-  userRoleVerifier(MODERATOR, ADMIN, SUPER_ADMIN),
+  userRoleVerifier(ADMIN),
   getAllParcelController
 );
 
-parcelRoutes.get("/my-parcel", userAccessVerifier, getMyParcelController);
+parcelRoutes.get("/my-parcels", authValidator, getMyParcelController);
 
-parcelRoutes.get(
-  "/incoming-parcel",
-  userAccessVerifier,
-  incomingParcelController
-);
+parcelRoutes.get("/incoming-parcels", authValidator, incomingParcelController);
 
-parcelRoutes.get("/:parcelId", userAccessVerifier, getSingleParcelController);
+parcelRoutes.get("/:parcelId", authValidator, getSingleParcelController);
 
 parcelRoutes.delete(
-  "/delete-parcel/:parcelId",
-  userRoleVerifier(MODERATOR, ADMIN, SUPER_ADMIN),
+  "/:parcelId",
+  userRoleVerifier(ADMIN),
   deleteStatusLogController
 );
 

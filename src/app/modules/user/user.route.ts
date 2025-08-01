@@ -10,7 +10,7 @@ import {
 } from "./user.controller";
 import { eUserRoles } from "./user.interface";
 
-const { ADMIN, SUPER_ADMIN } = eUserRoles;
+const { ADMIN } = eUserRoles;
 
 const userRoutes = Router();
 
@@ -18,19 +18,11 @@ const userRoutes = Router();
 
 userRoutes.post("/register", createUserController);
 
-userRoutes.get(
-  "/all-users",
-  userRoleVerifier(ADMIN, SUPER_ADMIN),
-  getAllUsersController
-);
+userRoutes.get("/all-users", userRoleVerifier(ADMIN), getAllUsersController);
 
 userRoutes.get("/me", authValidator, getMeController);
 
-userRoutes.get(
-  "/:userId",
-  userRoleVerifier(ADMIN, SUPER_ADMIN),
-  getSingleUserController
-);
+userRoutes.get("/:userId", userRoleVerifier(ADMIN), getSingleUserController);
 
 userRoutes.patch("/:userId", authValidator, updateUserController);
 
