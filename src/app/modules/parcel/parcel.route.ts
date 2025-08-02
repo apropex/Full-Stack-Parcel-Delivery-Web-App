@@ -7,6 +7,7 @@ import {
   cancelParcelController,
   confirmParcelController,
   createdParcelController,
+  deleteSingleParcelController,
   deleteStatusLogController,
   getAllParcelController,
   getMyParcelController,
@@ -81,9 +82,15 @@ parcelRoutes.get("/incoming-parcels", authValidator, incomingParcelController);
 parcelRoutes.get("/:parcelId", authValidator, getSingleParcelController);
 
 parcelRoutes.delete(
-  "/:parcelId",
+  "/status/:parcelId",
   userRoleVerifier(ADMIN),
   deleteStatusLogController
+);
+
+parcelRoutes.delete(
+  "/:parcelId",
+  userRoleVerifier(ADMIN),
+  deleteSingleParcelController
 );
 
 export default parcelRoutes;

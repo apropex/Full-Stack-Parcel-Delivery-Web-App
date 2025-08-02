@@ -35,7 +35,7 @@ app.use("/api/v1", router);
 
 // ROOT ROUTES
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({ message: "Welcome to PH Tour Management Server" });
+  res.status(200).json({ message: "Welcome to Happy Parcel Picker Server" });
 });
 
 // Global Error Handler

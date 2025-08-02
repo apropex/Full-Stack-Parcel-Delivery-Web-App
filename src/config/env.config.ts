@@ -22,29 +22,6 @@ interface EnvConfig {
     SMTP_FROM: string;
     SMTP_PASS: string;
   };
-  CLOUDINARY: {
-    CLOUD_NAME: string;
-    CLOUD_API_KEY: string;
-    CLOUD_API_SECRET: string;
-  };
-  SSL: {
-    STORE_ID: string;
-    STORE_PASS: string;
-    PAYMENT_API: string;
-    VALIDATION_API: string;
-    SUCCESS_SERVER_URL: string;
-    FAIL_SERVER_URL: string;
-    CANCEL_SERVER_URL: string;
-    SUCCESS_CLIENT_URL: string;
-    FAIL_CLIENT_URL: string;
-    CANCEL_CLIENT_URL: string;
-  };
-  REDIS: {
-    REDIS_USERNAME: string;
-    REDIS_PASS: string;
-    REDIS_HOST: string;
-    REDIS_PORT: number;
-  };
   GOOGLE: {
     GOOGLE_CLIENT_SECRET: string;
     GOOGLE_CLIENT_ID: string;
@@ -71,29 +48,6 @@ const ENV: EnvConfig = {
     SMTP_USER: process.env.SMTP_USER,
     SMTP_FROM: process.env.SMTP_FROM,
     SMTP_PASS: process.env.SMTP_PASS,
-  },
-  CLOUDINARY: {
-    CLOUD_NAME: process.env.CLOUD_NAME,
-    CLOUD_API_KEY: process.env.CLOUD_API_KEY,
-    CLOUD_API_SECRET: process.env.CLOUD_API_SECRET,
-  },
-  SSL: {
-    STORE_ID: process.env.STORE_ID,
-    STORE_PASS: process.env.STORE_PASS,
-    PAYMENT_API: process.env.PAYMENT_API,
-    VALIDATION_API: process.env.VALIDATION_API,
-    SUCCESS_SERVER_URL: process.env.SUCCESS_SERVER_URL,
-    FAIL_SERVER_URL: process.env.FAIL_SERVER_URL,
-    CANCEL_SERVER_URL: process.env.CANCEL_SERVER_URL,
-    SUCCESS_CLIENT_URL: process.env.SUCCESS_CLIENT_URL,
-    FAIL_CLIENT_URL: process.env.FAIL_CLIENT_URL,
-    CANCEL_CLIENT_URL: process.env.CANCEL_CLIENT_URL,
-  },
-  REDIS: {
-    REDIS_USERNAME: process.env.REDIS_USERNAME,
-    REDIS_PASS: process.env.REDIS_PASS,
-    REDIS_HOST: process.env.REDIS_HOST,
-    REDIS_PORT: Number(process.env.REDIS_PORT),
   },
   GOOGLE: {
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,

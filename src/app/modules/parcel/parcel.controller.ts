@@ -5,6 +5,7 @@ import {
   cancelParcelService,
   confirmParcelService,
   createdParcelService,
+  deleteSingleParcelService,
   deleteStatusLogService,
   getAllParcelService,
   getMyParcelService,
@@ -135,6 +136,17 @@ export const deleteStatusLogController = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: sCode.OK,
     message: "Deleted parcel status log successfully",
+    data,
+  });
+});
+
+//
+export const deleteSingleParcelController = catchAsync(async (req, res) => {
+  const { data } = await deleteSingleParcelService(req.params?.parcelId || "");
+
+  sendResponse(res, {
+    statusCode: sCode.OK,
+    message: "Deleted the parcel successfully",
     data,
   });
 });

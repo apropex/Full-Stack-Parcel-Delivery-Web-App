@@ -9,8 +9,17 @@ import { eUserRoles } from "../user/user.interface";
 import { eParcelStatus, eParcelTypes, iParcel } from "./parcel.interface";
 import { Parcel } from "./parcel.model";
 
+const rent = (parcelType: eParcelTypes, weight: number) => {
+  const parcelRates = { Document: 40, Box: 60, Fragile: 50, Other: 80 };
+
+  const type = Object.keys(parcelRates).find(
+    (rate) => rate === parcelType
+  ) as eParcelTypes;
+
+  return parcelRates[type] * weight;
+};
+
 export const createdParcelService = async (req: Request) => {
-  const rates = { Document: 40, Box: 60, Fragile: 50, Other: 80 };
   const decoded = req.decoded as JwtPayload;
   const payload = req.body;
 
@@ -18,11 +27,7 @@ export const createdParcelService = async (req: Request) => {
     throw new AppError(sCode.BAD_REQUEST, "Parcel type and weight is required");
   }
 
-  const type = Object.keys(rates).find(
-    (rate) => rate === payload.type
-  ) as eParcelTypes;
-
-  payload.rent = rates[type] * payload.weight;
+  payload.rent = rent(payload.type, payload.weight);
   payload.trackingId = generateTrackingID();
   payload.sender = decoded._id;
 
@@ -61,24 +66,27 @@ export const updateParcelService = async (req: Request) => {
   delete payload.statusLogs;
 
   return await transactionRollback(async (session) => {
-    const updatedParcel = await Parcel.findByIdAndUpdate(id, payload, {
-      new: true,
-      runValidators: true,
-      session,
-    });
-
-    if (!updatedParcel) {
+    const parcel = await Parcel.findById(id).session(session);
+    if (!parcel) {
       throw new AppError(sCode.NOT_FOUND, "Parcel not found");
     }
 
-    if (role !== ADMIN && updatedParcel.sender.toString() !== _id) {
+    if (role !== ADMIN && parcel.sender.toString() !== _id) {
       throw new AppError(
         sCode.FORBIDDEN,
         "Only sender or admin can update the parcel"
       );
     }
 
-    return { data: updatedParcel };
+    Object.assign(parcel, payload);
+
+    if ("weight" in payload || "type" in payload) {
+      parcel.rent = rent(parcel.type, parcel.weight);
+    }
+
+    await parcel.save({ session });
+
+    return { data: parcel };
   });
 };
 
@@ -94,7 +102,8 @@ export const updateParcelStatusService = async (req: Request) => {
     status: status,
     updatedAt: new Date(),
     updatedBy: mongoIdValidator(req.decoded?._id),
-    note: note || `Status updated from ${parcel.status}`,
+    updatedFrom: `Status updated from ${parcel.status} to ${status}`,
+    note: note || "",
   });
 
   parcel.status = status;
@@ -135,7 +144,8 @@ export const cancelParcelService = async (req: Request) => {
     status: Cancelled,
     updatedAt: new Date(),
     updatedBy: mongoIdValidator(_id),
-    note: note || `Status changed from ${previousStatus} to Cancelled`,
+    updatedFrom: `Status changed from ${previousStatus} to Cancelled`,
+    note: note || "",
   });
 
   await parcel.save();
@@ -151,7 +161,7 @@ export const confirmParcelService = async (req: Request) => {
   const { note } = req.body;
   const { _id } = req.decoded as JwtPayload;
 
-  const { Received } = eParcelStatus;
+  const { Received, Cancelled, Blocked } = eParcelStatus;
 
   const parcel = await Parcel.findById(mongoIdValidator(parcelId));
   if (!parcel) throw new AppError(404, "Parcel not found");
@@ -163,8 +173,16 @@ export const confirmParcelService = async (req: Request) => {
     );
   }
 
-  if (parcel.status === Received) {
+  const status = parcel.status;
+
+  if (status === Received) {
     throw new AppError(sCode.BAD_REQUEST, "Parcel already received");
+  }
+  if (status === Cancelled) {
+    throw new AppError(sCode.BAD_REQUEST, "The parcel is canceled");
+  }
+  if (status === Blocked) {
+    throw new AppError(sCode.BAD_REQUEST, "The parcel is blocked");
   }
 
   const previousStatus = parcel.status;
@@ -174,7 +192,8 @@ export const confirmParcelService = async (req: Request) => {
     status: Received,
     updatedAt: new Date(),
     updatedBy: mongoIdValidator(_id),
-    note: note || `Status changed from ${previousStatus} to Received`,
+    updatedFrom: `Status changed from ${previousStatus} to Received`,
+    note: note || "",
   });
 
   await parcel.save();
@@ -193,7 +212,7 @@ export const updateParcelStatusLogsService = async (req: Request) => {
     throw new AppError(400, "Parcel ID, status, and updatedAt are required");
   }
 
-  const result = await Parcel.updateOne(
+  const updatedParcel = await Parcel.findOneAndUpdate(
     { _id: parcelId },
     {
       $set: {
@@ -208,15 +227,16 @@ export const updateParcelStatusLogsService = async (req: Request) => {
           "log.updatedAt": new Date(updatedAt),
         },
       ],
+      new: true,
     }
   );
 
-  if (result.modifiedCount === 0) {
+  if (!updatedParcel) {
     throw new AppError(404, "No matching status log found to update");
   }
 
   return {
-    data: result,
+    data: updatedParcel,
   };
 };
 
@@ -283,16 +303,18 @@ export const deleteStatusLogService = async (req: Request) => {
     status: presentStatus,
     updatedAt: new Date(),
     updatedBy: mongoIdValidator(_id),
-    note: note || `Status updated to ${presentStatus}`,
+    updatedFrom: `Status updated from ${deletedStatus} to ${presentStatus}`,
+    note: note || "",
   });
 
   await parcel.save();
 
   return {
-    data: {
-      message: "Status log deleted and new status added",
-      currentStatus: parcel.status,
-      totalLogs: parcel.statusLogs.length,
-    },
+    data: parcel,
   };
+};
+
+export const deleteSingleParcelService = async (id: string) => {
+  const data = await Parcel.findByIdAndDelete(mongoIdValidator(id));
+  return { data };
 };

@@ -1,6 +1,8 @@
 import { JwtPayload } from "jsonwebtoken";
 import sCode from "../../../statusCode";
 import { catchAsync } from "../../lib/catchAsync";
+import { setCookie } from "../../lib/cookie";
+import { generateAllTokens } from "../../lib/jwt";
 import { sendResponse } from "../../utils/sendResponse";
 import {
   createUserService,
@@ -11,11 +13,15 @@ import {
 
 //
 export const createUserController = catchAsync(async (req, res) => {
-  const { data } = await createUserService(req.body);
+  const { data: user } = await createUserService(req.body);
+
+  const { accessToken, refreshToken } = generateAllTokens(user);
+  setCookie.allTokens(res, accessToken, refreshToken);
+
   sendResponse(res, {
-    statusCode: sCode.OK,
+    statusCode: sCode.CREATED,
     message: "User created successfully",
-    data,
+    data: user,
   });
 });
 

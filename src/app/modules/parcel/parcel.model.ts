@@ -26,6 +26,7 @@ const statusLogSchema = new Schema<iStatusLog>(
       ref: "User",
       required: [true, "Moderator ID is required"],
     },
+    updatedFrom: { type: String },
     note: { type: String },
   },
   { versionKey: false, _id: false }
@@ -38,6 +39,7 @@ const parcelSchema = new Schema<iParcel>(
       required: [true, "Tracking ID is required"],
       unique: [true, "Tracking ID is already exist"],
     },
+    title: { type: String, trim: true, required: [true, "Title is required"] },
     type: {
       type: String,
       enum: {
@@ -96,7 +98,8 @@ parcelSchema.pre("save", function (next) {
       status: eParcelStatus.Requested,
       updatedAt: new Date(),
       updatedBy: this.sender,
-      note: "Parcel created",
+      updatedFrom: "Parcel created by sender",
+      note: "The parcel was created successfully and will be retrieved soon",
     });
   }
   next();

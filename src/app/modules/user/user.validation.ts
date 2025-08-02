@@ -68,11 +68,46 @@ export const createUserZodSchema = z.object({
     .optional(),
 
   address: z
-    .string({
-      error: "Address must be a string",
+    .object({
+      street: z
+        .string({
+          error: ({ input }) =>
+            input === undefined
+              ? "Street is required"
+              : "Street must be a string",
+        })
+        .trim(),
+      stateOrProvince: z
+        .string({
+          error: ({ input }) =>
+            input === undefined
+              ? "State is required"
+              : "State must be a string",
+        })
+        .trim(),
+      city: z
+        .string({
+          error: ({ input }) =>
+            input === undefined ? "City is required" : "City must be a string",
+        })
+        .trim(),
+      postalCode: z
+        .string({
+          error: ({ input }) =>
+            input === undefined
+              ? "Post code is required"
+              : "Post code must be a string",
+        })
+        .trim(),
+      country: z
+        .string({
+          error: ({ input }) =>
+            input === undefined
+              ? "Country is required"
+              : "Country must be a string",
+        })
+        .trim(),
     })
-    .max(250, { error: "Address cannot exceed 250 characters" })
-    .trim()
     .optional(),
 });
 

@@ -9,36 +9,26 @@ import {
   generateAllTokens,
 } from "../../lib/jwt";
 import { sendResponse } from "../../utils/sendResponse";
-import { iUserResponse } from "../user/user.interface";
 import {
   changePasswordService,
+  credentialLoginService,
   forgotPasswordService,
   resetPasswordService,
   setPasswordService,
 } from "./auth.service";
 
 //
-export const credentialLoginController = catchAsync(async (req, res, next) => {
-  passport.authenticate(
-    "local",
-    async (
-      error: Error,
-      user: Partial<iUserResponse>,
-      { message }: { message: string }
-    ) => {
-      if (error) return next(error);
-      if (!user) return next(new AppError(sCode.NOT_FOUND, message));
+export const credentialLoginController = catchAsync(async (req, res) => {
+  const { data: user } = await credentialLoginService(req.body);
 
-      const { accessToken, refreshToken } = generateAllTokens(user);
-      setCookie.allTokens(res, accessToken, refreshToken);
+  const { accessToken, refreshToken } = generateAllTokens(user);
+  setCookie.allTokens(res, accessToken, refreshToken);
 
-      sendResponse(res, {
-        statusCode: sCode.OK,
-        message: message,
-        data: user,
-      });
-    }
-  )(req, res);
+  sendResponse(res, {
+    statusCode: sCode.OK,
+    message: "User logged in successfully",
+    data: user,
+  });
 });
 
 //

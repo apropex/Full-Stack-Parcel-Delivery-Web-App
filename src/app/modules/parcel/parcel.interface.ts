@@ -36,6 +36,7 @@ export interface iStatusLog {
   status: eParcelStatus;
   updatedAt: Date;
   updatedBy: Types.ObjectId | iUser;
+  updatedFrom: string;
   note?: string;
 }
 
@@ -45,7 +46,7 @@ export interface iParcel extends Document {
   weight: number;
   rent: number;
 
-  title?: string;
+  title: string;
   images?: string[];
   deletedImages: string[];
   pickupAddress: iAddress;
