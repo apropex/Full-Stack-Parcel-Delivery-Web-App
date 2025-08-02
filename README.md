@@ -58,13 +58,13 @@ src/
 git clone https://github.com/pxgacademy/Parcel-Delivery-Web-App-Server
 
 # 2. Install dependencies
-pnpm install
+npm install
 
 # 3. Set up .env file
 cp .env.example .env  # Fill in values like DB_URI, JWT_SECRET, etc.
 
 # 4. Run dev server
-pnpm dev
+npm dev
 ```
 
 ---
