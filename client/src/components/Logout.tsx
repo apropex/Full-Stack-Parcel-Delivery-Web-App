@@ -10,8 +10,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { authApi, useLogoutMutation } from "@/redux/features/auth/auth.api";
-import { useAppDispatch } from "@/redux/hook";
+import { auth_api, useLogoutMutation } from "@/redux/features/auth/auth.api";
+import { useAppDispatch } from "@/redux/hooks";
 
 import { LogOut } from "lucide-react";
 import { useState } from "react";
@@ -27,7 +27,7 @@ export default function Logout() {
     const loaderId = toast.loading("Logging out");
     try {
       await logout(null);
-      dispatch(authApi.util.resetApiState());
+      dispatch(auth_api.util.resetApiState());
       toast.success("Logged out successfully", { id: loaderId });
     } catch {
       toast.error("Failed to logout", { id: loaderId });
@@ -46,9 +46,7 @@ export default function Logout() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            You are applying to logout.
-          </AlertDialogDescription>
+          <AlertDialogDescription>You are applying to logout.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
