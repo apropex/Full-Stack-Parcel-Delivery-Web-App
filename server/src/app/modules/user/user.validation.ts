@@ -9,10 +9,8 @@ export const createUserZodSchema = z.object({
   name: z.object({
     firstName: z
       .string({
-        error: (issue) =>
-          issue.input === undefined
-            ? "First name is required"
-            : "First name must be a string",
+        error: ({ input }) =>
+          input === undefined ? "First name is required" : "First name must be a string",
       })
       .min(2, { error: "Name must be at least 2 characters" })
       .max(15, { error: "Name must be at most 15 characters" })
@@ -20,10 +18,8 @@ export const createUserZodSchema = z.object({
 
     lastName: z
       .string({
-        error: (issue) =>
-          issue.input === undefined
-            ? "Last name is required"
-            : "Last name must be a string type",
+        error: ({ input }) =>
+          input === undefined ? "Last name is required" : "Last name must be a string type",
       })
       .min(2, { error: "Name must be at least 2 characters" })
       .max(15, { error: "Name must be at most 15 characters" })
@@ -41,10 +37,8 @@ export const createUserZodSchema = z.object({
 
   password: z
     .string({
-      error: (issue) =>
-        issue.input === undefined
-          ? "Password is required"
-          : "Password must be a string type",
+      error: ({ input }) =>
+        input === undefined ? "Password is required" : "Password must be a string type",
     })
     .min(6, { error: "Password must be at least 6 characters" })
     .max(64, { error: "Password must be at most 64 characters" })
@@ -72,17 +66,13 @@ export const createUserZodSchema = z.object({
       street: z
         .string({
           error: ({ input }) =>
-            input === undefined
-              ? "Street is required"
-              : "Street must be a string",
+            input === undefined ? "Street is required" : "Street must be a string",
         })
         .trim(),
       stateOrProvince: z
         .string({
           error: ({ input }) =>
-            input === undefined
-              ? "State is required"
-              : "State must be a string",
+            input === undefined ? "State is required" : "State must be a string",
         })
         .trim(),
       city: z
@@ -94,17 +84,13 @@ export const createUserZodSchema = z.object({
       postalCode: z
         .string({
           error: ({ input }) =>
-            input === undefined
-              ? "Post code is required"
-              : "Post code must be a string",
+            input === undefined ? "Post code is required" : "Post code must be a string",
         })
         .trim(),
       country: z
         .string({
           error: ({ input }) =>
-            input === undefined
-              ? "Country is required"
-              : "Country must be a string",
+            input === undefined ? "Country is required" : "Country must be a string",
         })
         .trim(),
     })
@@ -152,26 +138,20 @@ export const updateUserZodSchema = createUserZodSchema
   .partial()
   .extend(updateOnlyUserFields.shape);
 
-export const loginUserZodSchema = createUserZodSchema.pick({
-  email: true,
-  password: true,
-});
+export const loginUserZodSchema = createUserZodSchema.pick({ email: true, password: true });
 
 export const changePasswordZodSchema = z.object({
   oldPassword: z.string({
-    error: ({ input }) =>
-      input ? "Old password must be string" : "Old password is required",
+    error: ({ input }) => (input ? "Old password must be string" : "Old password is required"),
   }),
   newPassword: z.string({
-    error: ({ input }) =>
-      input ? "New password must be string" : "New password is required",
+    error: ({ input }) => (input ? "New password must be string" : "New password is required"),
   }),
 });
 
 export const resetPasswordZodSchema = z.object({
   newPassword: z.string({
-    error: ({ input }) =>
-      input ? "New password must be string" : "New password is required",
+    error: ({ input }) => (input ? "New password must be string" : "New password is required"),
   }),
   id: z
     .string({

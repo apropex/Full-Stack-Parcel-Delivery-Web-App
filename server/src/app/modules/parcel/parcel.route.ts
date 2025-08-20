@@ -69,11 +69,7 @@ parcelRoutes.patch(
   confirmParcelController
 );
 
-parcelRoutes.get(
-  "/all-parcels",
-  userRoleVerifier(ADMIN),
-  getAllParcelController
-);
+parcelRoutes.get("/all-parcels", userRoleVerifier(ADMIN), getAllParcelController);
 
 parcelRoutes.get("/my-parcels", authValidator, getMyParcelController);
 
@@ -81,16 +77,8 @@ parcelRoutes.get("/incoming-parcels", authValidator, incomingParcelController);
 
 parcelRoutes.get("/:parcelId", authValidator, getSingleParcelController);
 
-parcelRoutes.delete(
-  "/status/:parcelId",
-  userRoleVerifier(ADMIN),
-  deleteStatusLogController
-);
+parcelRoutes.delete("/status/:parcelId", userRoleVerifier(ADMIN), deleteStatusLogController);
 
-parcelRoutes.delete(
-  "/:parcelId",
-  userRoleVerifier(ADMIN),
-  deleteSingleParcelController
-);
+parcelRoutes.delete("/:parcelId", userRoleVerifier(ADMIN), deleteSingleParcelController);
 
 export default parcelRoutes;

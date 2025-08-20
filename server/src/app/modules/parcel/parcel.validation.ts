@@ -25,9 +25,7 @@ export const createParcelZodSchema = z.object({
     street: z
       .string({
         error: ({ input }) =>
-          input === undefined
-            ? "Street is required"
-            : "Street must be a string",
+          input === undefined ? "Street is required" : "Street must be a string",
       })
       .trim(),
     stateOrProvince: z
@@ -45,17 +43,13 @@ export const createParcelZodSchema = z.object({
     postalCode: z
       .string({
         error: ({ input }) =>
-          input === undefined
-            ? "Post code is required"
-            : "Post code must be a string",
+          input === undefined ? "Post code is required" : "Post code must be a string",
       })
       .trim(),
     country: z
       .string({
         error: ({ input }) =>
-          input === undefined
-            ? "Country is required"
-            : "Country must be a string",
+          input === undefined ? "Country is required" : "Country must be a string",
       })
       .trim(),
   }),
@@ -64,9 +58,7 @@ export const createParcelZodSchema = z.object({
     street: z
       .string({
         error: ({ input }) =>
-          input === undefined
-            ? "Street is required"
-            : "Street must be a string",
+          input === undefined ? "Street is required" : "Street must be a string",
       })
       .trim(),
     stateOrProvince: z
@@ -84,17 +76,13 @@ export const createParcelZodSchema = z.object({
     postalCode: z
       .string({
         error: ({ input }) =>
-          input === undefined
-            ? "Post code is required"
-            : "Post code must be a string",
+          input === undefined ? "Post code is required" : "Post code must be a string",
       })
       .trim(),
     country: z
       .string({
         error: ({ input }) =>
-          input === undefined
-            ? "Country is required"
-            : "Country must be a string",
+          input === undefined ? "Country is required" : "Country must be a string",
       })
       .trim(),
   }),
@@ -102,9 +90,7 @@ export const createParcelZodSchema = z.object({
   receiver: z
     .string({
       error: ({ input }) =>
-        input === undefined
-          ? "Receiver ID is required"
-          : "Enter a valid receiver ID",
+        input === undefined ? "Receiver ID is required" : "Enter a valid receiver ID",
     })
     .trim(),
 });
@@ -145,7 +131,7 @@ const updateOnlyParcelFields = z.object({
 
 export const updateParcelZodSchema = createParcelZodSchema
   .partial()
-  .merge(updateOnlyParcelFields);
+  .extend(updateOnlyParcelFields.shape);
 
 export const updateParcelStatusZodSchema = z.object({
   status: z
