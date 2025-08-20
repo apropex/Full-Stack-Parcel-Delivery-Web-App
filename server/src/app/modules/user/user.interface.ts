@@ -41,7 +41,6 @@ export interface iUser extends Document {
   isVerified?: boolean;
   auth: iAuthProvider[];
   role: eUserRoles;
-  // TODO: added rest of fields
 }
 
 export interface iUserResponse extends iUser {

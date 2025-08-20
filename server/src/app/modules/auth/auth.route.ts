@@ -25,11 +25,8 @@ const failureRedirect = `${ENV.FRONTEND_URL}/login?error=We are unable to log yo
 
 const authRoutes = Router();
 
-authRoutes.post(
-  "/login",
-  zodBodyValidator(loginUserZodSchema),
-  credentialLoginController
-);
+authRoutes.post("/login", zodBodyValidator(loginUserZodSchema), credentialLoginController);
+
 authRoutes.post("/logout", userLogoutController);
 
 authRoutes.post("/refresh-token", getNewAccessTokenController);
