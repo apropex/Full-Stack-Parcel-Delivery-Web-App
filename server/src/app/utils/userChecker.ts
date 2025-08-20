@@ -1,3 +1,4 @@
+import { HydratedDocument } from "mongoose";
 import { AppError } from "../../errors/AppError";
 import sCode from "../../statusCode";
 import { eAuthMessages } from "../constants/messages";
@@ -15,18 +16,16 @@ interface Props {
  * Retrieves a user by ID or email.
  * @throws AppError if user not found or no identifier provided.
  */
-import { HydratedDocument } from "mongoose";
 
 export const getExistingUser = async ({
   id,
   email,
   password = false,
 }: Props): Promise<HydratedDocument<iUser>> => {
+  //
+
   if (!id && !email) {
-    throw new AppError(
-      sCode.BAD_REQUEST,
-      "Either 'id' or 'email' must be provided"
-    );
+    throw new AppError(sCode.BAD_REQUEST, "Either 'id' or 'email' must be provided");
   }
 
   const query = id ? { _id: mongoIdValidator(id) } : { email };
@@ -43,9 +42,7 @@ export const getExistingUser = async ({
   return user;
 };
 
-/**
- * Only checks if user exists by ID or email. Throws error if not found.
- */
+// Only checks if user exists by ID or email. Throws error if not found.
 export const checkUserExist = async (props: Props): Promise<void> => {
   await getExistingUser(props);
 };
