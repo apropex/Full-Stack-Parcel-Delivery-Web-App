@@ -1,9 +1,12 @@
 //
 
+import { Outlet } from "react-router";
+import CommonLayout from "./components/layouts/CommonLayout";
+
 export default function App() {
   return (
-    <div className="">
-      <h1 className="">This is App component</h1>
-    </div>
+    <CommonLayout>
+      <Outlet />
+    </CommonLayout>
   );
 }
