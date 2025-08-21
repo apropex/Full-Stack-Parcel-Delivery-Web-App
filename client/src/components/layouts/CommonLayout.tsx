@@ -4,10 +4,9 @@ import Navbar from "./Navbar";
 
 export default function CommonLayout({ children }: iChildren) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col ">
       <Navbar />
-      {children}
-      <div className="flex-1" />
+      <div className="flex-1">{children}</div>
       <Footer />
     </div>
   );
