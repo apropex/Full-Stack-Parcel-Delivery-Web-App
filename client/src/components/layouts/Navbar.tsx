@@ -16,11 +16,11 @@ import { ModeToggle } from "./Mode.Toggler";
 
 const defaultLinks = [
   { href: "/", label: "Home", role: ROLES.PUBLIC },
-  { href: "/tours", label: "Tours", role: ROLES.PUBLIC },
   { href: "/about", label: "About", role: ROLES.PUBLIC },
+  { href: "/contact", label: "Contact", role: ROLES.PUBLIC },
   { href: "/admin", label: "Dashboard", role: ROLES.ADMIN },
-  { href: "/admin", label: "Dashboard", role: ROLES.SUPER_ADMIN },
-  { href: "/user", label: "Dashboard", role: ROLES.USER },
+  { href: "/user", label: "Dashboard", role: ROLES.SENDER },
+  { href: "/user", label: "Dashboard", role: ROLES.RECEIVER },
 ];
 
 export default function Navbar() {

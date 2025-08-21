@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 export type {
   iAuth,
@@ -30,4 +30,13 @@ export interface iResponse<T> {
     options?: Record<string, any>;
   };
   data: T;
+}
+
+export interface iSidebarItem {
+  title: string;
+  items: {
+    title: string;
+    url: string;
+    Component: ComponentType;
+  }[];
 }
