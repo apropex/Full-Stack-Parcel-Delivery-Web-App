@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { LucideIcon } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
 
 export type {
@@ -34,9 +35,11 @@ export interface iResponse<T> {
 
 export interface iSidebarItem {
   title: string;
+  icon?: LucideIcon;
   items: {
     title: string;
     url: string;
     Component: ComponentType;
+    icon?: LucideIcon;
   }[];
 }
