@@ -1,6 +1,6 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import { ROLES } from "@/constants/role";
+import { ROLES } from "@/constants";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import Verify from "@/pages/auth/Verify";

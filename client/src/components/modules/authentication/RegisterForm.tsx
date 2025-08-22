@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ROLES } from "@/constants/role";
+import { ROLES } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useRegisterMutation } from "@/redux/features/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";

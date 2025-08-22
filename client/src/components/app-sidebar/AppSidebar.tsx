@@ -31,8 +31,6 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
 
   const navItems = getSidebarItems(user.role as tRole);
 
-  console.log(user);
-
   return (
     <Sidebar collapsible="icon" {...props}>
       <AppSidebarHeader />

@@ -6,3 +6,10 @@ export const ROLES = {
   RECEIVER: "RECEIVER",
   PUBLIC: "PUBLIC",
 } as const;
+
+export const ParcelTypes = {
+  Document: "Document",
+  Box: "Box",
+  Fragile: "Fragile",
+  Other: "Other",
+} as const;

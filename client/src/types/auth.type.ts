@@ -1,6 +1,6 @@
 //
 
-import type { ROLES } from "@/constants/role";
+import type { ROLES } from "@/constants";
 
 export type tRole = (typeof ROLES)[keyof typeof ROLES];
 

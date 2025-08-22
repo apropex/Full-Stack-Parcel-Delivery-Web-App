@@ -7,7 +7,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { ROLES } from "@/constants/role";
+import { ROLES } from "@/constants";
 import useAuth from "@/hooks/useAuth";
 import { Link } from "react-router";
 import Logout from "../Logout";
