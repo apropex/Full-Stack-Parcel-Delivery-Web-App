@@ -4,13 +4,8 @@ import { getSidebarItems } from "@/utils/getSidebarItems";
 import { ChevronUp, User2 } from "lucide-react";
 import type { ComponentProps } from "react";
 import { Link, Navigate, useLocation } from "react-router";
+import { ProfileMenu } from "../layouts/ProfileMenu";
 import LoadingText from "../loader/LoadingText";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -73,25 +68,12 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2 /> {`${user.name?.firstName} ${user.name?.lastName}`}
-                  <ChevronUp className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
-                <DropdownMenuItem>
-                  <span>Account</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Billing</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <ProfileMenu>
+              <SidebarMenuButton>
+                <User2 /> {`${user.name?.firstName} ${user.name?.lastName}`}
+                <ChevronUp className="ml-auto" />
+              </SidebarMenuButton>
+            </ProfileMenu>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
