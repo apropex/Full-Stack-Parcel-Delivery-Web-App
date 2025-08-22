@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { auth_api, useLogoutMutation } from "@/redux/features/auth/auth.api";
+import { auth_api, useLogoutMutation } from "@/redux/features/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 
 import { LogOut } from "lucide-react";

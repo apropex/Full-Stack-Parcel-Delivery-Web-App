@@ -1,6 +1,6 @@
 import Analytics from "@/pages/admin/analytics/Analytics";
-import AllParcels from "@/pages/admin/parcel/AllParcels";
 import AllUsers from "@/pages/admin/users/AllUsers";
+import AllParcels from "@/pages/parcel/AllParcels";
 import type { iSidebarItem } from "@/types";
 import {
   BaggageClaim,
@@ -14,37 +14,37 @@ import {
 export const adminSidebarItems: iSidebarItem[] = [
   {
     title: "Dashboard",
-    icon: LayoutDashboard,
+    Icon: LayoutDashboard,
     items: [
       {
         title: "Analytics",
         url: "/admin/analytics",
         Component: Analytics,
-        icon: ChartNoAxesCombined,
+        Icon: ChartNoAxesCombined,
       },
     ],
   },
   {
     title: "Parcel Management",
-    icon: Package,
+    Icon: Package,
     items: [
       {
         title: "All Parcels",
         url: "/admin/all-parcels",
         Component: AllParcels,
-        icon: BaggageClaim,
+        Icon: BaggageClaim,
       },
     ],
   },
   {
     title: "User Management",
-    icon: UserRoundCog,
+    Icon: UserRoundCog,
     items: [
       {
         title: "All Users",
         url: "/admin/all-users",
         Component: AllUsers,
-        icon: Users,
+        Icon: Users,
       },
     ],
   },

@@ -1,6 +1,6 @@
 //
 
-import { useMyInfoQuery } from "@/redux/features/auth/auth.api";
+import { useMyInfoQuery } from "@/redux/features/auth.api";
 
 export default function useAuth() {
   const { data, isLoading, isFetching, isError, error } = useMyInfoQuery(null);

@@ -24,11 +24,12 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useSendOtpMutation, useVerifyOtpMutation } from "@/redux/features/auth/auth.api";
+import { useSendOtpMutation, useVerifyOtpMutation } from "@/redux/features/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Home } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -116,7 +117,12 @@ export default function Verify() {
   if (!email) return <Navigate to={dest || "/"} replace={true} />;
 
   return (
-    <div className="grid place-content-center min-h-screen">
+    <div className="container mx-auto grid place-content-center min-h-screen relative">
+      <div className="text-muted-foreground absolute top-2 left-2 md:top-4 md:left:4 lg:top-8 lg:left-8">
+        <Link to="/" className="flex items-center gap-x-1.5">
+          <Home size={24} /> Go Home
+        </Link>
+      </div>
       {isConfirmed ? (
         <Card>
           <CardHeader>

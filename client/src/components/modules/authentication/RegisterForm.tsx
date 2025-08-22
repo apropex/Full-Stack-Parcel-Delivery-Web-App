@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { ROLES } from "@/constants/role";
 import { cn } from "@/lib/utils";
-import { useRegisterMutation } from "@/redux/features/auth/auth.api";
+import { useRegisterMutation } from "@/redux/features/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

@@ -19,8 +19,8 @@ const defaultLinks = [
   { href: "/about", label: "About", role: ROLES.PUBLIC },
   { href: "/contact", label: "Contact", role: ROLES.PUBLIC },
   { href: "/admin", label: "Dashboard", role: ROLES.ADMIN },
-  { href: "/user", label: "Dashboard", role: ROLES.SENDER },
-  { href: "/user", label: "Dashboard", role: ROLES.RECEIVER },
+  { href: "/sender", label: "Dashboard", role: ROLES.SENDER },
+  { href: "/receiver", label: "Dashboard", role: ROLES.RECEIVER },
 ];
 
 export default function Navbar() {

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { LucideIcon } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
+export type { iParcelResponse } from "./parcel.type";
 
 export type {
   iAuth,
@@ -35,11 +36,11 @@ export interface iResponse<T> {
 
 export interface iSidebarItem {
   title: string;
-  icon?: LucideIcon;
+  Icon?: LucideIcon;
   items: {
     title: string;
     url: string;
     Component: ComponentType;
-    icon?: LucideIcon;
+    Icon?: LucideIcon;
   }[];
 }

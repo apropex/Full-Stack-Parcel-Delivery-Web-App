@@ -39,7 +39,7 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
       <SidebarSeparator />
 
       <SidebarContent>
-        {navItems.map(({ title, icon: Icon, items }, i) => (
+        {navItems.map(({ title, Icon, items }, i) => (
           <SidebarGroup key={i}>
             <SidebarGroupLabel>{title}</SidebarGroupLabel>
             {Icon && (
@@ -49,7 +49,7 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
             )}
             <SidebarGroupContent>
               <SidebarMenu>
-                {items.map(({ title, url, icon: Icon }) => (
+                {items.map(({ title, url, Icon }) => (
                   <SidebarMenuItem key={url}>
                     <SidebarMenuButton asChild>
                       <Link to="/#">

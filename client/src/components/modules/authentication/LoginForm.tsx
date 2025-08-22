@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ENV } from "@/config/env_config";
 import { cn } from "@/lib/utils";
-import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { useLoginMutation } from "@/redux/features/auth.api";
 import type { iLogin } from "@/types";
 import { useState, type HTMLAttributes } from "react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";

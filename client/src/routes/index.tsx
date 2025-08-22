@@ -9,13 +9,25 @@ import { withAuth } from "@/utils/withAuth";
 import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
 import { publicRoutes } from "./publicRoutes";
+import { receiverSidebarItems } from "./receiverSidebarItems";
+import { senderSidebarItems } from "./senderSidebarItems";
 
 const adminRoutes = [
   { index: true, element: <Navigate to="/admin/analytics" /> },
   ...generateRoutes(adminSidebarItems),
 ];
 
-const { ADMIN } = ROLES;
+const senderRoutes = [
+  { index: true, element: <Navigate to="/sender/add-parcel" /> },
+  ...generateRoutes(senderSidebarItems),
+];
+
+const receiverRoutes = [
+  { index: true, element: <Navigate to="/sender/incoming-parcels" /> },
+  ...generateRoutes(receiverSidebarItems),
+];
+
+const { ADMIN, SENDER, RECEIVER } = ROLES;
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +40,18 @@ export const router = createBrowserRouter([
     path: "admin",
     Component: withAuth(DashboardLayout, ADMIN),
     children: adminRoutes,
+  },
+
+  {
+    path: "sender",
+    Component: withAuth(DashboardLayout, SENDER),
+    children: senderRoutes,
+  },
+
+  {
+    path: "receiver",
+    Component: withAuth(DashboardLayout, RECEIVER),
+    children: receiverRoutes,
   },
 
   {
