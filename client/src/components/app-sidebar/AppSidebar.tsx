@@ -31,6 +31,8 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
 
   const navItems = getSidebarItems(user.role as tRole);
 
+  console.log(navItems);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <AppSidebarHeader />
@@ -50,7 +52,7 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
                 {items.map(({ title, url, Icon }) => (
                   <SidebarMenuItem key={url}>
                     <SidebarMenuButton asChild>
-                      <Link to="/#">
+                      <Link to={url}>
                         {Icon && <Icon />} {title}
                       </Link>
                     </SidebarMenuButton>

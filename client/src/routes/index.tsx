@@ -18,7 +18,7 @@ const adminRoutes = [
 ];
 
 const senderRoutes = [
-  { index: true, element: <Navigate to="/sender/add-parcel" /> },
+  { index: true, element: <Navigate to="/sender/my-parcels" /> },
   ...generateRoutes(senderSidebarItems),
 ];
 

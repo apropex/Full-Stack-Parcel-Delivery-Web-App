@@ -1,6 +1,6 @@
 import Analytics from "@/pages/admin/analytics/Analytics";
+import AllParcels from "@/pages/admin/parcel/AllParcels";
 import AllUsers from "@/pages/admin/users/AllUsers";
-import AllParcels from "@/pages/parcel/AllParcels";
 import type { iSidebarItem } from "@/types";
 import {
   BaggageClaim,
