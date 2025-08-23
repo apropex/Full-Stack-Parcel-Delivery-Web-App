@@ -11,11 +11,12 @@ export const parcel_api = base_api.injectEndpoints({
       }),
     }),
 
-    myParcels: builder.query<iResponse<iParcelResponse>, null>({
+    myParcels: builder.query<iParcelResponse[], null, iResponse<iParcelResponse[]>>({
       query: () => ({
         url: "/parcel/my-parcels",
         method: "GET",
       }),
+      transformResponse: (value) => value.data,
     }),
   }),
 });

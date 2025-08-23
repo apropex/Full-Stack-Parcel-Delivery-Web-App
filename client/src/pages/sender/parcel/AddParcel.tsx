@@ -97,7 +97,6 @@ export default function AddParcel() {
 
     try {
       const result = await createParcel(formData).unwrap();
-      console.log({ result });
       const message = result?.message;
       if (result.success) {
         toast.success(message, { id: loaderId });

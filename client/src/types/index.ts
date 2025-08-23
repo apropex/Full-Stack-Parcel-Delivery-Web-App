@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { LucideIcon } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
-export type { iParcelResponse } from "./parcel.type";
+export type { iParcelResponse, iStatusLog } from "./parcel.type";
 
 export type {
   iAuth,

@@ -1,3 +1,5 @@
+import type { iUserInfo } from "./auth.type";
+
 export interface iParcelResponse {
   _id: string;
   trackingId: string;
@@ -37,7 +39,7 @@ export interface iDeliveryAddress {
 export interface iStatusLog {
   status: string;
   updatedAt: string;
-  updatedBy: string;
+  updatedBy: string | iUserInfo;
   updatedFrom: string;
   note: string;
 }
@@ -48,8 +50,8 @@ export interface iParcel {
   weight: number;
   pickupAddress: iPickupAddress;
   deliveryAddress: iDeliveryAddress;
-  sender: string;
-  receiver: string;
+  sender: string | iUserInfo;
+  receiver: string | iUserInfo;
   status: string;
   isBlocked: boolean;
   isCancelled: boolean;

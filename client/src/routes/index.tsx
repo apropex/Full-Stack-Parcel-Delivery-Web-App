@@ -4,6 +4,7 @@ import { ROLES } from "@/constants";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import Verify from "@/pages/auth/Verify";
+import UpdateParcel from "@/pages/sender/parcel/UpdateParcel";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/withAuth";
 import { createBrowserRouter, Navigate } from "react-router";
@@ -19,6 +20,7 @@ const adminRoutes = [
 
 const senderRoutes = [
   { index: true, element: <Navigate to="/sender/my-parcels" /> },
+  { path: "update/parcel/:id", Component: UpdateParcel },
   ...generateRoutes(senderSidebarItems),
 ];
 

@@ -2,7 +2,7 @@ import useAuth from "@/hooks/useAuth";
 import type { tRole } from "@/types";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 import { ChevronUp, User2 } from "lucide-react";
-import type { ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import { Link, Navigate, useLocation } from "react-router";
 import { ProfileMenu } from "../layouts/ProfileMenu";
 import LoadingText from "../loader/LoadingText";
@@ -26,12 +26,9 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
   const { user, isLoading } = useAuth();
 
   if (isLoading) return <LoadingText className="min-h-screen flex items-center" />;
-
   if (!user) return <Navigate to="/login" state={{ dest: pathname }} />;
 
   const navItems = getSidebarItems(user.role as tRole);
-
-  console.log(navItems);
 
   return (
     <Sidebar collapsible="icon" {...props}>
