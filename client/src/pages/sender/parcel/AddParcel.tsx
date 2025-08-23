@@ -8,18 +8,30 @@ import MultipleImageUploader, {
   type iMultipleImageUploaderRef,
 } from "@/components/MultipleImageUploader";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ParcelTypes } from "@/constants";
+import { cn } from "@/lib/utils";
+import { useLazyGetSingleUserQuery } from "@/redux/features/auth.api";
+import { useCreateParcelMutation } from "@/redux/features/parcel.api";
+import type { iUserInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function AddParcel() {
   const [images, setImages] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<boolean>(false);
+  const [receiverInput, setReceiverInput] = useState<string>("");
+  const [receiver, setReceiver] = useState<iUserInfo | null>(null);
+
+  const [trigger, { isLoading, isError }] = useLazyGetSingleUserQuery();
 
   const uploaderRef = useRef<iMultipleImageUploaderRef>(null);
+
+  const [createParcel] = useCreateParcelMutation();
 
   //
   const form = useForm<ParcelFormValues>({
@@ -50,14 +62,15 @@ export default function AddParcel() {
       return;
     }
 
-    setSubmitting(true);
     const kilo = data.kilo;
     const gram = data.gram / 1000;
 
     const parcelData = {
       title: data.title,
-      description: data.description || "",
+      description: data.description,
+      type: data.type,
       weight: kilo + gram,
+      receiver: receiver?._id,
       pickupAddress: {
         street: data.pickupStreet,
         city: data.pickupCity,
@@ -74,9 +87,36 @@ export default function AddParcel() {
       },
     };
 
-    console.log({ data });
-    console.log({ parcelData });
-    setSubmitting(false);
+    const loaderId = toast.loading("Creating parcel");
+    setSubmitting(true);
+
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(parcelData));
+    images.forEach((image) => formData.append("files", image));
+
+    try {
+      const result = await createParcel(formData).unwrap();
+      console.log({ result });
+      const message = result?.message;
+      if (result.success) {
+        toast.success(message, { id: loaderId });
+        uploaderRef.current?.clearAll();
+        form.reset();
+        setImages([]);
+      } else toast.error(message, { id: loaderId });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create parcel", { id: loaderId });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const getReceiver = async () => {
+    if (!receiverInput) return;
+    const result = await trigger({ idOrEmail: receiverInput }).unwrap();
+    if (result?.email) setReceiver(result);
   };
 
   //
@@ -87,7 +127,61 @@ export default function AddParcel() {
       <p className="text-center text-muted-foreground mt-1 mb-7">
         Enter all valid values to create a Parcel; the parcel will then be made public.
       </p>
-      <div className="w-full max-w-4xl mx-auto border p-5 rounded-2xl">
+
+      <div
+        className={cn("w-full max-w-4xl mx-auto border p-5 rounded-2xl", {
+          "animate-pulse": submitting,
+        })}
+      >
+        {receiver ? (
+          <div>
+            <p>Receiver Information</p>
+            <div className="text-muted-foreground">
+              <p>
+                Name: {receiver.name?.firstName} {receiver.name?.lastName}
+              </p>
+              <p>Email: {receiver.email}</p>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p>No receiver found, find the receiver entering the receiver's email.</p>
+            <div className="flex items-center gap-2.5 mt-1.5">
+              <Input
+                type="email"
+                placeholder="Enter parcel receiver's email here..."
+                className={cn("flex-1 min-w-[300px]", {
+                  "border-destructive": isError && !receiver,
+                })}
+                onChange={(e) => setReceiverInput(e.target.value)}
+              />
+              <Button
+                size="sm"
+                variant={"outline"}
+                onClick={getReceiver}
+                disabled={!receiverInput}
+              >
+                <LoadingSpinner
+                  isLoading={isLoading}
+                  defaultText="Submit"
+                  loadingText="Submitting..."
+                />
+              </Button>
+            </div>
+            {isError && !receiver && (
+              <span className="text-sm text-destructive mt-0.5">
+                No receiver found, check email spelling and try again.
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div
+        className={cn("w-full max-w-4xl mx-auto border p-5 rounded-2xl mt-8", {
+          "animate-pulse": submitting,
+        })}
+      >
         <ParcelForm form={form} onSubmit={onSubmit} formId="_create_parcel_from_id" />
 
         <div className="mt-4">

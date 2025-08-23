@@ -48,6 +48,16 @@ export const auth_api = base_api.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getSingleUser: builder.query<iUserInfo, { idOrEmail: string }, iResponse<iUserInfo>>({
+      query: ({ idOrEmail }) => ({
+        url: `/user/${idOrEmail}`,
+        method: "GET",
+      }),
+      transformResponse: (value) => value.data,
+    }),
+
+    //
   }),
 });
 
@@ -58,4 +68,6 @@ export const {
   useSendOtpMutation,
   useVerifyOtpMutation,
   useMyInfoQuery,
+  useGetSingleUserQuery,
+  useLazyGetSingleUserQuery,
 } = auth_api;
