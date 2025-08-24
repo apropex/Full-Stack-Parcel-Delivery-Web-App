@@ -19,6 +19,14 @@ export const parcel_api = base_api.injectEndpoints({
       }),
     }),
 
+    getAllParcels: builder.query<iParcelResponse[], null, iResponse<iParcelResponse[]>>({
+      query: () => ({
+        url: "/parcel/all-parcels",
+        method: "GET",
+      }),
+      transformResponse: (value) => value.data,
+    }),
+
     myParcels: builder.query<iParcelResponse[], null, iResponse<iParcelResponse[]>>({
       query: () => ({
         url: "/parcel/my-parcels",
@@ -76,11 +84,12 @@ export const parcel_api = base_api.injectEndpoints({
 
 export const {
   useCreateParcelMutation,
+  useUpdateParcelMutation,
+  useGetAllParcelsQuery,
   useMyParcelsQuery,
   useIncomingParcelsQuery,
   useGetSingleParcelQuery,
   useDeleteParcelMutation,
-  useUpdateParcelMutation,
   useCancelParcelMutation,
   useConfirmParcelMutation,
 } = parcel_api;

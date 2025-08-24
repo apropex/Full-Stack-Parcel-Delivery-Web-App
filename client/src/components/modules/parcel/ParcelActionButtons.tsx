@@ -1,6 +1,6 @@
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import { Button } from "@/components/ui/button";
-import { ParcelStatus } from "@/constants";
+import { ParcelStatus, ROLES } from "@/constants";
 import useAuth from "@/hooks/useAuth";
 import {
   useCancelParcelMutation,
@@ -28,12 +28,15 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
 
   //
   const Status = parcel.status;
-  const isSender = isUserInfo(parcel.sender) && user?._id === parcel.sender._id;
   const isRequested = Status === Requested;
   const isApproved = Status === Approved;
   const isDelivered = Status === Delivered;
   const isReceived = Status === Received;
   const isBlocked = Status === Blocked;
+
+  const isSender = isUserInfo(parcel.sender) && user?._id === parcel.sender._id;
+  const isReceiver = isUserInfo(parcel.receiver) && user?._id === parcel.receiver._id;
+  const isAdmin = user?.role === ROLES.ADMIN;
 
   const onConfirmConfirm = async () => {
     return await confirmParcel({ id: parcel._id }).unwrap();
@@ -51,7 +54,7 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
 
   return (
     <div className="mt-6 flex gap-3 flex-wrap">
-      {isSender ? (
+      {isSender && (
         <>
           <DeleteConfirmation
             onConfirm={onCancelConfirm}
@@ -101,7 +104,9 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
             </Button>
           </DeleteConfirmation>
         </>
-      ) : (
+      )}
+
+      {isReceiver && (
         <DeleteConfirmation
           onConfirm={onConfirmConfirm}
           description="Your are going to delete the parcel"
@@ -116,6 +121,20 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
             {isReceived ? "Already Received" : isDelivered ? Received : Status}
           </Button>
         </DeleteConfirmation>
+      )}
+
+      {isAdmin && (
+        <>
+          <Button variant={"outline"} size="sm" className="flex-1">
+            Update Status
+          </Button>
+          <Button variant={"outline"} size="sm" className="flex-1">
+            Update Status Log
+          </Button>
+          <Button variant={"outline"} size="sm" className="flex-1">
+            Delete Status
+          </Button>
+        </>
       )}
 
       {isViewButton && (
