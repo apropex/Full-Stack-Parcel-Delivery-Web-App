@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -8,31 +7,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ParcelStatus } from "@/constants";
-import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import type { iParcelResponse, iStatusLog } from "@/types";
-import { isUserInfo } from "@/types/auth.type";
 import { format } from "date-fns";
-import { Edit2Icon, EyeIcon, Trash2Icon, XIcon } from "lucide-react";
-import { Link, useLocation } from "react-router";
+import ParcelActionButtons from "./ParcelActionButtons";
 
-const { Requested, Approved, Delivered, Received, Blocked } = ParcelStatus;
+const { Received, Blocked } = ParcelStatus;
 
 export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
-  const { user, isLoading } = useAuth();
-
-  const { pathname } = useLocation();
-
   //
   const Status = parcel.status;
-  const isSender = isUserInfo(parcel.sender) && user?._id === parcel.sender._id;
-  const isRequested = Status === Requested;
-  const isApproved = Status === Approved;
-  const isDelivered = Status === Delivered;
+
   const isReceived = Status === Received;
   const isBlocked = Status === Blocked;
-
-  if (isLoading) return <div>Loading...</div>;
 
   return (
     <Card
@@ -128,60 +115,7 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
           </div>
         </div>
 
-        <div className="mt-6 flex gap-3 flex-wrap">
-          {isSender ? (
-            <>
-              <Button
-                variant={"outline"}
-                size="sm"
-                className="flex-1"
-                disabled={!isRequested && !isApproved}
-              >
-                {!isRequested && !isApproved ? (
-                  Status
-                ) : (
-                  <>
-                    <XIcon /> Cancel
-                  </>
-                )}
-              </Button>
-              <Button
-                variant={"outline"}
-                size="sm"
-                className="flex-1"
-                disabled={isBlocked}
-              >
-                <Edit2Icon />
-                Edit
-              </Button>
-              <Button
-                variant={"outline"}
-                size="sm"
-                className="flex-1"
-                disabled={!isRequested && !isApproved && !isBlocked}
-              >
-                <Trash2Icon />
-                Delete
-              </Button>
-            </>
-          ) : (
-            <Button
-              variant={"outline"}
-              size="sm"
-              className="flex-1"
-              disabled={!isDelivered}
-            >
-              {isReceived ? "Already Received" : isDelivered ? Received : Status}
-            </Button>
-          )}
-
-          <Button asChild variant={"outline"} size="sm" className="flex-1">
-            <Link to={`${pathname}/${parcel._id}`}>
-              <EyeIcon />
-              See The Parcel In Detail
-            </Link>
-          </Button>
-        </div>
+        <ParcelActionButtons parcel={parcel} />
       </CardContent>
     </Card>
   );

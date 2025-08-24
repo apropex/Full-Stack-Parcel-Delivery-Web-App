@@ -1,21 +1,17 @@
 import Loading from "@/components/loader/Loading";
-import { Button } from "@/components/ui/button";
+import ParcelActionButtons from "@/components/modules/parcel/ParcelActionButtons";
 import { ParcelStatus } from "@/constants";
-import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { useGetSingleParcelQuery } from "@/redux/features/parcel.api";
 import type { iStatusLog } from "@/types";
 import { isUserInfo } from "@/types/auth.type";
 import { format } from "date-fns";
-import { Edit2Icon, Trash2Icon, XIcon } from "lucide-react";
 import { useParams } from "react-router";
 
-const { Requested, Approved, Delivered, Received, Blocked } = ParcelStatus;
+const { Received, Blocked } = ParcelStatus;
 
 export default function ParcelDetail() {
   const { id } = useParams();
-
-  const { user, isLoading: userLoading } = useAuth();
 
   const {
     data: parcel,
@@ -23,16 +19,12 @@ export default function ParcelDetail() {
     isError,
   } = useGetSingleParcelQuery({ id: id! }, { skip: !id });
 
-  if (isLoading || userLoading) return <Loading />;
+  if (isLoading) return <Loading />;
   if ((!isLoading && isError) || !parcel) return <div>Something went wrong</div>;
 
   const receiverName = isUserInfo(parcel.receiver) ? parcel.receiver.name : undefined;
 
   const Status = parcel.status;
-  const isSender = isUserInfo(parcel.sender) && user?._id === parcel.sender._id;
-  const isRequested = Status === Requested;
-  const isApproved = Status === Approved;
-  const isDelivered = Status === Delivered;
   const isReceived = Status === Received;
   const isBlocked = Status === Blocked;
 
@@ -141,48 +133,7 @@ export default function ParcelDetail() {
         </div>
       </div>
 
-      <div className="mt-6 flex gap-3 flex-wrap">
-        {isSender ? (
-          <>
-            <Button
-              variant={"outline"}
-              size="sm"
-              className="flex-1"
-              disabled={!isRequested && !isApproved}
-            >
-              {!isRequested && !isApproved ? (
-                Status
-              ) : (
-                <>
-                  <XIcon /> Cancel
-                </>
-              )}
-            </Button>
-            <Button variant={"outline"} size="sm" className="flex-1" disabled={isBlocked}>
-              <Edit2Icon />
-              Edit
-            </Button>
-            <Button
-              variant={"outline"}
-              size="sm"
-              className="flex-1"
-              disabled={!isRequested && !isApproved && !isBlocked}
-            >
-              <Trash2Icon />
-              Delete
-            </Button>
-          </>
-        ) : (
-          <Button
-            variant={"outline"}
-            size="sm"
-            className="flex-1"
-            disabled={!isDelivered}
-          >
-            {isReceived ? "Already Received" : isDelivered ? Received : Status}
-          </Button>
-        )}
-      </div>
+      <ParcelActionButtons parcel={parcel} isViewButton={false} />
     </div>
   );
 }

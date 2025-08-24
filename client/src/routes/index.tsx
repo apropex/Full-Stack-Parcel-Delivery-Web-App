@@ -22,7 +22,7 @@ const adminRoutes = [
 
 const senderRoutes = [
   { index: true, element: <Navigate to="/sender/my-parcels" /> },
-  { path: "update/parcel/:id", Component: UpdateParcel },
+  { path: "my-parcels/update/:id", Component: UpdateParcel },
   { path: "my-parcels/:id", Component: ParcelDetail },
   ...generateRoutes(senderSidebarItems),
 ];
