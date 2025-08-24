@@ -25,7 +25,7 @@ const senderRoutes = [
 ];
 
 const receiverRoutes = [
-  { index: true, element: <Navigate to="/sender/incoming-parcels" /> },
+  { index: true, element: <Navigate to="/receiver/incoming-parcels" /> },
   ...generateRoutes(receiverSidebarItems),
 ];
 

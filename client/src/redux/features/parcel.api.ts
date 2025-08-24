@@ -18,7 +18,20 @@ export const parcel_api = base_api.injectEndpoints({
       }),
       transformResponse: (value) => value.data,
     }),
+
+    incomingParcels: builder.query<iParcelResponse[], null, iResponse<iParcelResponse[]>>(
+      {
+        query: () => ({
+          url: "/parcel/incoming-parcels",
+          method: "GET",
+        }),
+        transformResponse: (value) => value.data,
+      }
+    ),
+
+    //
   }),
 });
 
-export const { useCreateParcelMutation, useMyParcelsQuery } = parcel_api;
+export const { useCreateParcelMutation, useMyParcelsQuery, useIncomingParcelsQuery } =
+  parcel_api;

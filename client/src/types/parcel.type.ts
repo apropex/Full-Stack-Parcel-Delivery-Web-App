@@ -50,8 +50,8 @@ export interface iParcel {
   weight: number;
   pickupAddress: iPickupAddress;
   deliveryAddress: iDeliveryAddress;
-  sender: string | iUserInfo;
-  receiver: string | iUserInfo;
+  sender: iUserInfo | string;
+  receiver: iUserInfo | string;
   status: string;
   isBlocked: boolean;
   isCancelled: boolean;
