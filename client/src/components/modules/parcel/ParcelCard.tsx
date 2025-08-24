@@ -10,19 +10,20 @@ import {
 import { ParcelStatus } from "@/constants";
 import useAuth from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
-import type { iParcelResponse, iStatusLog, iUserInfo } from "@/types";
+import type { iParcelResponse, iStatusLog } from "@/types";
+import { isUserInfo } from "@/types/auth.type";
 import { format } from "date-fns";
 import { Edit2Icon, EyeIcon, Trash2Icon, XIcon } from "lucide-react";
-
-function isUserInfo(user: unknown): user is iUserInfo {
-  return typeof user === "object" && user !== null && "_id" in user && "email" in user;
-}
+import { Link, useLocation } from "react-router";
 
 const { Requested, Approved, Delivered, Received, Blocked } = ParcelStatus;
 
 export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
   const { user, isLoading } = useAuth();
 
+  const { pathname } = useLocation();
+
+  //
   const Status = parcel.status;
   const isSender = isUserInfo(parcel.sender) && user?._id === parcel.sender._id;
   const isRequested = Status === Requested;
@@ -174,9 +175,11 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
             </Button>
           )}
 
-          <Button variant={"outline"} size="sm" className="flex-1">
-            <EyeIcon />
-            See The Parcel In Detail
+          <Button asChild variant={"outline"} size="sm" className="flex-1">
+            <Link to={`${pathname}/${parcel._id}`}>
+              <EyeIcon />
+              See The Parcel In Detail
+            </Link>
           </Button>
         </div>
       </CardContent>

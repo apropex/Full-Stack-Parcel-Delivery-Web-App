@@ -17,39 +17,6 @@ export const ParcelFormSchema = z
 
     type: z.enum(Object.values(ParcelTypes), "Parcel type is required"),
 
-    /*
-
-    kilo: z
-      .string({ error: "Weight is required" })
-      .min(1, "Weight is required")
-      .transform(Number)
-      .pipe(
-        z
-          .number({ error: "Weight must be a number" })
-          .min(0, "Weight cannot be negative")
-          .max(100, "Maximum weight is 100 kg")
-          .int("Kilo must be a whole number")
-          .transform((val) => Math.round(val * 100) / 100)
-          .refine(
-            (val) => val >= 0.01 || val === 0,
-            "Weight must be 0 or at least 0.01 kg"
-          )
-      ),
-
-    gram: z
-      .string({ error: "Gram is required" })
-      .min(1, "Gram is required")
-      .transform(Number)
-      .pipe(
-        z
-          .number({ error: "Gram must be a number" })
-          .min(0, "Gram cannot be negative")
-          .max(999, "Maximum gram is 999")
-          .int("Gram must be a whole number")
-      ),
-
-      */
-
     kilo: z.coerce
       .number<number>()
       .min(0, "Weight cannot be negative")
@@ -64,7 +31,6 @@ export const ParcelFormSchema = z
       .max(999, "Maximum gram is 999")
       .int("Gram must be a whole number"),
 
-    // Address validation with better error messages in v4
     pickupStreet: z
       .string()
       .min(1, "Pickup street address is required")

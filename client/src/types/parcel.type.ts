@@ -4,6 +4,7 @@ export interface iParcelResponse {
   _id: string;
   trackingId: string;
   title: string;
+  description: string;
   type: string;
   weight: number;
   rent: number;
@@ -46,6 +47,7 @@ export interface iStatusLog {
 
 export interface iParcel {
   title: string;
+  description: string;
   type: string;
   weight: number;
   pickupAddress: iPickupAddress;

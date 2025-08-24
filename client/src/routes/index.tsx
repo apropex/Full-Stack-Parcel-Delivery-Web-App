@@ -4,6 +4,7 @@ import { ROLES } from "@/constants";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import Verify from "@/pages/auth/Verify";
+import ParcelDetail from "@/pages/parcel/ParcelDetail";
 import UpdateParcel from "@/pages/sender/parcel/UpdateParcel";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/withAuth";
@@ -15,17 +16,20 @@ import { senderSidebarItems } from "./senderSidebarItems";
 
 const adminRoutes = [
   { index: true, element: <Navigate to="/admin/analytics" /> },
+  { path: "all-parcels/:id", Component: ParcelDetail },
   ...generateRoutes(adminSidebarItems),
 ];
 
 const senderRoutes = [
   { index: true, element: <Navigate to="/sender/my-parcels" /> },
   { path: "update/parcel/:id", Component: UpdateParcel },
+  { path: "my-parcels/:id", Component: ParcelDetail },
   ...generateRoutes(senderSidebarItems),
 ];
 
 const receiverRoutes = [
   { index: true, element: <Navigate to="/receiver/incoming-parcels" /> },
+  { path: "incoming-parcels/:id", Component: ParcelDetail },
   ...generateRoutes(receiverSidebarItems),
 ];
 

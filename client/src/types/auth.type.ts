@@ -40,3 +40,7 @@ export interface iUserInfo {
   createdAt: string;
   updatedAt: string;
 }
+
+export function isUserInfo(user: unknown): user is iUserInfo {
+  return typeof user === "object" && user !== null;
+}
