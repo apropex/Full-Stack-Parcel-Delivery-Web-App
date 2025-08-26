@@ -12,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { auth_api, useLogoutMutation } from "@/redux/features/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
-
 import { LogOut } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -39,13 +38,8 @@ export default function Logout() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button
-          variant="destructive"
-          size="sm"
-          className="text-sm w-full justify-start rounded-sm p-1 h-auto mt-1.5"
-        >
-          <LogOut className="mr-1" />
-          Logout
+        <Button variant="outline" className="text-sm">
+          <LogOut className="mr-2" /> Logout
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -60,7 +54,7 @@ export default function Logout() {
             className="bg-destructive"
             disabled={loggingOut}
           >
-            <LogOut className="mr-2" /> Log me out
+            Log me out
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

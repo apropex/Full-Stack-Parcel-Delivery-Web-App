@@ -5,33 +5,33 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { iChildren } from "@/types";
+import { User2 } from "lucide-react";
 import { Link } from "react-router";
+import Logout from "../Logout";
 
 export function ProfileMenu({ children }: iChildren) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent
-        className="min-w-56 w-[--radix-popper-anchor-width]"
+        className="min-w-56 w-[--radix-popper-anchor-width] mt-6"
         align="end"
       >
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link to={"/my-profile"}>
+            <Link to="/profile">
+              <User2 className="mr-1" />
               Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        <DropdownMenuItem asChild variant="destructive">
+          <Logout />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -125,8 +125,8 @@ export default function PaginationComponent({
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Limits</SelectLabel>
-                {limits.map((limit) => (
-                  <SelectItem value={String(limit)} key={limit}>
+                {limits.map((limit, i) => (
+                  <SelectItem value={String(limit)} key={i}>
                     {limit}
                   </SelectItem>
                 ))}
