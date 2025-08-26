@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useGetSingleParcelQuery } from "@/redux/features/parcel.api";
 import type { iStatusLog } from "@/types";
 import { isUserInfo } from "@/types/auth.type";
+import HandleTextCopy from "@/utils/HandleTextCopy";
 import { format } from "date-fns";
 import { useParams } from "react-router";
 
@@ -59,6 +60,8 @@ export default function ParcelDetail() {
             {Status}
           </p>
         </div>
+
+        <HandleTextCopy text={parcel.trackingId} className="max-w-xs" />
 
         <p className="text-muted-foreground">{parcel.description}</p>
 
@@ -117,9 +120,9 @@ export default function ParcelDetail() {
                 Status: <span className="text-muted-foreground">{log.status}</span>
               </p>
               <p>
-                Status Date:{" "}
+                Updated At:{" "}
                 <span className="text-muted-foreground">
-                  {format(log.updatedAt, "PP")}
+                  {format(new Date(log.updatedAt), "PP HH:mm:ss")}
                 </span>
               </p>
               <p>

@@ -9,6 +9,7 @@ import {
 import { ParcelStatus } from "@/constants";
 import { cn } from "@/lib/utils";
 import type { iParcelResponse, iStatusLog } from "@/types";
+import HandleTextCopy from "@/utils/HandleTextCopy";
 import { format } from "date-fns";
 import ParcelActionButtons from "./ParcelActionButtons";
 
@@ -51,8 +52,7 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
           </div>
 
           <h3 className="font-medium my-3">{parcel.title}</h3>
-
-          <p className="py-2">
+          <p className="py-1">
             Parcel Status:{" "}
             <span
               className={cn("bg-muted px-1 py-0.5 border rounded", {
@@ -64,6 +64,8 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
               {Status}
             </span>
           </p>
+
+          <HandleTextCopy text={parcel.trackingId} />
 
           <div className="space-y-1">
             <p>
@@ -97,9 +99,9 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
                   Status: <span className="text-muted-foreground">{log.status}</span>
                 </p>
                 <p>
-                  Status Date:{" "}
+                  Updated Ad:{" "}
                   <span className="text-muted-foreground">
-                    {format(log.updatedAt, "PP")}
+                    {format(new Date(log.updatedAt), "PP HH:mm:ss")}
                   </span>
                 </p>
                 <p>

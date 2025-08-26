@@ -3,6 +3,7 @@ import type {
   iDeleteStatus,
   iParcelResponse,
   iResponse,
+  iSearchParams,
   iUpdateStatus,
   iUpdateStatusLogs,
 } from "@/types";
@@ -29,10 +30,15 @@ export const parcel_api = base_api.injectEndpoints({
       invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
     }),
 
-    getAllParcels: builder.query<iParcelResponse[], null, iResponse<iParcelResponse[]>>({
-      query: () => ({
+    getAllParcels: builder.query<
+      iParcelResponse[],
+      iSearchParams,
+      iResponse<iParcelResponse[]>
+    >({
+      query: (params) => ({
         url: "/parcel/all-parcels",
         method: "GET",
+        params,
       }),
       providesTags: ["PARCEL", "PARCEL_STATUS"],
       transformResponse: (value) => value.data,

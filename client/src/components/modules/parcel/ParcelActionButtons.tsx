@@ -44,8 +44,6 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
 
   if (isLoading) return <div>Loading...</div>;
 
-  console.log(parcel);
-
   return (
     <div className="mt-6 flex gap-3 flex-wrap">
       {isSender && (

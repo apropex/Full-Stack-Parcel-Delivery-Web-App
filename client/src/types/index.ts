@@ -50,3 +50,13 @@ export interface iSidebarItem {
     Icon?: LucideIcon;
   }[];
 }
+
+export interface iSearchParams {
+  search?: string | undefined;
+  trackingId?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  page?: string | number | undefined;
+  limit?: string | number | undefined;
+  sort?: string | undefined;
+}
