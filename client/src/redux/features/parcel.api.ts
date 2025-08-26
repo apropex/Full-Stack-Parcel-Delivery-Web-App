@@ -30,18 +30,13 @@ export const parcel_api = base_api.injectEndpoints({
       invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
     }),
 
-    getAllParcels: builder.query<
-      iParcelResponse[],
-      iSearchParams,
-      iResponse<iParcelResponse[]>
-    >({
+    getAllParcels: builder.query<iResponse<iParcelResponse[]>, iSearchParams>({
       query: (params) => ({
         url: "/parcel/all-parcels",
         method: "GET",
         params,
       }),
       providesTags: ["PARCEL", "PARCEL_STATUS"],
-      transformResponse: (value) => value.data,
     }),
 
     myParcels: builder.query<iParcelResponse[], null, iResponse<iParcelResponse[]>>({

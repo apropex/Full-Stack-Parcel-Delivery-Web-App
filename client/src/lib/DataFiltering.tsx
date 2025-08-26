@@ -97,6 +97,25 @@ export default function DataFiltering({ children }: iChildren) {
     setSearchParams(params);
   };
 
+  const clearFilters = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("search");
+    params.delete("sort");
+    params.delete("status");
+    params.delete("type");
+    params.delete("trackingId");
+    params.delete("page");
+    params.delete("limit");
+    params.delete("skip");
+
+    setSearch("");
+    setTrackingId("");
+    setSortItem("");
+    setSortType("ascending");
+
+    setSearchParams(params);
+  };
+
   //
   return (
     <Sheet>
@@ -221,7 +240,7 @@ export default function DataFiltering({ children }: iChildren) {
         </div>
 
         <div className="p-4">
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" onClick={clearFilters}>
             <Trash2Icon /> Clear All Filters
           </Button>
         </div>

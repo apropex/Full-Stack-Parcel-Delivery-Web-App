@@ -15,7 +15,12 @@ import ParcelActionButtons from "./ParcelActionButtons";
 
 const { Received, Blocked, Delivered } = ParcelStatus;
 
-export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
+interface iProps {
+  parcel: iParcelResponse;
+  index?: number;
+}
+
+export default function ParcelCard({ parcel, index }: iProps) {
   //
   const Status = parcel.status;
 
@@ -32,7 +37,11 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
       })}
     >
       <CardContent className="p-4 py-0">
-        <div>
+        <div className="relative">
+          <div className="absolute -right-3 -top-3 bg-background flex items-center justify-center size-8 p-1 z-10 rounded-full text-muted-foreground">
+            {index}
+          </div>
+
           <div>
             <Carousel>
               <CarouselContent className="h-40">

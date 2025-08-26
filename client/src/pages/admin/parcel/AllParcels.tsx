@@ -1,5 +1,6 @@
 import Loading from "@/components/loader/Loading";
 import ParcelCard from "@/components/modules/parcel/ParcelCard";
+import PaginationComponent from "@/components/PaginationComponent";
 import { Button } from "@/components/ui/button";
 import DataFiltering from "@/lib/DataFiltering";
 import { useGetAllParcelsQuery } from "@/redux/features/parcel.api";
@@ -17,17 +18,18 @@ export default function AllParcels() {
   const limit = searchParams.get("limit") || undefined;
   const sort = searchParams.get("sort") || undefined;
 
-  const {
-    data: parcels,
-    isLoading,
-    isError,
-  } = useGetAllParcelsQuery(
+  const { data, isLoading, isError } = useGetAllParcelsQuery(
     { search, trackingId, status, type, sort, page, limit },
     { refetchOnMountOrArgChange: true }
   );
 
   if (isLoading) return <Loading />;
   if (!isLoading && isError) return <div>Something is wrong...</div>;
+
+  const parcels = data?.data;
+
+  const currentPage = data?.meta?.present_page;
+  const totalPages = data?.meta?.total_page;
 
   const parcelsChunks = parcelChunkArrayMaker(parcels!, Math.ceil(parcels!.length / 4));
 
@@ -48,10 +50,22 @@ export default function AllParcels() {
         {parcelsChunks.map((chunk, chunkIndex) => (
           <div key={chunkIndex} className="space-y-3">
             {chunk.map((parcel, index) => (
-              <ParcelCard parcel={parcel} key={index} />
+              <ParcelCard
+                parcel={parcel}
+                key={index}
+                index={(chunkIndex + 1) * 4 - 4 + index + 1}
+              />
             ))}
           </div>
         ))}
+      </div>
+
+      <div className="my-8">
+        <PaginationComponent
+          currentPage={currentPage!}
+          totalPages={totalPages!}
+          className="border-t pt-3"
+        />
       </div>
     </section>
   );
