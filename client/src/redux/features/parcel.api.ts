@@ -1,14 +1,23 @@
 import { base_api } from "@/redux/base_api";
-import type { iParcelResponse, iResponse } from "@/types";
+import type {
+  iDeleteStatus,
+  iParcelResponse,
+  iResponse,
+  iUpdateStatus,
+  iUpdateStatusLogs,
+} from "@/types";
 
 export const parcel_api = base_api.injectEndpoints({
   endpoints: (builder) => ({
+    //
+
     createParcel: builder.mutation<iResponse<iParcelResponse>, FormData>({
       query: (data) => ({
         url: "/parcel/create",
         method: "POST",
         data,
       }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
     }),
 
     updateParcel: builder.mutation<iResponse<null>, { id: string; data: FormData }>({
@@ -17,6 +26,7 @@ export const parcel_api = base_api.injectEndpoints({
         method: "PATCH",
         data,
       }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
     }),
 
     getAllParcels: builder.query<iParcelResponse[], null, iResponse<iParcelResponse[]>>({
@@ -24,6 +34,7 @@ export const parcel_api = base_api.injectEndpoints({
         url: "/parcel/all-parcels",
         method: "GET",
       }),
+      providesTags: ["PARCEL", "PARCEL_STATUS"],
       transformResponse: (value) => value.data,
     }),
 
@@ -32,6 +43,7 @@ export const parcel_api = base_api.injectEndpoints({
         url: "/parcel/my-parcels",
         method: "GET",
       }),
+      providesTags: ["PARCEL", "PARCEL_STATUS"],
       transformResponse: (value) => value.data,
     }),
 
@@ -41,6 +53,7 @@ export const parcel_api = base_api.injectEndpoints({
           url: "/parcel/incoming-parcels",
           method: "GET",
         }),
+        providesTags: ["PARCEL", "PARCEL_STATUS"],
         transformResponse: (value) => value.data,
       }
     ),
@@ -54,6 +67,7 @@ export const parcel_api = base_api.injectEndpoints({
         url: `/parcel/${id}`,
         method: "GET",
       }),
+      providesTags: ["PARCEL_STATUS"],
       transformResponse: (value) => value.data,
     }),
 
@@ -62,20 +76,59 @@ export const parcel_api = base_api.injectEndpoints({
         url: `/parcel/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
     }),
 
-    cancelParcel: builder.mutation<iResponse<null>, { id: string }>({
-      query: ({ id }) => ({
+    cancelParcel: builder.mutation<
+      iResponse<null>,
+      { id: string; data: { note: string } }
+    >({
+      query: ({ id, data }) => ({
         url: `/parcel/cancel/${id}`,
         method: "PATCH",
+        data,
       }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
     }),
 
-    confirmParcel: builder.mutation<iResponse<null>, { id: string }>({
-      query: ({ id }) => ({
+    confirmParcel: builder.mutation<
+      iResponse<null>,
+      { id: string; data: { note: string } }
+    >({
+      query: ({ id, data }) => ({
         url: `/parcel/confirm/${id}`,
         method: "PATCH",
+        data,
       }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
+    }),
+
+    // admin api
+    updateStatus: builder.mutation<iResponse<null>, iUpdateStatus>({
+      query: ({ id, data }) => ({
+        url: `/parcel/update-parcel-status/${id}`,
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
+    }),
+
+    updateStatusLogs: builder.mutation<iResponse<null>, iUpdateStatusLogs>({
+      query: ({ id, data }) => ({
+        url: `/parcel/update-parcel-status-log/${id}`,
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
+    }),
+
+    deleteStatus: builder.mutation<iResponse<null>, iDeleteStatus>({
+      query: ({ id, data }) => ({
+        url: `/parcel/status/${id}`,
+        method: "DELETE",
+        data,
+      }),
+      invalidatesTags: ["PARCEL_STATUS", "PARCEL"],
     }),
 
     //
@@ -92,4 +145,8 @@ export const {
   useDeleteParcelMutation,
   useCancelParcelMutation,
   useConfirmParcelMutation,
+  //
+  useUpdateStatusMutation,
+  useUpdateStatusLogsMutation,
+  useDeleteStatusMutation,
 } = parcel_api;

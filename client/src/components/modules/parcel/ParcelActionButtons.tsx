@@ -1,16 +1,17 @@
-import DeleteConfirmation from "@/components/DeleteConfirmation";
+import SafetyConfirmation from "@/components/SafetyConfirmation";
 import { Button } from "@/components/ui/button";
 import { ParcelStatus, ROLES } from "@/constants";
 import useAuth from "@/hooks/useAuth";
-import {
-  useCancelParcelMutation,
-  useConfirmParcelMutation,
-  useDeleteParcelMutation,
-} from "@/redux/features/parcel.api";
+import { useDeleteParcelMutation } from "@/redux/features/parcel.api";
 import type { iParcelResponse } from "@/types";
 import { isUserInfo } from "@/types/auth.type";
 import { Edit2Icon, EyeIcon, Trash2Icon, XIcon } from "lucide-react";
 import { Link, useLocation } from "react-router";
+import { CancelParcel } from "./CancelParcel";
+import { ConfirmParcel } from "./ConfirmParcel";
+import { DeleteStatusLog } from "./DeleteStatusLog";
+import { UpdateStatus } from "./UpdateStatus";
+import { UpdateStatusLogs } from "./UpdateStatusLogs";
 
 const { Requested, Approved, Delivered, Received, Blocked } = ParcelStatus;
 
@@ -23,8 +24,6 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
   const { user, isLoading } = useAuth();
   const { pathname } = useLocation();
   const [deleteParcel] = useDeleteParcelMutation();
-  const [cancelParcel] = useCancelParcelMutation();
-  const [confirmParcel] = useConfirmParcelMutation();
 
   //
   const Status = parcel.status;
@@ -36,15 +35,8 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
 
   const isSender = isUserInfo(parcel.sender) && user?._id === parcel.sender._id;
   const isReceiver = isUserInfo(parcel.receiver) && user?._id === parcel.receiver._id;
+
   const isAdmin = user?.role === ROLES.ADMIN;
-
-  const onConfirmConfirm = async () => {
-    return await confirmParcel({ id: parcel._id }).unwrap();
-  };
-
-  const onCancelConfirm = async () => {
-    return await cancelParcel({ id: parcel._id }).unwrap();
-  };
 
   const onDeleteConfirm = async () => {
     return await deleteParcel({ id: parcel._id }).unwrap();
@@ -52,15 +44,13 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
 
   if (isLoading) return <div>Loading...</div>;
 
+  console.log(parcel);
+
   return (
     <div className="mt-6 flex gap-3 flex-wrap">
       {isSender && (
         <>
-          <DeleteConfirmation
-            onConfirm={onCancelConfirm}
-            description="Your are going to cancel the parcel"
-            confirmText="Confirm"
-          >
+          <CancelParcel id={parcel._id}>
             <Button
               variant={"outline"}
               size="sm"
@@ -75,7 +65,8 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
                 </>
               )}
             </Button>
-          </DeleteConfirmation>
+          </CancelParcel>
+
           <Button
             asChild
             variant={"outline"}
@@ -88,7 +79,7 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
               Edit
             </Link>
           </Button>
-          <DeleteConfirmation
+          <SafetyConfirmation
             onConfirm={onDeleteConfirm}
             description="Your are going to delete the parcel"
             confirmText="Delete"
@@ -102,16 +93,12 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
               <Trash2Icon />
               Delete
             </Button>
-          </DeleteConfirmation>
+          </SafetyConfirmation>
         </>
       )}
 
       {isReceiver && (
-        <DeleteConfirmation
-          onConfirm={onConfirmConfirm}
-          description="Your are going to delete the parcel"
-          confirmText="Delete"
-        >
+        <ConfirmParcel id={parcel._id}>
           <Button
             variant={"outline"}
             size="sm"
@@ -120,20 +107,42 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
           >
             {isReceived ? "Already Received" : isDelivered ? Received : Status}
           </Button>
-        </DeleteConfirmation>
+        </ConfirmParcel>
       )}
 
       {isAdmin && (
         <>
-          <Button variant={"outline"} size="sm" className="flex-1">
-            Update Status
-          </Button>
-          <Button variant={"outline"} size="sm" className="flex-1">
-            Update Status Log
-          </Button>
-          <Button variant={"outline"} size="sm" className="flex-1">
-            Delete Status
-          </Button>
+          {!isReceived && (
+            <>
+              <UpdateStatus id={parcel._id}>
+                <Button
+                  variant={"outline"}
+                  size="sm"
+                  className="flex-1"
+                  disabled={isReceived}
+                >
+                  Update Status
+                </Button>
+              </UpdateStatus>
+
+              <DeleteStatusLog parcel={parcel}>
+                <Button
+                  variant={"outline"}
+                  size="sm"
+                  className="flex-1"
+                  disabled={isReceived}
+                >
+                  Delete Status
+                </Button>
+              </DeleteStatusLog>
+            </>
+          )}
+
+          <UpdateStatusLogs parcel={parcel}>
+            <Button variant={"outline"} size="sm" className="flex-1">
+              Update Status Log
+            </Button>
+          </UpdateStatusLogs>
         </>
       )}
 

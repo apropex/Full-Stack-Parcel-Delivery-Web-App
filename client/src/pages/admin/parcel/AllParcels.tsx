@@ -6,6 +6,8 @@ import parcelChunkArrayMaker from "@/utils/parcelChunkArrayMaker";
 export default function AllParcels() {
   const { data: parcels, isLoading, isError } = useGetAllParcelsQuery(null);
 
+  console.log(parcels);
+
   if (isLoading) return <Loading />;
   if (!isLoading && isError) return <div>Something is wrong...</div>;
 

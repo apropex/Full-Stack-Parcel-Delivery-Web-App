@@ -12,20 +12,22 @@ import type { iParcelResponse, iStatusLog } from "@/types";
 import { format } from "date-fns";
 import ParcelActionButtons from "./ParcelActionButtons";
 
-const { Received, Blocked } = ParcelStatus;
+const { Received, Blocked, Delivered } = ParcelStatus;
 
 export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
   //
   const Status = parcel.status;
 
   const isReceived = Status === Received;
+  const isDelivered = Status === Delivered;
   const isBlocked = Status === Blocked;
 
   return (
     <Card
       className={cn({
-        "border-red-400/50": isBlocked,
-        "border-green-400/50": isReceived,
+        "border-red-500/50": isBlocked,
+        "border-cyan-500/50": isDelivered,
+        "border-green-500/50": isReceived,
       })}
     >
       <CardContent className="p-4 py-0">
@@ -54,7 +56,8 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
             Parcel Status:{" "}
             <span
               className={cn("bg-muted px-1 py-0.5 border rounded", {
-                "bg-red-400": isBlocked,
+                "bg-red-500": isBlocked,
+                "bg-cyan-600": isDelivered,
                 "bg-green-600": isReceived,
               })}
             >
@@ -86,10 +89,10 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
             </p>
           </div>
 
-          <div className="mt-2">
-            <p className="bg-muted px-1 py-1 rounded-xs">All Status Logs</p>
-            {parcel.statusLogs.map((log: iStatusLog, i) => (
-              <div key={i} className="border-t mt-2 pt-1.5">
+          <div className="mt-4">
+            <p className="bg-muted p-1.5 rounded-xs">All Status Logs</p>
+            {parcel.statusLogs.slice(0, 3).map((log: iStatusLog, i) => (
+              <div key={i} className={cn("mt-2 pt-1.5", { "border-t": i !== 0 })}>
                 <p>
                   Status: <span className="text-muted-foreground">{log.status}</span>
                 </p>
@@ -100,7 +103,7 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
                   </span>
                 </p>
                 <p>
-                  <span className="text-muted-foreground">{log.updatedFrom}</span>
+                  <span className="text-muted-foreground text-sm">{log.updatedFrom}</span>
                 </p>
                 <p>
                   Updated:{" "}
@@ -112,6 +115,12 @@ export default function ParcelCard({ parcel }: { parcel: iParcelResponse }) {
                 </p>
               </div>
             ))}
+
+            {parcel.statusLogs.length > 3 && (
+              <p className="mt-4 text-sm text-muted-foreground">
+                Click on parcel detail to see all status...
+              </p>
+            )}
           </div>
         </div>
 

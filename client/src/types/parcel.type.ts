@@ -1,3 +1,4 @@
+import type { StatusFormValues } from "@/components/modules/parcel/UpdateStatus";
 import type { iUserInfo } from "./auth.type";
 
 export interface iParcelResponse {
@@ -60,4 +61,24 @@ export interface iParcel {
   statusLogs: iStatusLog[];
   createdAt: string;
   updatedAt: string;
+}
+
+export interface iUpdateStatus {
+  id: string;
+  data: StatusFormValues;
+}
+
+export interface iUpdateStatusLogs {
+  id: string;
+  data: { note?: string; status?: string; updatedAt?: string };
+}
+
+export interface iDeleteStatus {
+  id: string;
+  data: {
+    note?: string;
+    deletedStatus?: string;
+    updatedAt?: string;
+    presentStatus?: string;
+  };
 }

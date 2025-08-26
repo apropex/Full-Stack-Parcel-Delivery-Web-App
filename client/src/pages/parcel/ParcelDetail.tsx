@@ -37,7 +37,7 @@ export default function ParcelDetail() {
     >
       <div>
         <div className="flex items-center flex-wrap gap-2.5">
-          {parcel.images.map((link, i) => (
+          {parcel.images?.map((link, i) => (
             <img
               src={link}
               alt="Parcel-Image"
@@ -99,10 +99,20 @@ export default function ParcelDetail() {
           </p>
         </div>
 
-        <p className="bg-muted px-1 py-1 rounded-xs mt-4">All Status Logs</p>
+        <p className="bg-muted p-1.5 rounded-sm mt-4">All Status Logs</p>
         <div className="mt-2 grid md:grid-cols-2 gap-3">
           {parcel.statusLogs.map((log: iStatusLog, i) => (
-            <div key={i} className="border p-2 rounded-md">
+            <div
+              key={i}
+              className={cn("border p-2 rounded-md relative", {
+                "border-red-500/50": log.status === ParcelStatus.Blocked,
+                "border-cyan-500/50": log.status === ParcelStatus.Delivered,
+                "border-green-500/50": log.status === ParcelStatus.Received,
+              })}
+            >
+              <span className="absolute right-2 top-2 text-muted-foreground">
+                {parcel.statusLogs.length - i}
+              </span>
               <p>
                 Status: <span className="text-muted-foreground">{log.status}</span>
               </p>

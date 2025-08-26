@@ -19,7 +19,7 @@ interface iProps extends iChildren {
   confirmText: string;
 }
 
-export default function DeleteConfirmation({
+export default function SafetyConfirmation({
   children,
   onConfirm,
   description,
