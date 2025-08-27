@@ -47,6 +47,7 @@ export const auth_api = base_api.injectEndpoints({
         url: "/user/me",
         method: "GET",
       }),
+      providesTags: ["USER"],
     }),
 
     getSingleUser: builder.query<iUserInfo, { idOrEmail: string }, iResponse<iUserInfo>>({
@@ -55,6 +56,16 @@ export const auth_api = base_api.injectEndpoints({
         method: "GET",
       }),
       transformResponse: (value) => value.data,
+      providesTags: ["USER"],
+    }),
+
+    updateUser: builder.mutation<iResponse<iUserInfo>, { id: string; data: FormData }>({
+      query: ({ id, data }) => ({
+        url: `/user/${id}`,
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["USER"],
     }),
 
     //
@@ -70,4 +81,5 @@ export const {
   useMyInfoQuery,
   useGetSingleUserQuery,
   useLazyGetSingleUserQuery,
+  useUpdateUserMutation,
 } = auth_api;

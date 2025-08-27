@@ -66,7 +66,7 @@ export default function Navbar() {
           </div>
 
           {/* Main nav */}
-          <div>
+          <div className="hidden md:block">
             <Link to="/" className="text-primary hover:text-primary/90">
               <Logo />
             </Link>
@@ -110,12 +110,8 @@ export default function Navbar() {
           ) : (
             <ProfileMenu>
               <Button size="icon" variant="ghost" className="overflow-hidden">
-                {user.picture ? (
-                  <img
-                    src={user.picture}
-                    alt="pi"
-                    className="object-cover w-full h-full"
-                  />
+                {user.image ? (
+                  <img src={user.image} alt="pi" className="object-cover w-full h-full" />
                 ) : (
                   <User2 />
                 )}

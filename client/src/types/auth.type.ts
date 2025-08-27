@@ -32,7 +32,7 @@ export interface iUserInfo {
   _id: string;
   name: iUserName;
   email: string;
-  picture: string;
+  image: string;
   isDeleted: boolean;
   isActive: string;
   isVerified: boolean;
