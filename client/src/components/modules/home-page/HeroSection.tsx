@@ -3,8 +3,12 @@ import { Calendar } from "lucide-react";
 
 import Logo from "@/assets/icons/logo";
 import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/useAuth";
+import { Link } from "react-router";
 
 export default function HeroSection() {
+  const { user } = useAuth();
+
   return (
     <section className="py-16">
       <div className="z-10 mx-auto flex max-w-4xl flex-col items-center gap-14 text-center">
@@ -18,43 +22,14 @@ export default function HeroSection() {
             your goals, all in a matter of days.
           </p>
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-6 lg:flex-row">
-          <Button size="lg" className="w-full sm:w-fit">
-            <Calendar className="mr-2 h-4" />
-            Get Started Today
-          </Button>
 
-          {/* 
-          <div className="flex flex-col items-center gap-2 lg:items-start">
-            <span className="inline-flex items-center -space-x-1">
-              <Avatar className="size-7 border">
-                <AvatarImage
-                  src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp"
-                  alt="placeholder"
-                />
-              </Avatar>
-              <Avatar className="size-7 border">
-                <AvatarImage
-                  src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-6.webp"
-                  alt="placeholder"
-                />
-              </Avatar>
-              <Avatar className="size-7 border">
-                <AvatarImage
-                  src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-3.webp"
-                  alt="placeholder"
-                />
-              </Avatar>
-              <Avatar className="size-7 border">
-                <AvatarImage
-                  src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-4.webp"
-                  alt="placeholder"
-                />
-              </Avatar>
-            </span>
-            <p className="text-xs text-muted-foreground">Trusted by industry leaders</p>
-          </div>
-           */}
+        <div className="flex justify-center">
+          <Button asChild size="lg" className="w-full sm:w-fit">
+            <Link to={user && user.role ? `/${user.role.toLowerCase()}` : "/login"}>
+              <Calendar className="mr-2 h-4" />
+              Get Started Today
+            </Link>
+          </Button>
         </div>
       </div>
       <img

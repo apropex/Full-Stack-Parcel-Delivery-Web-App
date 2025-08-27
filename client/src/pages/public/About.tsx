@@ -3,8 +3,8 @@ import img3 from "@/assets/images/a8.jpg";
 import img1 from "@/assets/images/reg-img.jpg";
 
 import img6 from "@/assets/images/a1.jpg";
-import img7 from "@/assets/images/a4.jpeg";
 import img5 from "@/assets/images/a5.jpg";
+import img7 from "@/assets/images/a6.jpg";
 import img4 from "@/assets/images/login-img.jpg";
 import PageContainer from "@/components/layouts/PageContainer";
 
