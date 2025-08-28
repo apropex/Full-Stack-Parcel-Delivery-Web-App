@@ -59,7 +59,7 @@ export default function Services() {
             <div className="flex flex-col h-full relative z-10">
               <div className="flex-1">
                 <div className="w-full flex justify-center relative mt-10">
-                  <div className="size-16 bg-amber-300 rounded-b-full rounded-t-xl absolute -top-8" />
+                  <div className="size-16 bg-amber-300/50 dark:bg-amber-800/30 rounded-b-full rounded-tl-full absolute -top-8" />
                   <img src={icon} alt="" className="h-14 relative z-10" />
                 </div>
 
@@ -92,3 +92,5 @@ export default function Services() {
     </div>
   );
 }
+
+// bun add driver.js
