@@ -1,0 +1,68 @@
+
+bunx prettier . --write
+
+npx shadcn@latest add button alert-dialog calendar-02 card popover form input input-otp sidebar sonner table 
+
+
+
+ADMIN
+SENDER
+RECEIVER
+PUBLIC
+
+
+admin@gmail.com
+sender@gmail.com
+receiver@gmail.com
+
+Aa12345!
+
+
+
+
+
+
+
+
+{
+    "trackingId": "TRK-RRCMOMZRJHC8XNWG",
+    "title": "Holisticly underwhelm high-payoff services before front-end results.",
+    "type": "Box",
+    "weight": 34.32,
+    "rent": 2059.2,
+    "images": [
+        "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+        "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+        "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+        "street": "Quia ipsum commodo",
+        "city": "Est ea deleniti anim",
+        "stateOrProvince": "Anim et voluptatem a",
+        "postalCode": "Pariatur Nisi et do",
+        "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+        "street": "Elit voluptatum qui",
+        "city": "Autem et ex harum te",
+        "stateOrProvince": "Quia et alias minim",
+        "postalCode": "Nisi et autem neque",
+        "country": "Bangladesh"
+    },
+    "sender": "68a844c84002c508d108a528",
+    "receiver": "68a848b9844c63834e819480",
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+        {
+            "status": "Requested",
+            "updatedAt": "2025-08-23T13:28:04.839Z",
+            "updatedBy": "68a844c84002c508d108a528",
+            "updatedFrom": "Parcel created by sender",
+            "note": "The parcel was created successfully and will be retrieved soon"
+        }
+    ],
+    "createdAt": "2025-08-23T13:28:04.838Z",
+    "updatedAt": "2025-08-23T13:28:04.838Z"
+}

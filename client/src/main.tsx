@@ -1,10 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { createRoot } from "react-dom/client";
+import { Provider as ReduxProvider } from "react-redux";
+import { RouterProvider } from "react-router";
+import { Toaster } from "./components/ui/sonner.tsx";
+import "./index.css";
+import { ThemeProvider } from "./provider/ThemeProvider.tsx";
+import { store } from "./redux/store.ts";
+import { router } from "./routes/index.tsx";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+createRoot(document.getElementById("root")!).render(
+  <ReduxProvider store={store}>
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <RouterProvider router={router} />
+      <Toaster richColors />
+    </ThemeProvider>
+  </ReduxProvider>
+);
