@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Invoice - <%= trackingId %></title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 2rem;
+        background-color: #f3f4f6;
+        color: #1f2937;
+      }
+      .invoice-container {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 10px;
+        max-width: 700px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      }
+      h1,
+      h2 {
+        text-align: center;
+        color: #111827;
+      }
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.2rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+        color: #4b5563;
+        margin-bottom: 1.5rem;
+      }
+      .section {
+        margin: 1.5rem 0;
+      }
+      .section-title {
+        font-weight: bold;
+        font-size: 1.1rem;
+        border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 0.5rem;
+        color: #111827;
+      }
+      .section p {
+        margin: 0.3rem 0;
+        font-size: 0.95rem;
+        color: #374151;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 2rem;
+        color: #6b7280;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="invoice-container">
+      <h1>Happy Parcel Picker</h1>
+      <h2>Invoice</h2>
+
+      <div class="section">
+        <div class="section-title">Sender Information</div>
+        <p><strong>Name:</strong> <%= senderName %></p>
+        <p><strong>Email:</strong> <%= senderEmail %></p>
+        <p><strong>Phone:</strong> <%= senderPhone %></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Receiver Information</div>
+        <p><strong>Name:</strong> <%= receiverName %></p>
+        <p><strong>Email:</strong> <%= receiverEmail %></p>
+        <p><strong>Phone:</strong> <%= receiverPhone %></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Parcel Details</div>
+        <p><strong>Parcel Title:</strong> <%= parcelTitle %></p>
+        <p><strong>Tracking ID:</strong> <%= trackingId %></p>
+        <p><strong>Parcel Type:</strong> <%= parcelType %></p>
+        <p><strong>Weight:</strong> <%= weight %> kg</p>
+        <p><strong>Pickup Address:</strong> <%= pickupAddress %></p>
+        <p><strong>Delivery Address:</strong> <%= deliveryAddress %></p>
+        <p><strong>Pickup Date:</strong> <%= pickupDate %></p>
+        <p><strong>Delivery Date:</strong> <%= deliveryDate %></p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Payment Information</div>
+        <p><strong>Payment Method:</strong> <%= paymentMethod %></p>
+        <p><strong>Amount:</strong> $<%= rent.toFixed(2) %></p>
+        <p><strong>Transaction ID:</strong> <%= TrxId %></p>
+      </div>
+
+      <div class="section footer">
+        <p>Thank you for using <strong>Happy Parcel Picker</strong>!</p>
+        <p>Safe delivery is our top priority.</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -17,7 +17,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
 } from "../ui/sidebar";
 import AppSidebarHeader from "./AppSidebarHeader";
 
@@ -33,7 +32,8 @@ export default function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>)
   return (
     <Sidebar collapsible="icon" {...props}>
       <AppSidebarHeader />
-      <SidebarSeparator />
+
+      <div className="border-b" />
 
       <SidebarContent>
         {navItems.map(({ title, Icon, items }, i) => (

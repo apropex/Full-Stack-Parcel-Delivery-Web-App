@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ENV } from "@/config/env_config";
+import { ROLES } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useLoginMutation } from "@/redux/features/auth.api";
 import type { iLogin } from "@/types";
@@ -23,7 +24,12 @@ export function LoginForm({ className, ...props }: HTMLAttributes<HTMLDivElement
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const navigate = useNavigate();
   const { state } = useLocation();
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      email: "@gmail.com",
+      password: "!aA123456", // TODO: remove the default value
+    },
+  });
   const [login] = useLoginMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -32,7 +38,28 @@ export function LoginForm({ className, ...props }: HTMLAttributes<HTMLDivElement
       const result = await login(data as iLogin).unwrap();
       if (result.success) {
         toast.success("User logged in successfully");
-        navigate(state?.dest || "/");
+
+        let dest: string = "/";
+
+        switch (result.data?.role) {
+          case ROLES.SENDER:
+            dest = "/sender/my-parcels";
+            break;
+
+          case ROLES.RECEIVER:
+            dest = "/receiver/incoming-parcels";
+            break;
+
+          case ROLES.ADMIN:
+            dest = "/admin/analytics";
+            break;
+
+          default:
+            dest = "/";
+            break;
+        }
+
+        navigate(state?.dest || dest);
       } else toast.error(result.message);
     } catch (err: any) {
       console.error(err);
@@ -42,6 +69,7 @@ export function LoginForm({ className, ...props }: HTMLAttributes<HTMLDivElement
           state: { dest: state?.dest, email: data.email },
         });
       } else toast.error(err?.data?.message || err?.message);
+      toast.error(err?.data?.message || err?.message);
     } finally {
       setIsSubmitting(false);
     }

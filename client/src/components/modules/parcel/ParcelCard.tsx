@@ -38,11 +38,11 @@ export default function ParcelCard({ parcel, index }: iProps) {
     >
       <CardContent className="p-4 py-0">
         <div className="relative">
-          <div className="absolute -right-3 -top-3 bg-background flex items-center justify-center size-8 p-1 z-10 rounded-full text-muted-foreground">
+          <div className="absolute text-xs -right-3 -top-3 bg-background flex items-center justify-center size-6 p-1 z-10 rounded-full text-foreground">
             {index}
           </div>
 
-          <div>
+          <div className="group">
             <Carousel>
               <CarouselContent className="h-40">
                 {parcel.images?.map((image, i) => (
@@ -55,8 +55,10 @@ export default function ParcelCard({ parcel, index }: iProps) {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
+              <div className="opacity-0 group-hover:opacity-100 transition-all duration-150">
+                <CarouselPrevious />
+                <CarouselNext />
+              </div>
             </Carousel>
           </div>
 
@@ -101,9 +103,9 @@ export default function ParcelCard({ parcel, index }: iProps) {
           </div>
 
           <div className="mt-4">
-            <p className="bg-muted p-1.5 rounded-xs">All Status Logs</p>
-            {parcel.statusLogs.slice(0, 3).map((log: iStatusLog, i) => (
-              <div key={i} className={cn("mt-2 pt-1.5", { "border-t": i !== 0 })}>
+            <p className="bg-muted p-1.5 rounded-xs text-sm">Status Logs</p>
+            {parcel.statusLogs.slice(0, 2).map((log: iStatusLog, i) => (
+              <div key={i} className={cn("mt-2 pt-1.5 text-xs", { "border-t": i !== 0 })}>
                 <p>
                   Status: <span className="text-muted-foreground">{log.status}</span>
                 </p>
@@ -114,21 +116,20 @@ export default function ParcelCard({ parcel, index }: iProps) {
                   </span>
                 </p>
                 <p>
-                  <span className="text-muted-foreground text-sm">{log.updatedFrom}</span>
-                </p>
-                <p>
                   Updated:{" "}
                   <span className="text-muted-foreground">
                     {typeof log.updatedBy === "object"
                       ? `${log.updatedBy.name.firstName} ${log.updatedBy.name.lastName}`
                       : "Unknown User"}
+                    {". "}
+                    {log.updatedFrom}
                   </span>
                 </p>
               </div>
             ))}
 
-            {parcel.statusLogs.length > 3 && (
-              <p className="mt-4 text-sm text-muted-foreground">
+            {parcel.statusLogs.length > 2 && (
+              <p className="mt-4 text-xs text-foreground/90 bg-green-400/7 p-0.5">
                 Click on parcel detail to see all status...
               </p>
             )}

@@ -1,0 +1,737 @@
+[
+  {
+    "trackingId": "TRK-M0H0Y4BYP71H",
+    "title": "Confidential Legal Agreements",
+    "description": "This parcel contains confidential legal agreements that must be delivered securely and on time.",
+    "type": "Document",
+    "weight": 42.79,
+    "rent": 2540.71,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Sadarghat Street",
+      "city": "Sylhet",
+      "stateOrProvince": "Dhaka",
+      "postalCode": "7757",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Sadarghat Street",
+      "city": "Sylhet",
+      "stateOrProvince": "Barishal",
+      "postalCode": "2108",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:00Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:00Z",
+    "updatedAt": "2025-08-23T13:30:00Z"
+  },
+  {
+    "trackingId": "TRK-TIWRAQ51P359",
+    "title": "Fragile Medical Equipment",
+    "description": "Delicate medical equipment requiring careful handling during transport to ensure safety.",
+    "type": "Other",
+    "weight": 23.07,
+    "rent": 4792.61,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Kazla Road",
+      "city": "Sylhet",
+      "stateOrProvince": "Rajshahi",
+      "postalCode": "9354",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Station Road",
+      "city": "Sylhet",
+      "stateOrProvince": "Rajshahi",
+      "postalCode": "8038",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:05Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:05Z",
+    "updatedAt": "2025-08-23T13:30:05Z"
+  },
+  {
+    "trackingId": "TRK-V4SIWCL1RBHC",
+    "title": "Box of Academic Books",
+    "description": "A shipment of academic textbooks for university students in remote areas.",
+    "type": "Fragile",
+    "weight": 29.07,
+    "rent": 2142.38,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Kushtia Bypass",
+      "city": "Khulna",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "1013",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Station Road",
+      "city": "Dhaka",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "9330",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:10Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:10Z",
+    "updatedAt": "2025-08-23T13:30:10Z"
+  },
+  {
+    "trackingId": "TRK-OWCCHFS0171S",
+    "title": "Household Essentials Delivery",
+    "description": "Basic household essentials carefully packed for intercity delivery.",
+    "type": "Box",
+    "weight": 28.8,
+    "rent": 4569.23,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Mirpur DOHS",
+      "city": "Sylhet",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "5565",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Banani Block C",
+      "city": "Dhaka",
+      "stateOrProvince": "Rajshahi",
+      "postalCode": "8667",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:15Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:15Z",
+    "updatedAt": "2025-08-23T13:30:15Z"
+  },
+  {
+    "trackingId": "TRK-FFOCWC4SFINX",
+    "title": "Corporate Marketing Materials",
+    "description": "Marketing brochures and corporate materials prepared for client distribution.",
+    "type": "Document",
+    "weight": 49.36,
+    "rent": 980.02,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Kushtia Bypass",
+      "city": "Rajshahi",
+      "stateOrProvince": "Barishal",
+      "postalCode": "8404",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Station Road",
+      "city": "Rajshahi",
+      "stateOrProvince": "Barishal",
+      "postalCode": "9709",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:20Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:20Z",
+    "updatedAt": "2025-08-23T13:30:20Z"
+  },
+  {
+    "trackingId": "TRK-3MA7J3AD9D2Q",
+    "title": "Temperature-Sensitive Medicines",
+    "description": "Urgent pharmaceutical delivery requiring temperature control throughout the journey.",
+    "type": "Other",
+    "weight": 18.53,
+    "rent": 2839.96,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Paltan Avenue",
+      "city": "Rangpur",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "6480",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Shah Makhdum Ave",
+      "city": "Dhaka",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "8643",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:25Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:25Z",
+    "updatedAt": "2025-08-23T13:30:25Z"
+  },
+  {
+    "trackingId": "TRK-G0WJ7RAC52QD",
+    "title": "Artwork Collection for Exhibition",
+    "description": "Art exhibition pieces packed with protective materials to prevent scratches.",
+    "type": "Document",
+    "weight": 4.5,
+    "rent": 4208.56,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Kazla Road",
+      "city": "Sylhet",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "4334",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Shah Makhdum Ave",
+      "city": "Khulna",
+      "stateOrProvince": "Sylhet",
+      "postalCode": "5341",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:30Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:30Z",
+    "updatedAt": "2025-08-23T13:30:30Z"
+  },
+  {
+    "trackingId": "TRK-FLGMGKTFSQOJ",
+    "title": "Gift Package for Family",
+    "description": "Special gift items meant for a family event, packed with care.",
+    "type": "Document",
+    "weight": 2.42,
+    "rent": 3257.19,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Kazla Road",
+      "city": "Rajshahi",
+      "stateOrProvince": "Sylhet",
+      "postalCode": "4887",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Green Road",
+      "city": "Rajshahi",
+      "stateOrProvince": "Sylhet",
+      "postalCode": "6700",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:35Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:35Z",
+    "updatedAt": "2025-08-23T13:30:35Z"
+  },
+  {
+    "trackingId": "TRK-ZB8F20MUT12Y",
+    "title": "High-Value Electronics Shipment",
+    "description": "Electronic devices requiring secure transport to prevent damage.",
+    "type": "Document",
+    "weight": 13.77,
+    "rent": 1984.74,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Mirpur DOHS",
+      "city": "Dhaka",
+      "stateOrProvince": "Chittagong",
+      "postalCode": "5175",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Mirpur DOHS",
+      "city": "Khulna",
+      "stateOrProvince": "Rajshahi",
+      "postalCode": "2197",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:40Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:40Z",
+    "updatedAt": "2025-08-23T13:30:40Z"
+  },
+  {
+    "trackingId": "TRK-UXTLTI5QSEIV",
+    "title": "Confidential Financial Documents",
+    "description": "Confidential bank and corporate documents that need safe delivery.",
+    "type": "Other",
+    "weight": 48.55,
+    "rent": 538.69,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Shah Makhdum Ave",
+      "city": "Khulna",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "6350",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Paltan Avenue",
+      "city": "Dhaka",
+      "stateOrProvince": "Dhaka",
+      "postalCode": "2449",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:45Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:45Z",
+    "updatedAt": "2025-08-23T13:30:45Z"
+  },
+  {
+    "trackingId": "TRK-BDLHEJLA8FN8",
+    "title": "Stationery and Office Supplies",
+    "description": "Office supplies urgently required for a corporate meeting.",
+    "type": "Document",
+    "weight": 12.81,
+    "rent": 2568.14,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Sadarghat Street",
+      "city": "Rangpur",
+      "stateOrProvince": "Rajshahi",
+      "postalCode": "6901",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Sadarghat Street",
+      "city": "Chittagong",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "6803",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:50Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:50Z",
+    "updatedAt": "2025-08-23T13:30:50Z"
+  },
+  {
+    "trackingId": "TRK-B4M6DU85PWLE",
+    "title": "Handmade Crafts from Artisans",
+    "description": "A variety of handmade crafts from local artisans being transported.",
+    "type": "Fragile",
+    "weight": 45.61,
+    "rent": 4584.97,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Banani Block C",
+      "city": "Barishal",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "9189",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Kushtia Bypass",
+      "city": "Barishal",
+      "stateOrProvince": "Sylhet",
+      "postalCode": "7234",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:30:55Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:30:55Z",
+    "updatedAt": "2025-08-23T13:30:55Z"
+  },
+  {
+    "trackingId": "TRK-NNIF9J6JVO3C",
+    "title": "Sample Products for Campaign",
+    "description": "Product samples being shipped for promotional campaign distribution.",
+    "type": "Box",
+    "weight": 10.81,
+    "rent": 4502.83,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Paltan Avenue",
+      "city": "Rajshahi",
+      "stateOrProvince": "Rangpur",
+      "postalCode": "6974",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Shah Makhdum Ave",
+      "city": "Dhaka",
+      "stateOrProvince": "Dhaka",
+      "postalCode": "5799",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:31:00Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:31:00Z",
+    "updatedAt": "2025-08-23T13:31:00Z"
+  },
+  {
+    "trackingId": "TRK-9IV158ZKAZMN",
+    "title": "IT Hardware Components",
+    "description": "IT hardware parts carefully packed for enterprise deployment.",
+    "type": "Document",
+    "weight": 4.89,
+    "rent": 445.46,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Station Road",
+      "city": "Rajshahi",
+      "stateOrProvince": "Dhaka",
+      "postalCode": "6900",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Station Road",
+      "city": "Sylhet",
+      "stateOrProvince": "Sylhet",
+      "postalCode": "6325",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:31:05Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:31:05Z",
+    "updatedAt": "2025-08-23T13:31:05Z"
+  },
+  {
+    "trackingId": "TRK-U515RDBFGXTS",
+    "title": "Pharmaceutical Research Samples",
+    "description": "Research samples of medicines requiring timely delivery to labs.",
+    "type": "Fragile",
+    "weight": 2.3,
+    "rent": 795.79,
+    "images": [
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-air-m1-zyz8mdc8-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955644/macbook-pro-14-inch-x3e2155b-1755955668608.jpg",
+      "https://res.cloudinary.com/djm20ovuw/image/upload/v1755955654/macbook-pro-16-inch-pidlcf9c-1755955668663.jpg"
+    ],
+    "pickupAddress": {
+      "street": "Banani Block C",
+      "city": "Khulna",
+      "stateOrProvince": "Dhaka",
+      "postalCode": "9578",
+      "country": "Bangladesh"
+    },
+    "deliveryAddress": {
+      "street": "Station Road",
+      "city": "Rajshahi",
+      "stateOrProvince": "Chittagong",
+      "postalCode": "7832",
+      "country": "Bangladesh"
+    },
+    "sender": {
+      "$oid": "68a844c84002c508d108a528"
+    },
+    "receiver": {
+      "$oid": "68a848b9844c63834e819480"
+    },
+    "status": "Requested",
+    "isBlocked": false,
+    "isCancelled": false,
+    "statusLogs": [
+      {
+        "status": "Requested",
+        "updatedAt": "2025-08-23T13:31:10Z",
+        "updatedBy": {
+          "$oid": "68a844c84002c508d108a528"
+        },
+        "updatedFrom": "Parcel created by sender",
+        "note": "Parcel registered successfully in system."
+      }
+    ],
+    "createdAt": "2025-08-23T13:31:10Z",
+    "updatedAt": "2025-08-23T13:31:10Z"
+  }
+]

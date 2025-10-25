@@ -117,7 +117,7 @@ export default function PaginationComponent({
         <div>
           <Select
             onValueChange={handleLimitChange}
-            value={searchParams.get("limit") || "12"}
+            value={searchParams.get("limit") || "8"}
           >
             <SelectTrigger className="w-full">
               <SelectValue />

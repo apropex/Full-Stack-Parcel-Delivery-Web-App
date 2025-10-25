@@ -16,8 +16,9 @@ import { useLazyGetSingleUserQuery } from "@/redux/features/auth.api";
 import { useCreateParcelMutation } from "@/redux/features/parcel.api";
 import type { iUserInfo } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export default function AddParcel() {
@@ -26,6 +27,9 @@ export default function AddParcel() {
   const [errMsg, setErrMsg] = useState<boolean>(false);
   const [receiverInput, setReceiverInput] = useState<string>("");
   const [receiver, setReceiver] = useState<iUserInfo | null>(null);
+  const [isInitial, setIsInitial] = useState<boolean>(true);
+
+  const navigate = useNavigate();
 
   const [trigger, { isLoading, isError }] = useLazyGetSingleUserQuery();
 
@@ -55,6 +59,29 @@ export default function AddParcel() {
     },
     mode: "onBlur",
   });
+
+  const { watch, setError, clearErrors } = form;
+  const [kilo, gram] = watch(["kilo", "gram"]);
+
+  useEffect(() => {
+    if (isInitial) {
+      setIsInitial(false);
+      return;
+    }
+
+    const hasKilo = Number(kilo.toString().trim());
+    const hasGram = Number(gram.toString().trim());
+
+    if (hasKilo + hasGram <= 0) {
+      setError("kilo", { type: "manual", message: "Weight is required" });
+      setError("gram", { type: "manual", message: "Weight is required" });
+    } else {
+      clearErrors("kilo");
+      clearErrors("gram");
+    }
+
+    //
+  }, [kilo, gram, setError, clearErrors]);
 
   const onSubmit = async (data: ParcelFormValues) => {
     if (images.length <= 0) {
@@ -103,6 +130,7 @@ export default function AddParcel() {
         uploaderRef.current?.clearAll();
         form.reset();
         setImages([]);
+        navigate("/sender/my-parcels");
       } else toast.error(message, { id: loaderId });
     } catch (error) {
       console.log(error);

@@ -68,8 +68,7 @@ export function UpdateProfileForm() {
     if (blob) formData.append("file", blob);
 
     try {
-      const result = await updateUser({ id: user._id, data: formData }).unwrap();
-      console.log({ result });
+      await updateUser({ id: user._id, data: formData }).unwrap();
     } catch (error) {
       console.log(error);
     }

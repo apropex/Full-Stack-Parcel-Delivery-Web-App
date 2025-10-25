@@ -45,7 +45,7 @@ export default function ParcelActionButtons({ parcel, isViewButton = true }: iPr
   if (isLoading) return <div>Loading...</div>;
 
   return (
-    <div className="mt-6 flex gap-3 flex-wrap">
+    <div className="mt-6 flex gap-2 flex-wrap">
       {isSender && (
         <>
           <CancelParcel id={parcel._id}>

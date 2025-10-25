@@ -1,19 +1,24 @@
-import img2 from "@/assets/images/a3.jpeg";
-import img3 from "@/assets/images/a8.jpg";
-import img1 from "@/assets/images/reg-img.jpg";
-
 import img6 from "@/assets/images/a1.jpg";
+import img2 from "@/assets/images/a3.jpeg";
 import img5 from "@/assets/images/a5.jpg";
 import img7 from "@/assets/images/a6.jpg";
+import img3 from "@/assets/images/a8.jpg";
 import img4 from "@/assets/images/login-img.jpg";
+import img1 from "@/assets/images/reg-img.jpg";
 import PageContainer from "@/components/layouts/PageContainer";
+import { motion } from "motion/react";
 
 export default function About() {
   return (
     <PageContainer>
       <div className="grid lg:grid-cols-2 gap-x-3">
         {/* Left side section */}
-        <div>
+        <motion.div
+          initial={{ x: -50, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
           <div>
             <h2 className="text-4xl font-semibold">Our Story</h2>
             <p className="font-semibold mt-4">
@@ -32,28 +37,59 @@ export default function About() {
 
           {/* Left side images */}
           <div className="grid grid-cols-2 mt-24 gap-x-3">
-            <div className="flex items-center">
+            <motion.div
+              className="flex items-center"
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
               <img src={img1} alt="" className="rounded-xl w-full" />
-            </div>
-            <div className="flex flex-col justify-center gap-3">
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col justify-center gap-3"
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
               <img src={img2} alt="" className="rounded-xl w-full" />
               <img src={img3} alt="" className="rounded-xl w-full" />
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right side section */}
-        <div>
+        <motion.div
+          initial={{ x: 50, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
           {/* Right side images */}
           <div className="flex flex-row-reverse lg:flex-row lg:mt-24 gap-x-3">
-            <div className="flex-1 flex items-center">
+            <motion.div
+              className="flex-1 flex items-center"
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
               <img src={img4} alt="" className="rounded-xl w-full" />
-            </div>
-            <div className="flex-1 flex flex-col justify-center gap-3">
+            </motion.div>
+
+            <motion.div
+              className="flex-1 flex flex-col justify-center gap-3"
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              viewport={{ once: true }}
+            >
               <img src={img5} alt="" className="rounded-xl w-full" />
               <img src={img6} alt="" className="rounded-xl w-full" />
               <img src={img7} alt="" className="rounded-xl w-full" />
-            </div>
+            </motion.div>
           </div>
 
           {/* Right side content */}
@@ -72,7 +108,7 @@ export default function About() {
               economically sound infomediaries.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </PageContainer>
   );

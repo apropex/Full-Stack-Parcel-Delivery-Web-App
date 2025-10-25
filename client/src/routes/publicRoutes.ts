@@ -4,6 +4,7 @@ import Contact from "@/pages/public/Contact";
 import Home from "@/pages/public/Home";
 import OurServices from "@/pages/public/OurServices";
 import Profile from "@/pages/public/Profile";
+import Unauthorized from "@/pages/public/Unauthorized";
 import WhatsNew from "@/pages/public/WhatsNew";
 import { withAuth } from "@/utils/withAuth";
 
@@ -33,5 +34,9 @@ export const publicRoutes = [
   {
     Component: withAuth(Profile, ADMIN, SENDER, RECEIVER),
     path: "profile",
+  },
+  {
+    Component: Unauthorized,
+    path: "unauthorized",
   },
 ];

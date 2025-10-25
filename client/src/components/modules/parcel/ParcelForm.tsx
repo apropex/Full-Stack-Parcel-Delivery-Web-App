@@ -104,6 +104,8 @@ export default function ParcelForm({ form, onSubmit, formId }: ParcelFormProps) 
                       className="peer pe-12"
                       placeholder="kilo"
                       type="number"
+                      min={0}
+                      max={100}
                     />
                     <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
                       kilo
