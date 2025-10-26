@@ -37,7 +37,8 @@ export const updateUserController = catchAsync(async (req, res) => {
 
 //
 export const getAllUsersController = catchAsync(async (req, res) => {
-  const { data, meta } = await getAllUsersService();
+  const query = req.query as Record<string, string>;
+  const { data, meta } = await getAllUsersService(query);
   sendResponse(res, {
     statusCode: sCode.OK,
     message: "All users retrieved successfully",

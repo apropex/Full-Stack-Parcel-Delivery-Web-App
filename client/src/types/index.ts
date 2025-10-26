@@ -19,6 +19,8 @@ export type {
   tRole,
 } from "./auth.type";
 
+export type { iDashboardAnalyticsResponse } from "./analytics.type";
+
 export interface iChildren {
   children: ReactNode;
 }

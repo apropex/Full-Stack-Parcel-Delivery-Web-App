@@ -68,6 +68,15 @@ export const auth_api = base_api.injectEndpoints({
       invalidatesTags: ["USER"],
     }),
 
+    getAllUsers: builder.query<iResponse<iUserInfo[]>, { page: string; limit: string }>({
+      query: (params) => ({
+        url: "/user/all-users",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["USER"],
+    }),
+
     //
   }),
 });
@@ -82,4 +91,5 @@ export const {
   useGetSingleUserQuery,
   useLazyGetSingleUserQuery,
   useUpdateUserMutation,
+  useGetAllUsersQuery,
 } = auth_api;

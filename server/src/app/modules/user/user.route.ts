@@ -17,8 +17,6 @@ const { ADMIN, SENDER, RECEIVER } = eUserRoles;
 
 const userRoutes = Router();
 
-// TODO: ADD ZOD VALIDATOR
-
 userRoutes.post("/register", zodBodyValidator(createUserZodSchema), createUserController);
 
 userRoutes.get("/all-users", userRoleVerifier(ADMIN), getAllUsersController);

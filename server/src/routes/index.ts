@@ -1,4 +1,5 @@
 import { Router } from "express";
+import analyticsRoutes from "../app/modules/analytics/analytics.routes";
 import authRoutes from "../app/modules/auth/auth.route";
 import parcelRoutes from "../app/modules/parcel/parcel.route";
 import userRoutes from "../app/modules/user/user.route";
@@ -17,6 +18,10 @@ const moduleRoutes = [
   {
     path: "/parcel",
     route: parcelRoutes,
+  },
+  {
+    path: "/analytics",
+    route: analyticsRoutes,
   },
 ];
 

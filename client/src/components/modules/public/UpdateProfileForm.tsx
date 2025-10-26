@@ -1,16 +1,6 @@
 import ProfilePicUploader from "@/components/ProfilePicUploader";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
   Form,
   FormControl,
   FormField,
@@ -22,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import useAuth from "@/hooks/useAuth";
 import { useUpdateUserMutation } from "@/redux/features/auth.api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Edit2Icon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -34,8 +23,13 @@ const FormSchema = z.object({
 
 type iFormValues = z.infer<typeof FormSchema>;
 
-export function UpdateProfileForm() {
-  const [open, setOpen] = useState<boolean>(false);
+export function UpdateProfileForm({
+  onClick,
+  previewLink,
+}: {
+  onClick: () => void;
+  previewLink?: string;
+}) {
   const [blob, setBlob] = useState<Blob | undefined>(undefined);
   const [updateUser] = useUpdateUserMutation();
   const { user } = useAuth();
@@ -71,34 +65,23 @@ export function UpdateProfileForm() {
       await updateUser({ id: user._id, data: formData }).unwrap();
     } catch (error) {
       console.log(error);
+    } finally {
+      onClick();
     }
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="absolute right-2 top-2" variant="outline">
-          <Edit2Icon />
-          Edit Profile
-        </Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <div />
-        <ProfilePicUploader setBlob={setBlob} />
-        <Form {...form}>
-          <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
+    <div>
+      <p className="text-center mb-2">Profile Pic</p>
+      <ProfilePicUploader setBlob={setBlob} previewLink={previewLink} />
+      <Form {...form}>
+        <form className="space-y-5 mt-8" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="sm:flex gap-4">
             <FormField
               control={form.control}
               name="firstName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
                     <Input placeholder="John" {...field} />
@@ -112,7 +95,7 @@ export function UpdateProfileForm() {
               control={form.control}
               name="lastName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormLabel>Last Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Doe" {...field} />
@@ -121,17 +104,15 @@ export function UpdateProfileForm() {
                 </FormItem>
               )}
             />
+          </div>
 
-            {/*  */}
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+          <div className="flex justify-center">
+            <Button type="submit" className="w-full max-w-60">
+              Save changes
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }

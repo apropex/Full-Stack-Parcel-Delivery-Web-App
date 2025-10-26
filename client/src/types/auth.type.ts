@@ -28,6 +28,16 @@ export interface iAuth {
   providerId: string;
 }
 
+export interface iAddress {
+  street: string;
+  city: string;
+  stateOrProvince: string;
+  postalCode: string;
+  country: string;
+  landmark?: string;
+  addressType?: string;
+}
+
 export interface iUserInfo {
   _id: string;
   name: iUserName;
@@ -35,6 +45,8 @@ export interface iUserInfo {
   image: string;
   isDeleted: boolean;
   isActive: string;
+  address?: iAddress;
+  phone?: string;
   isVerified: boolean;
   auth: iAuth[];
   role: string;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { hash } from "bcryptjs";
 import { JwtPayload } from "jsonwebtoken";
 import { deleteImageFromCloud } from "../../../config/cloudinary/deleteImageFromCloud";
@@ -95,12 +96,49 @@ export const updateUserService = async (
 };
 
 //
-export const getAllUsersService = async () => {
-  const users = await User.find();
+
+export const getAllUsersService = async (query: Record<string, string>) => {
+  const { page = "1", limit = "10", skip, search, role, status } = query;
+
+  const pageNum = parseInt(page, 10);
+  const limitNum = parseInt(limit, 10);
+  const skipNum = skip ? parseInt(skip, 10) : (pageNum - 1) * limitNum;
+
+  // Build filter object
+  const filter: any = {};
+
+  if (role) filter.role = role;
+  if (status) filter.isActive = status;
+
+  if (search) {
+    const regex = new RegExp(search, "i"); // case-insensitive
+    filter.$or = [{ "name.firstName": regex }, { "name.lastName": regex }, { email: regex }];
+  }
+
+  // Total users (without filter)
   const totalUser = await User.countDocuments();
+
+  // Total filtered users
+  const filteredUser = await User.countDocuments(filter);
+
+  // Fetch paginated users
+  const users = await User.find(filter)
+    .skip(skipNum)
+    .limit(limitNum)
+    .sort({ createdAt: -1, id: -1 });
+
+  const totalPage = Math.ceil(filteredUser / limitNum);
+
   return {
     data: users,
-    meta: { total_data: totalUser },
+    meta: {
+      total_data: totalUser,
+      filtered_data: filteredUser,
+      total_page: totalPage,
+      present_page: pageNum,
+      skip: skipNum,
+      limit: limitNum,
+    },
   };
 };
 

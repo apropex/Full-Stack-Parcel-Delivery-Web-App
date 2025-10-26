@@ -84,9 +84,10 @@ async function getCroppedImg(
 
 interface iProps {
   setBlob: React.Dispatch<React.SetStateAction<Blob | undefined>>;
+  previewLink?: string;
 }
 
-export default function ProfilePicUploader({ setBlob }: iProps) {
+export default function ProfilePicUploader({ setBlob, previewLink }: iProps) {
   const [
     { files, isDragging },
     {
@@ -105,7 +106,7 @@ export default function ProfilePicUploader({ setBlob }: iProps) {
   const previewUrl = files[0]?.preview || null;
   const fileId = files[0]?.id;
 
-  const [finalImageUrl, setFinalImageUrl] = useState<string | null>(null);
+  const [finalImageUrl, setFinalImageUrl] = useState<string | null>(previewLink || null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Ref to track the previous file ID to detect new uploads
