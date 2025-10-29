@@ -1,7 +1,4 @@
-
 # 📦 Happy Parcel Picker – Parcel Delivery API
-
-[Live App](https://happy-parcel-picker.vercel.app) | [GitHub Repo](https://github.com/pxgacademy/Parcel-Delivery-Web-App-Server)
 
 A secure, modular, and role-based backend API for a parcel delivery platform inspired by services like Pathao Courier and Sundarban. Built with **Express.js**, **MongoDB (Mongoose)**, **Zod**, **JWT**, and **TypeScript**.
 
@@ -21,6 +18,16 @@ A secure, modular, and role-based backend API for a parcel delivery platform ins
 
 ---
 
+## Live Links
+
+| Type                  | URL                                                                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Client (Frontend)** | [https://happy-parcel-picker.netlify.app](https://happy-parcel-picker.netlify.app)                                             |
+| **Server (Backend)**  | [https://happy-parcel-picker-server.vercel.app](https://happy-parcel-picker-server.vercel.app)                                 |
+| **GitHub Repository** | [https://github.com/apropex/Full-Stack-Parcel-Delivery-Web-App](https://github.com/apropex/Full-Stack-Parcel-Delivery-Web-App) |
+
+---
+
 ## 📁 Folder Structure
 
 ```bash
@@ -33,7 +40,7 @@ src/
 │   ├── middlewares/
 │   ├── constants/
 │   ├── utils/       # Shared logic (PDF, logger, validators, etc.)
-│   ├── lib/         # DB connection, token, service configs           
+│   ├── lib/         # DB connection, token, service configs
 ├── config/            # Global config (env, server setup)
 ├── app.ts
 └── server.ts
@@ -79,10 +86,10 @@ Requested → Approved → Dispatched → In Transit → Delivered
 
 Each status includes:
 
-* `status`: Enum value
-* `timestamp`: Auto-generated
-* `note`: Optional remarks
-* `updatedBy`: Admin/User ID
+- `status`: Enum value
+- `timestamp`: Auto-generated
+- `note`: Optional remarks
+- `updatedBy`: Admin/User ID
 
 ---
 
@@ -207,10 +214,10 @@ All endpoints are versioned under `/api/v1`.
 
 ## 💬 Security Notes
 
-* Passwords hashed using `bcryptjs`
-* JWT access tokens expire based on `.env` config
-* Refresh token support via `/auth/refresh-token`
-* Role-based access middleware enforces endpoint restrictions
+- Passwords hashed using `bcryptjs`
+- JWT access tokens expire based on `.env` config
+- Refresh token support via `/auth/refresh-token`
+- Role-based access middleware enforces endpoint restrictions
 
 ---
 
@@ -224,27 +231,18 @@ PDF invoice generated with [PDFKit](https://pdfkit.org). Admins can download shi
 
 Built using:
 
-* [Express.js](https://expressjs.com/)
-* [MongoDB + Mongoose](https://mongoosejs.com/)
-* [Zod](https://zod.dev/)
-* [JWT](https://jwt.io/)
-* [PDFKit](https://pdfkit.org/)
-* [Passport.js](http://www.passportjs.org/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB + Mongoose](https://mongoosejs.com/)
+- [Zod](https://zod.dev/)
+- [JWT](https://jwt.io/)
+- [PDFKit](https://pdfkit.org/)
+- [Passport.js](http://www.passportjs.org/)
 
 ---
 
-
-
-
-
-
-
-
-       █████╗ ██████╗ ██████╗ ██╗   ██╗██╗     ██╗      █████╗ ██╗  ██╗          
-      ██╔══██╗██╔══██╗██╔══██╗██║   ██║██║     ██║     ██╔══██╗██║  ██║          
-      ███████║██████╔╝██║  ██║██║   ██║██║     ██║     ███████║███████║          
-      ██╔══██║██╔══██╗██║  ██║██║   ██║██║     ██║     ██╔══██║██╔══██║          
-      ██║  ██║██████╔╝██████╔╝╚██████╔╝███████╗███████╗██║  ██║██║  ██║          
-      ╚═╝  ╚═╝╚═════╝ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝          
-
-
+       █████╗ ██████╗ ██████╗ ██╗   ██╗██╗     ██╗      █████╗ ██╗  ██╗
+      ██╔══██╗██╔══██╗██╔══██╗██║   ██║██║     ██║     ██╔══██╗██║  ██║
+      ███████║██████╔╝██║  ██║██║   ██║██║     ██║     ███████║███████║
+      ██╔══██║██╔══██╗██║  ██║██║   ██║██║     ██║     ██╔══██║██╔══██║
+      ██║  ██║██████╔╝██████╔╝╚██████╔╝███████╗███████╗██║  ██║██║  ██║
+      ╚═╝  ╚═╝╚═════╝ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝

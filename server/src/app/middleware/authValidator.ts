@@ -8,8 +8,10 @@ import { checkUserExist } from "../utils/userChecker";
 
 export const authValidator = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies?.accessToken || req.headers?.authorization || "";
+    const token = req.cookies?.accessToken; // || req.headers?.authorization || "";
+    console.log({ token });
     const decoded = verifyAccessToken(token) as JwtPayload;
+    console.log({ decoded });
 
     await checkUserExist({ id: decoded._id });
     req.decoded = decoded;

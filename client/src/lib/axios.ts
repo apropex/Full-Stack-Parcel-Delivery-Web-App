@@ -4,6 +4,9 @@ import axios, { type AxiosRequestConfig } from "axios";
 export const axiosInstance = axios.create({
   baseURL: ENV.BASE_URL,
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // request interceptor

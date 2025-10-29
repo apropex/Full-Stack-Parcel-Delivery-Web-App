@@ -5,8 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { motion } from "motion/react";
+import { toast } from "sonner";
 
 export default function Contact() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    toast.success("Message sent successfully!");
+    // e.target.reset();
+    e.currentTarget.reset();
+  };
+
   return (
     <PageContainer>
       <motion.div
@@ -52,10 +60,7 @@ export default function Contact() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.15, duration: 0.4 }}
               className="space-y-5"
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert("Message sent! ✅");
-              }}
+              onSubmit={handleSubmit}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>

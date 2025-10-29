@@ -11,6 +11,23 @@ import { router } from "./routes";
 
 const app = express();
 
+/*
+app.use(cors(corsConfig));
+app.use(
+  expressSession({
+    secret: ENV.EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: ENV.NODE_ENV === "production",
+      sameSite: ENV.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      domain: ENV.NODE_ENV === "production" ? ".vercel.app" : undefined,
+    },
+  })
+);
+*/
+
 // Middleware
 app.use(
   cors({
